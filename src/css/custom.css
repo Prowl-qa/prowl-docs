@@ -1,0 +1,28 @@
+/**
+ * Prowl documentation custom theme.
+ * Cyan/teal palette to match the raccoon mascot.
+ */
+
+:root {
+  --ifm-color-primary: #0891b2;
+  --ifm-color-primary-dark: #0782a0;
+  --ifm-color-primary-darker: #077b97;
+  --ifm-color-primary-darkest: #06657c;
+  --ifm-color-primary-light: #09a0c4;
+  --ifm-color-primary-lighter: #0aa7cd;
+  --ifm-color-primary-lightest: #0bbde8;
+  --ifm-code-font-size: 95%;
+  --ifm-font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #22d3ee;
+  --ifm-color-primary-dark: #0ec5e2;
+  --ifm-color-primary-darker: #0dbad5;
+  --ifm-color-primary-darkest: #0b99b0;
+  --ifm-color-primary-light: #42daf1;
+  --ifm-color-primary-lighter: #4fddf2;
+  --ifm-color-primary-lightest: #79e6f5;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
