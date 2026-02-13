@@ -4,6 +4,9 @@ slug: /step-types
 title: Step Types
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Step Types
 
 Prowl supports 16 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
@@ -22,14 +25,25 @@ Navigate to a URL (relative to your `target.url` or absolute).
 
 Click an element. Shorthand finds buttons by text, then falls back to any matching text.
 
-```yaml
-# Shorthand — finds by button role, then text
-- click: "Sign In"
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
 
-# Explicit — use any Playwright selector
+```yaml
+# Finds by button role, then text
+- click: "Sign In"
+```
+
+  </TabItem>
+  <TabItem value="explicit" label="Explicit">
+
+```yaml
+# Use any Playwright selector
 - click:
     selector: "[data-testid='submit-btn']"
 ```
+
+  </TabItem>
+</Tabs>
 
 :::note
 Shorthand `click` uses substring matching on button names. `click: "Save"` will match a button labeled "Save & New". For exact matching, use `click: { selector: 'button:text-is("Save")' }`.
@@ -39,25 +53,51 @@ Shorthand `click` uses substring matching on button names. `click: "Save"` will 
 
 Fill an input field. Shorthand finds inputs by label or placeholder text.
 
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
+
 ```yaml
-# Shorthand — finds by label, then placeholder
+# Finds by label, then placeholder
 - fill:
     "Email": "user@example.com"
+```
 
-# Explicit — use any selector
+  </TabItem>
+  <TabItem value="explicit" label="Explicit">
+
+```yaml
+# Use any selector
 - fill:
     selector: "input[name='email']"
     value: "user@example.com"
 ```
 
+  </TabItem>
+</Tabs>
+
 ## type
 
 Type into the currently focused element. Useful after clicking into a field.
+
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
 
 ```yaml
 - click: "Message"
 - type: "Hello, I have a question."
 ```
+
+  </TabItem>
+  <TabItem value="explicit" label="Explicit (fill equivalent)">
+
+```yaml
+- fill:
+    selector: ":focus"
+    value: "Hello, I have a question."
+```
+
+  </TabItem>
+</Tabs>
 
 ## press
 
@@ -73,16 +113,26 @@ Press a keyboard key on a specific element.
 
 Select a dropdown value. Shorthand finds by label, explicit uses a selector.
 
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
+
 ```yaml
-# Shorthand — finds <select> by label, aria-label, or placeholder
+# Finds <select> by label, aria-label, or placeholder
 - select:
     "State": "FL"
+```
 
-# Explicit
+  </TabItem>
+  <TabItem value="explicit" label="Explicit">
+
+```yaml
 - selectOption:
     selector: "select[name='state']"
     value: "FL"
 ```
+
+  </TabItem>
+</Tabs>
 
 ## assert
 
@@ -108,15 +158,26 @@ See the [Assertions](/assertions) page for the full reference.
 
 Wait for text to appear on the page.
 
-```yaml
-# Simple — wait for text with default timeout
-- wait: "Loading complete"
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
 
+```yaml
+# Wait for text with default timeout
+- wait: "Loading complete"
+```
+
+  </TabItem>
+  <TabItem value="explicit" label="Explicit">
+
+```yaml
 # With custom timeout
 - wait:
     for: "Loading complete"
     timeout: 10000
 ```
+
+  </TabItem>
+</Tabs>
 
 :::note
 `wait` uses exact text matching (`text="X"`). It won't match substrings. For substring matching, use `waitForSelector` with `text=X` (without quotes).
@@ -183,10 +244,18 @@ Set files on `<input type="file">` elements. Paths are relative to `.prowl/`.
 
 Execute another hunt file inline. Enables reusable sub-flows like login.
 
-```yaml
-# Simple — run the hunt as-is
-- runHunt: "login-flow"
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
 
+```yaml
+# Run the hunt as-is
+- runHunt: "login-flow"
+```
+
+  </TabItem>
+  <TabItem value="explicit" label="Explicit">
+
+```yaml
 # With variable overrides
 - runHunt:
     name: "login-flow"
@@ -194,6 +263,9 @@ Execute another hunt file inline. Enables reusable sub-flows like login.
       EMAIL: "admin@test.com"
       PASSWORD: "{{ADMIN_PASSWORD}}"
 ```
+
+  </TabItem>
+</Tabs>
 
 Circular dependencies are detected automatically (`A → B → A` will error).
 
@@ -216,3 +288,18 @@ Capture a screenshot at any point.
 | `select: { "State": "FL" }` | `selectOption: { selector: 'select[name="state"]', value: "FL" }` |
 | `wait: "Welcome"` | `waitForSelector: { selector: 'text="Welcome"' }` |
 | `runHunt: "login"` | `runHunt: { name: "login" }` |
+
+<div className="card-grid">
+  <a className="card" href="/assertions">
+    <h3>Assertions</h3>
+    <p>Inline and hunt-level checks for your tests</p>
+  </a>
+  <a className="card" href="/selectors">
+    <h3>Selectors</h3>
+    <p>Playwright selectors and shorthand resolution</p>
+  </a>
+  <a className="card" href="/configuration">
+    <h3>Configuration</h3>
+    <p>Browser settings, timeouts, and guardrails</p>
+  </a>
+</div>
