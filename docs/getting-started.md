@@ -4,9 +4,34 @@ slug: /
 title: Getting Started
 ---
 
-# Getting Started
+<div className="docs-hero">
+  <div>
+    <p className="docs-hero__eyebrow">Prowl Documentation</p>
+    <h1>Deterministic QA Hunts From Your CLI</h1>
+    <p>
+      Prowl turns browser workflows into repeatable hunts you can run locally or in CI.
+      This page gets you from zero to a passing smoke test quickly.
+    </p>
+    <div className="docs-hero__actions">
+      <a className="button button--primary button--lg" href="#install">Start In 60 Seconds</a>
+      <a className="button button--secondary button--lg" href="/step-types">Browse Step Types</a>
+    </div>
+  </div>
+  <div className="docs-hero__art">
+    <img src="/img/prowl-mascot.png" alt="Prowl mascot with magnifying glass" />
+  </div>
+</div>
 
-Get up and running with Prowl in under a minute.
+<div className="docs-quickstart">
+  <p>
+    <img src="/img/prowl-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
+    <strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.
+  </p>
+</div>
+
+## Outcome
+
+By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/runs/`.
 
 ## Install
 
@@ -27,7 +52,7 @@ cd your-project
 prowl init
 ```
 
-This creates a `.prowl/` directory with a config file and 8 example hunts:
+This creates a `.prowl/` directory with a config file and 8 starter hunts:
 
 ```
 .prowl/
@@ -51,6 +76,8 @@ Edit `.prowl/config.yml` to point at your app:
 target:
   url: "http://localhost:3000"
 ```
+
+If your app uses authentication, capture storage state early with [`prowl login`](/auth) so hunts run as an authenticated user.
 
 ## Write Your First Hunt
 
@@ -83,10 +110,25 @@ prowl run smoke-test
   Artifacts: .prowl/runs/2026-02-09_10-30-45
 ```
 
-That's it. You're testing.
+You now have a stable smoke test and a run artifact folder you can inspect in CI.
 
-:::tip What's next?
-- Learn about all [Step Types](/step-types) available in hunts
-- Set up [Variables](/variables) for dynamic values and credentials
-- Configure [Assertions](/assertions) for automated checks
-:::
+## What's Next
+
+<div class="card-grid">
+  <a class="card" href="/assertions">
+    <h3>Assertions</h3>
+    <p>Fail fast with inline and hunt-level checks</p>
+  </a>
+  <a class="card" href="/step-types">
+    <h3>Step Types</h3>
+    <p>All 16 step types available in hunts</p>
+  </a>
+  <a class="card" href="/configuration">
+    <h3>Configuration</h3>
+    <p>Tune browser behavior, artifacts, and guardrails</p>
+  </a>
+  <a class="card" href="/variables">
+    <h3>Variables</h3>
+    <p>Inject credentials and dynamic runtime values safely</p>
+  </a>
+</div>

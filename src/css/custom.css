@@ -1,28 +1,341 @@
-/**
- * Prowl documentation custom theme.
- * Cyan/teal palette to match the raccoon mascot.
- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-  --ifm-color-primary: #0891b2;
-  --ifm-color-primary-dark: #0782a0;
-  --ifm-color-primary-darker: #077b97;
-  --ifm-color-primary-darkest: #06657c;
-  --ifm-color-primary-light: #09a0c4;
-  --ifm-color-primary-lighter: #0aa7cd;
-  --ifm-color-primary-lightest: #0bbde8;
-  --ifm-code-font-size: 95%;
-  --ifm-font-family-base: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --ifm-color-primary: #0a8ea1;
+  --ifm-color-primary-dark: #088193;
+  --ifm-color-primary-darker: #087a8b;
+  --ifm-color-primary-darkest: #066574;
+  --ifm-color-primary-light: #0e9db0;
+  --ifm-color-primary-lighter: #11a4b8;
+  --ifm-color-primary-lightest: #1eb7cb;
+  --ifm-font-family-base: 'Source Sans 3', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --ifm-heading-font-family: 'Space Grotesk', 'Avenir Next', sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+  --ifm-code-font-size: 92%;
+  --ifm-background-color: #f7fbfd;
+  --ifm-footer-background-color: #0d2536;
+  --ifm-heading-color: #102a3a;
+  --ifm-link-hover-decoration: none;
+  --ifm-navbar-height: 4.25rem;
+  --site-hero-bg: linear-gradient(135deg, #ecfafd 0%, #e7fff6 52%, #f2f6ff 100%);
+  --site-surface: #ffffff;
+  --site-surface-strong: #edf8fb;
+  --site-border: #c7dfeb;
+  --site-shadow: 0 16px 40px rgba(7, 29, 42, 0.08);
+  --site-grid-dot: rgba(17, 164, 184, 0.15);
+  --docusaurus-highlighted-code-line-bg: rgba(8, 129, 147, 0.13);
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #22d3ee;
-  --ifm-color-primary-dark: #0ec5e2;
-  --ifm-color-primary-darker: #0dbad5;
-  --ifm-color-primary-darkest: #0b99b0;
-  --ifm-color-primary-light: #42daf1;
-  --ifm-color-primary-lighter: #4fddf2;
-  --ifm-color-primary-lightest: #79e6f5;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --ifm-color-primary: #4ad8ee;
+  --ifm-color-primary-dark: #2bd0ea;
+  --ifm-color-primary-darker: #1acce8;
+  --ifm-color-primary-darkest: #13aac4;
+  --ifm-color-primary-light: #69e0f2;
+  --ifm-color-primary-lighter: #78e4f3;
+  --ifm-color-primary-lightest: #a6ecf7;
+  --ifm-background-color: #081822;
+  --ifm-heading-color: #ddf7ff;
+  --ifm-footer-background-color: #06131d;
+  --site-hero-bg: linear-gradient(135deg, #0b2230 0%, #09363f 52%, #10273f 100%);
+  --site-surface: #0f2533;
+  --site-surface-strong: #143345;
+  --site-border: #275067;
+  --site-shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  --site-grid-dot: rgba(74, 216, 238, 0.2);
+  --docusaurus-highlighted-code-line-bg: rgba(74, 216, 238, 0.22);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background-image:
+    radial-gradient(circle at 15% -10%, rgba(17, 164, 184, 0.18), transparent 42%),
+    radial-gradient(circle at 85% 5%, rgba(116, 255, 208, 0.22), transparent 35%);
+}
+
+.main-wrapper {
+  position: relative;
+}
+
+.main-wrapper::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(var(--site-grid-dot) 0.9px, transparent 0.9px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, black 8%, transparent 80%);
+}
+
+.navbar {
+  background: color-mix(in srgb, var(--ifm-background-color) 80%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--site-border);
+  box-shadow: 0 8px 22px rgba(7, 29, 42, 0.08);
+}
+
+.navbar__title {
+  font-family: var(--ifm-heading-font-family);
+  letter-spacing: 0.01em;
+}
+
+.navbar__logo img {
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(5, 29, 38, 0.35);
+}
+
+.theme-announcement-bar {
+  border-bottom: 1px solid var(--site-border);
+  background: linear-gradient(90deg, #083042 0%, #0a546f 60%, #0f6e8f 100%);
+}
+
+.theme-announcement-bar a {
+  color: #d3f9ff;
+  font-weight: 600;
+}
+
+.theme-announcement-bar a:hover {
+  color: #ffffff;
+}
+
+.theme-doc-sidebar-container {
+  background: color-mix(in srgb, var(--site-surface) 82%, transparent);
+  border-right: 1px solid var(--site-border);
+}
+
+.menu__link {
+  border-radius: 10px;
+}
+
+.menu__link:hover {
+  background: color-mix(in srgb, var(--site-surface-strong) 55%, transparent);
+}
+
+.menu__link--active {
+  background: color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ifm-color-primary) 40%, transparent);
+}
+
+.theme-doc-markdown {
+  max-width: 860px;
+}
+
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3 {
+  letter-spacing: -0.015em;
+}
+
+.theme-doc-markdown h2 {
+  border-bottom: 1px solid var(--site-border);
+  padding-bottom: 0.35rem;
+}
+
+.theme-doc-markdown pre,
+.theme-doc-markdown table {
+  border: 1px solid var(--site-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--site-shadow);
+}
+
+.theme-doc-markdown table {
+  box-shadow: 0 12px 24px rgba(5, 21, 30, 0.08);
+}
+
+.theme-doc-markdown .alert {
+  border: 1px solid color-mix(in srgb, currentColor 25%, var(--site-border));
+  border-radius: 12px;
+}
+
+.pagination-nav__link {
+  border-radius: 12px;
+  border-color: var(--site-border);
+  background: color-mix(in srgb, var(--site-surface) 85%, transparent);
+}
+
+.footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 120px;
+  opacity: 0.12;
+  background: url('/img/prowl-stickers-1.png') center / contain no-repeat;
+  pointer-events: none;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.card-grid .card {
+  display: block;
+  padding: 1.2rem 1.1rem;
+  border: 1px solid var(--site-border);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  background: color-mix(in srgb, var(--site-surface) 84%, transparent);
+  box-shadow: 0 8px 18px rgba(5, 21, 30, 0.06);
+  transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card-grid .card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: 0 12px 30px rgba(6, 101, 116, 0.2);
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-grid .card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+}
+
+.card-grid .card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.docs-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 1.6rem;
+  padding: 1.5rem 1.6rem;
+  border: 1px solid var(--site-border);
+  border-radius: 16px;
+  background: var(--site-hero-bg);
+  box-shadow: var(--site-shadow);
+  margin-bottom: 1.6rem;
+}
+
+.docs-hero__eyebrow {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary-dark);
+}
+
+.docs-hero h1 {
+  margin-top: 0;
+  margin-bottom: 0.65rem;
+}
+
+.docs-hero p {
+  font-size: 1.06rem;
+  margin-bottom: 1rem;
+}
+
+.docs-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.docs-hero__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.docs-hero__art img {
+  width: min(260px, 100%);
+  height: auto;
+  filter: drop-shadow(0 16px 24px rgba(6, 24, 35, 0.25));
+  animation: mascotFloat 3.6s ease-in-out infinite;
+}
+
+.docs-quickstart {
+  border: 1px solid var(--site-border);
+  border-radius: 14px;
+  padding: 1rem 1.1rem;
+  background: color-mix(in srgb, var(--site-surface) 92%, transparent);
+  margin: 1rem 0 1.5rem;
+}
+
+.docs-quickstart strong {
+  font-family: var(--ifm-heading-font-family);
+}
+
+.docs-quickstart p {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.docs-quickstart__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(5, 21, 30, 0.25);
+}
+
+.theme-doc-markdown a:not(.button):not(.card) {
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ifm-color-primary-lightest) 75%, white);
+  outline-offset: 2px;
+}
+
+@keyframes mascotFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(-1deg);
+  }
+}
+
+@media (max-width: 996px) {
+  .docs-hero {
+    grid-template-columns: 1fr;
+    padding: 1.1rem;
+  }
+
+  .docs-hero__art {
+    order: -1;
+  }
+
+  .docs-hero__art img {
+    width: min(200px, 60vw);
+  }
+
+  .theme-doc-sidebar-container {
+    border-right: 0;
+    border-bottom: 1px solid var(--site-border);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
