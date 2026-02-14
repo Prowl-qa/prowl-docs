@@ -30,7 +30,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/Prowl-qa/prowl-docs/tree/main/',
           routeBasePath: '/',
         },
         blog: false,

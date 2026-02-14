@@ -31,12 +31,12 @@ title: Getting Started
 
 ## Outcome
 
-By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/runs/`.
+By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/hunts/`.
 
 ## Install
 
 ```bash
-npm install -g prowlai
+npm install -g prowlqa
 ```
 
 Prowl uses Playwright under the hood. Install the browser:
