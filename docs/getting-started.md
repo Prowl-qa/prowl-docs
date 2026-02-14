@@ -114,20 +114,20 @@ You now have a stable smoke test and a run artifact folder you can inspect in CI
 
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/assertions">
+<div className="card-grid">
+  <a className="card" href="/assertions">
     <h3>Assertions</h3>
     <p>Fail fast with inline and hunt-level checks</p>
   </a>
-  <a class="card" href="/step-types">
+  <a className="card" href="/step-types">
     <h3>Step Types</h3>
     <p>All 16 step types available in hunts</p>
   </a>
-  <a class="card" href="/configuration">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>Tune browser behavior, artifacts, and guardrails</p>
   </a>
-  <a class="card" href="/variables">
+  <a className="card" href="/variables">
     <h3>Variables</h3>
     <p>Inject credentials and dynamic runtime values safely</p>
   </a>

@@ -133,16 +133,16 @@ assertions:
 
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/variables">
+<div className="card-grid">
+  <a className="card" href="/variables">
     <h3>Variables</h3>
     <p>Dynamic values, credentials, and env vars</p>
   </a>
-  <a class="card" href="/configuration">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>Browser settings, timeouts, and guardrails</p>
   </a>
-  <a class="card" href="/troubleshooting">
+  <a className="card" href="/troubleshooting">
     <h3>Troubleshooting</h3>
     <p>Common issues and debugging tips</p>
   </a>
