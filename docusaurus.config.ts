@@ -18,7 +18,12 @@ const config: Config = {
   projectName: 'prowl-docs',
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'throw',
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
+  },
 
   i18n: {
     defaultLocale: 'en',
