@@ -31,7 +31,7 @@ title: Getting Started
 
 ## Outcome
 
-By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/hunts/`.
+By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/runs/`.
 
 ## Install
 
