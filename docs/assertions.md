@@ -130,3 +130,20 @@ Fail if the total execution time exceeds a threshold.
 assertions:
   - maxTotalTimeMs: 30000
 ```
+
+## What's Next
+
+<div class="card-grid">
+  <a class="card" href="/variables">
+    <h3>Variables</h3>
+    <p>Dynamic values, credentials, and env vars</p>
+  </a>
+  <a class="card" href="/configuration">
+    <h3>Configuration</h3>
+    <p>Browser settings, timeouts, and guardrails</p>
+  </a>
+  <a class="card" href="/troubleshooting">
+    <h3>Troubleshooting</h3>
+    <p>Common issues and debugging tips</p>
+  </a>
+</div>

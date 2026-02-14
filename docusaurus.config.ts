@@ -3,9 +3,9 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Prowl',
+  title: 'Prowl Docs',
   tagline: 'CLI-first QA testing tool for deterministic web testing',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/prowl-logo.png',
 
   future: {
     v4: true,
@@ -42,13 +42,24 @@ const config: Config = {
   ],
 
   themeConfig: {
+    image: 'img/prowl-stickers-1.png',
+    announcementBar: {
+      id: 'quickstart-banner',
+      content:
+        'New to Prowl? <a href="/">Run your first deterministic smoke test in about a minute.</a>',
+      isCloseable: true,
+    },
     colorMode: {
       defaultMode: 'light',
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Prowl',
+      title: 'Prowl Docs',
+      logo: {
+        alt: 'Prowl',
+        src: 'img/prowl-logo.png',
+      },
       items: [
         {
           type: 'docSidebar',
