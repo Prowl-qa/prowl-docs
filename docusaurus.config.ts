@@ -19,6 +19,10 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  customFields: {
+    feedbackApiUrl: 'https://prowl-feedback.prowlqa.dev/api/feedback',
+  },
+
   markdown: {
     hooks: {
       onBrokenMarkdownLinks: 'throw',
