@@ -11,12 +11,12 @@ Watch mode re-runs a hunt automatically when files change. It's useful during hu
 ## Usage
 
 ```bash
-prowl watch <hunt-name>
+prowlqa watch <hunt-name>
 ```
 
 ## How It Works
 
-1. Prowl runs the hunt immediately on startup
+1. Prowl QA runs the hunt immediately on startup
 2. It watches the hunt YAML file, `config.yml`, and `.env` for changes
 3. On any file save, the hunt re-runs automatically
 4. Rapid saves are debounced (300ms) to avoid unnecessary runs
@@ -24,9 +24,9 @@ prowl watch <hunt-name>
 
 ## Watched Files
 
-- `.prowl/hunts/<hunt-name>.yml` — the hunt file itself
-- `.prowl/config.yml` — configuration changes
-- `.prowl/.env` — environment variable changes
+- `.prowlqa/hunts/<hunt-name>.yml` — the hunt file itself
+- `.prowlqa/config.yml` — configuration changes
+- `.prowlqa/.env` — environment variable changes
 
 ## Tips
 

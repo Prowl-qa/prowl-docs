@@ -1,7 +1,7 @@
-# CLAUDE.md - Prowl Documentation Site
+# CLAUDE.md - Prowl QA Documentation Site
 
 ## Project
-This is the Prowl documentation site built with Docusaurus 3.x (TypeScript).
+This is the Prowl QA documentation site built with Docusaurus 3.x (TypeScript).
 Hosted at docs.prowlqa.dev.
 
 ## Tech Stack
@@ -20,7 +20,7 @@ Hosted at docs.prowlqa.dev.
 
 ## Pages (9 total)
 - `getting-started.md` — hero section, install/init/run quickstart, card grid
-- `step-types.mdx` — all 16 step types with tabbed shorthand/explicit examples, card grid
+- `step-types.mdx` — all 19 step types with tabbed shorthand/explicit examples, card grid
 - `assertions.md` — inline + hunt-level assertion reference, card grid
 - `configuration.md` — all config options with defaults
 - `variables.md` — interpolation, precedence, redaction
@@ -30,11 +30,11 @@ Hosted at docs.prowlqa.dev.
 - `troubleshooting.md` — common issues and debugging
 
 ## Branding
-- **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
-- **Favicon**: `img/prowl-logo.png` (same raccoon face)
-- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, used in hero)
-- **Stickers**: `static/img/prowl-stickers-1.png` (pixel art set, used in footer watermark)
-- **Social card**: `img/prowl-stickers-1.png` (set via `themeConfig.image`)
+- **Navbar logo**: `static/img/prowl-qa-logo.png` (raccoon face, transparent bg)
+- **Favicon**: `img/prowl-qa-logo.png` (same raccoon face)
+- **Mascot**: `static/img/prowl-qa-mascot.png` (full-body raccoon with magnifying glass, used in hero)
+- **Stickers**: `static/img/prowl-qa-stickers-1.png` (pixel art set, used in footer watermark)
+- **Social card**: `img/prowl-qa-stickers-1.png` (set via `themeConfig.image`)
 - **Announcement bar**: Quickstart CTA banner at top of site
 
 ## Custom CSS Components

@@ -3,9 +3,9 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Prowl Docs',
+  title: 'Prowl QA Docs',
   tagline: 'CLI-first QA testing tool for deterministic web testing',
-  favicon: 'img/prowl-logo.png',
+  favicon: 'img/prowl-qa-logo.png',
 
   future: {
     v4: true,
@@ -51,11 +51,11 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/prowl-stickers-1.png',
+    image: 'img/prowl-qa-stickers-1.png',
     announcementBar: {
       id: 'quickstart-banner',
       content:
-        'New to Prowl? <a href="/">Run your first deterministic smoke test in about a minute.</a>',
+        'New to Prowl QA? <a href="/">Run your first deterministic smoke test in about a minute.</a>',
       isCloseable: true,
     },
     colorMode: {
@@ -64,10 +64,10 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Prowl Docs',
+      title: 'Prowl QA Docs',
       logo: {
-        alt: 'Prowl',
-        src: 'img/prowl-logo.png',
+        alt: 'Prowl QA',
+        src: 'img/prowl-qa-logo.png',
       },
       items: [
         {
@@ -102,7 +102,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl QA. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
