@@ -76,7 +76,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://www.npmjs.com/package/prowlqa',
+          href: 'https://www.npmjs.com/',
           label: 'npm',
           position: 'right',
         },
