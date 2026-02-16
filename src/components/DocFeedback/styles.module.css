@@ -78,8 +78,10 @@
 }
 
 .textarea:focus {
-  outline: none;
   border-color: var(--ifm-color-primary);
+  outline: 2px solid color-mix(in srgb, var(--ifm-color-primary) 55%, white);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ifm-color-primary) 22%, transparent);
 }
 
 .textarea::placeholder {

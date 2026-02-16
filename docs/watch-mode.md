@@ -17,7 +17,7 @@ prowlqa watch <hunt-name>
 ## How It Works
 
 1. Prowl QA runs the hunt immediately on startup
-2. It watches the hunt YAML file, `config.yml`, and `.env` for changes
+2. It watches the hunt YAML file, `.prowlqa/config.yml`, and `.prowlqa/.env` for changes
 3. On any file save, the hunt re-runs automatically
 4. Rapid saves are debounced (300ms) to avoid unnecessary runs
 5. Press `Ctrl+C` to stop

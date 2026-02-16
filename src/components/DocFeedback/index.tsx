@@ -5,10 +5,10 @@ import styles from './styles.module.css';
 
 type Sentiment = 'negative' | 'neutral' | 'positive';
 
-const EMOJIS: {value: Sentiment; icon: string}[] = [
-  {value: 'negative', icon: '\uD83D\uDE1E'},
-  {value: 'neutral', icon: '\uD83D\uDE10'},
-  {value: 'positive', icon: '\uD83D\uDE0A'},
+const EMOJIS: {value: Sentiment; label: string; icon: string}[] = [
+  {value: 'negative', label: 'This page was not helpful', icon: '\uD83D\uDE1E'},
+  {value: 'neutral', label: 'This page was somewhat helpful', icon: '\uD83D\uDE10'},
+  {value: 'positive', label: 'This page was helpful', icon: '\uD83D\uDE0A'},
 ];
 
 export default function DocFeedback(): React.ReactElement | null {
@@ -62,7 +62,7 @@ export default function DocFeedback(): React.ReactElement | null {
             type="button"
             className={`${styles.emojiBtn}${sentiment === e.value ? ` ${styles.emojiBtnSelected}` : ''}`}
             onClick={() => setSentiment(e.value)}
-            aria-label={e.value}>
+            aria-label={e.label}>
             {e.icon}
           </button>
         ))}
