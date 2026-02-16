@@ -113,6 +113,13 @@ const config: Config = {
             {label: 'Community Hub', href: 'https://github.com/Prowl-qa/prowl-hub'},
           ],
         },
+        {
+          title: 'Get in Touch',
+          items: [
+            {label: 'Email', href: 'mailto:info@prowlqa.dev'},
+            {label: 'Visit us on X', href: 'https://x.com/prowlqa'},
+          ],
+        },
       ],
       copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl QA. Built with Docusaurus.`,
     },
