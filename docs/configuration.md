@@ -97,7 +97,7 @@ auth:
 |--------|------|---------|-------------|
 | `maxSteps` | `number` | `50` | Maximum steps per hunt |
 | `allowedDomains` | `string[]` | `["localhost", "127.0.0.1", "0.0.0.0"]` | Domains the browser can navigate to |
-| `forbiddenSelectors` | `string[]` | `[]` | Selectors that steps cannot target |
+| `forbiddenSelectors` | `string[]` | `["[data-danger]", ".delete-btn"]` | Selectors that steps cannot target |
 
 :::warning
 Forbidden selectors use substring matching. Forbidding `"delete"` will also forbid selectors containing `"undelete"` or `"delete-history"`.

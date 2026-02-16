@@ -17,7 +17,7 @@ prowlqa watch <hunt-name>
 ## How It Works
 
 1. Prowl QA runs the hunt immediately on startup
-2. It watches the hunt YAML file, `.prowlqa/config.yml`, and `.prowlqa/.env` for changes
+2. It watches the hunt YAML file, the resolved `config.yml`, and `.env` in that same config directory (default: `.prowlqa/config.yml` and `.prowlqa/.env`)
 3. On any file save, the hunt re-runs automatically
 4. Rapid saves are debounced (300ms) to avoid unnecessary runs
 5. Press `Ctrl+C` to stop
@@ -30,7 +30,7 @@ prowlqa watch <hunt-name>
 
 ## Flags
 
-Watch mode accepts the same flags as `prowlqa run`:
+Watch mode supports this subset of `prowlqa run` flags:
 
 ```bash
 prowlqa watch <hunt-name> --headed        # Show browser window
@@ -39,6 +39,8 @@ prowlqa watch <hunt-name> --trace         # Capture Playwright trace
 prowlqa watch <hunt-name> --url <override>  # Override target URL
 prowlqa watch <hunt-name> --config <path>   # Custom config path
 ```
+
+When `--config <path>` is used, watch mode tracks that resolved `config.yml` and the `.env` file next to it.
 
 ## Tips
 

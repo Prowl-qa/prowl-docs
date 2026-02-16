@@ -101,17 +101,24 @@ Returns a single hunt result:
 ```json
 {
   "status": "pass",
+  "exitCode": 0,
+  "startedAt": "2026-02-16T17:15:12.481Z",
   "hunt": "smoke-test",
+  "targetUrl": "http://localhost:3000",
   "durationMs": 220,
   "steps": [
-    { "type": "navigate", "target": "/", "status": "pass", "durationMs": 120 },
-    { "type": "wait", "target": "Welcome", "status": "pass", "durationMs": 85 },
-    { "type": "assert", "target": "visible:Sign In", "status": "pass", "durationMs": 15 }
+    { "type": "navigate", "status": "pass", "durationMs": 120 },
+    { "type": "wait", "status": "pass", "durationMs": 85, "selector": "text=\"Welcome\"" },
+    { "type": "assert", "status": "pass", "durationMs": 15, "value": "visible:Sign In" }
   ],
-  "assertions": {
-    "noConsoleErrors": "pass",
-    "noNetworkErrors": "pass",
-    "maxTotalTimeMs": "pass"
+  "assertions": [
+    { "type": "noConsoleErrors", "value": true, "status": "pass" },
+    { "type": "noNetworkErrors", "value": true, "status": "pass" }
+  ],
+  "artifacts": {
+    "summary": "summary.md",
+    "screenshots": ["screenshots/final.png"],
+    "console": "console.log"
   }
 }
 ```
@@ -123,14 +130,16 @@ Returns a combined result for all hunts:
 ```json
 {
   "status": "fail",
+  "startedAt": "2026-02-16T17:15:12.481Z",
+  "durationMs": 4870,
   "totalHunts": 3,
   "passed": 2,
   "failed": 1,
   "skipped": 0,
   "hunts": [
-    { "name": "smoke-test", "status": "pass", "durationMs": 220 },
-    { "name": "login-flow", "status": "pass", "durationMs": 1450 },
-    { "name": "checkout-flow", "status": "fail", "durationMs": 3200, "error": "Assertion failed: visible \"Order Confirmed\"" }
+    { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "runDir": "/path/to/.prowlqa/runs/2026-02-16_17-15-15" },
+    { "hunt": "login-flow", "status": "pass", "durationMs": 1450, "runDir": "/path/to/.prowlqa/runs/2026-02-16_17-15-20" },
+    { "hunt": "checkout-flow", "status": "fail", "durationMs": 3200, "error": "Assertion failed: visible \"Order Confirmed\"" }
   ]
 }
 ```
@@ -143,7 +152,8 @@ For CI systems that consume JUnit XML (GitHub Actions, GitLab CI, Jenkins, Circl
 prowlqa ci --junit
 ```
 
-The report is written to the artifacts directory as `junit.xml`.
+Each hunt run directory gets its own `junit.xml` (for example `.prowlqa/runs/<timestamp>/junit.xml`).  
+In CI mode, `prowlqa ci` also writes a combined summary JSON file at `.prowlqa/runs/ci-<timestamp>/ci-result.json`.
 
 ## Library API (Node.js)
 
@@ -157,10 +167,10 @@ import { runHunt, loadConfig, listHunts, loadHunt } from "prowlqa";
 
 | Function | Description |
 |----------|-------------|
-| `runHunt(options)` | Run a hunt programmatically and get a typed `RunResult` |
-| `loadConfig()` | Load and validate `.prowlqa/config.yml` |
-| `loadHunt(name)` | Load and parse a single hunt file |
-| `listHunts()` | List all available hunts with metadata |
+| `runHunt({ huntName, ...options })` | Run a hunt programmatically and get a typed `RunResult` |
+| `loadConfig(configPath?)` | Load and validate config, returning `{ config, configPath, configDir }` |
+| `loadHunt(huntName, configDir)` | Load and parse a single hunt file from `<configDir>/hunts/` |
+| `listHunts(configDir)` | List available hunt names from `<configDir>/hunts/` |
 
 ### Schemas
 
@@ -179,12 +189,14 @@ if (!result.success) {
 ### Variable Interpolation
 
 ```typescript
-import { interpolateHunt } from "prowlqa";
+import { loadConfig, loadHunt, interpolateHunt } from "prowlqa";
 
-const hunt = await loadHunt("login-flow");
-const interpolated = interpolateHunt(hunt, {
+const { configDir } = loadConfig();
+const hunt = loadHunt("login-flow", configDir);
+const { hunt: interpolated } = interpolateHunt(hunt, {
+  ...process.env,
   EMAIL: "test@example.com",
-  PASSWORD: process.env.TEST_PASSWORD,
+  PASSWORD: process.env.TEST_PASSWORD ?? "",
 });
 ```
 
@@ -211,10 +223,12 @@ description: Email/password login with error handling
 baseUrl: "{{BASE_URL}}"
 steps:
   - navigate: "{{BASE_URL}}/login"
-  - fill: "[name='email']"
-    value: "{{EMAIL}}"
-  - fill: "[name='password']"
-    value: "{{PASSWORD}}"
+  - fill:
+      selector: "[name='email']"
+      value: "{{EMAIL}}"
+  - fill:
+      selector: "[name='password']"
+      value: "{{PASSWORD}}"
   - click: "button[type='submit']"
   - wait: "Welcome"
 ```
@@ -226,25 +240,37 @@ Variables are resolved from your config, environment, or CLI flags. See [Variabl
 Use the library API to customize and run downloaded templates programmatically:
 
 ```typescript
-import { loadHunt, interpolateHunt, runHunt } from "prowlqa";
+import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowlqa";
+
+const { configPath, configDir } = loadConfig();
 
 // Load the template
-const hunt = await loadHunt("login-flow");
+const hunt = loadHunt("login-flow", configDir);
 
-// Customize variables
-const customized = interpolateHunt(hunt, {
+// Preview interpolation with custom variables
+const { hunt: preview } = interpolateHunt(hunt, {
+  ...process.env,
   BASE_URL: "https://staging.example.com",
   EMAIL: "test@example.com",
-  PASSWORD: process.env.TEST_PASSWORD,
+  PASSWORD: process.env.TEST_PASSWORD ?? "",
 });
 
-// Execute and get structured results
-const result = await runHunt({ hunt: customized, json: true });
+console.log(preview.steps[0]);
+
+// runHunt reads vars from process.env
+process.env.BASE_URL = "https://staging.example.com";
+process.env.EMAIL = "test@example.com";
+process.env.PASSWORD = process.env.TEST_PASSWORD ?? "";
+
+const { result } = await runHunt({
+  huntName: "login-flow",
+  configPath,
+});
 
 if (result.status === "pass") {
   console.log(`Login flow passed in ${result.durationMs}ms`);
 } else {
-  console.error("Login flow failed:", result.steps.filter(s => s.status === "fail"));
+  console.error("Login flow failed:", result.steps.filter((s) => s.status === "fail"));
 }
 ```
 

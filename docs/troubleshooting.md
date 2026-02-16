@@ -30,7 +30,7 @@ The selector matches a pattern in `guardrails.forbiddenSelectors`. Either change
 The `{{VAR_NAME}}` in your hunt couldn't be resolved. Check:
 
 1. Is it defined in the hunt's `vars:` block?
-2. Is it set in your `.prowlqa/.env` file?
+2. Is it set in the `.env` file next to your active `config.yml`? (default: `.prowlqa/.env`)
 3. Is it set as an environment variable?
 
 ## Selectors Not Finding Elements
@@ -114,7 +114,8 @@ Every hunt run generates artifacts in `.prowlqa/runs/<timestamp>/`:
 └── junit.xml            # JUnit XML report (if --junit or junit: true)
 ```
 
-`prowlqa ci` generates a combined artifacts directory with results from all hunts and (when `--junit` is passed) a merged JUnit XML report compatible with most CI systems (GitHub Actions, GitLab CI, Jenkins, CircleCI).
+`prowlqa ci` writes a combined summary file to `.prowlqa/runs/ci-<timestamp>/ci-result.json`.  
+When `--junit` is passed, each hunt run directory still gets its own `junit.xml` (there is no merged JUnit file yet).
 
 ### Viewing Traces
 
