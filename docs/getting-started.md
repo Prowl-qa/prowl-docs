@@ -101,7 +101,7 @@ retry:
 ```
 
 :::note
-- **`description`** — a human-readable summary shown in run output and `prowlqa list`
+- **`description`** — a human-readable summary stored in hunt metadata and shown by `prowlqa list`
 - **`tags`** — categorize hunts for filtering with `--include-tags` and `--exclude-tags`
 - **`retry`** — configure automatic retries on failure (`maxRetries: 0` means no retries)
 :::
@@ -112,7 +112,7 @@ retry:
 prowlqa run smoke-test
 ```
 
-```
+```text
   ● Running hunt: smoke-test
     ✓ navigate "/" (120ms)
     ✓ wait "Welcome" (85ms)

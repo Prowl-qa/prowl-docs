@@ -77,6 +77,11 @@ const config: Config = {
       },
       items: [
         {
+          href: 'https://prowlqa.dev',
+          label: 'Home',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/Prowl-qa/prowl',
           label: 'GitHub',
           position: 'right',
@@ -102,6 +107,7 @@ const config: Config = {
         {
           title: 'Resources',
           items: [
+            {label: 'prowlqa.dev', href: 'https://prowlqa.dev'},
             {label: 'GitHub', href: 'https://github.com/Prowl-qa/prowl'},
             {label: 'npm', href: 'https://www.npmjs.com/package/prowlqa'},
             {label: 'Community Hub', href: 'https://github.com/Prowl-qa/prowl-hub'},

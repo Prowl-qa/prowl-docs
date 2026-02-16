@@ -14,7 +14,7 @@ Variables are resolved in this precedence order (highest to lowest):
 
 1. **Hunt vars** — defined in the hunt's `vars:` block
 2. **Environment variables** — from `process.env`
-3. **`.env` file** — from `.prowlqa/.env` (loaded automatically)
+3. **`.env` file** — loaded from the same directory as the resolved `config.yml` (default: `.prowlqa/.env`)
 
 ```yaml
 # .prowlqa/hunts/login-flow.yml
@@ -29,7 +29,7 @@ steps:
 
 ## .env File
 
-Create `.prowlqa/.env` for secrets and environment-specific values:
+Create `.prowlqa/.env` for secrets and environment-specific values (or place `.env` next to your custom `--config` file):
 
 ```env
 TEST_EMAIL=user@example.com
@@ -37,7 +37,7 @@ TEST_PASSWORD=secret123
 ```
 
 :::warning
-Add `.prowlqa/.env` to your `.gitignore` to avoid committing secrets. The `prowlqa init` command generates a `.gitignore` that includes this by default.
+Add your active config-directory `.env` file to `.gitignore` to avoid committing secrets. The `prowlqa init` command generates `.prowlqa/.gitignore` including `.env` by default.
 :::
 
 ## Interpolation in Steps
