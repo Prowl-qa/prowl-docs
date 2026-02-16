@@ -14,10 +14,10 @@ Variables are resolved in this precedence order (highest to lowest):
 
 1. **Hunt vars** — defined in the hunt's `vars:` block
 2. **Environment variables** — from `process.env`
-3. **`.env` file** — from `.prowl/.env` (loaded automatically)
+3. **`.env` file** — from `.prowlqa/.env` (loaded automatically)
 
 ```yaml
-# .prowl/hunts/login-flow.yml
+# .prowlqa/hunts/login-flow.yml
 vars:
   EMAIL: "{{TEST_EMAIL}}"     # References env var TEST_EMAIL
   TIMEOUT: "5000"             # Static value
@@ -29,7 +29,7 @@ steps:
 
 ## .env File
 
-Create `.prowl/.env` for secrets and environment-specific values:
+Create `.prowlqa/.env` for secrets and environment-specific values:
 
 ```env
 TEST_EMAIL=user@example.com
@@ -37,7 +37,7 @@ TEST_PASSWORD=secret123
 ```
 
 :::warning
-Add `.prowl/.env` to your `.gitignore` to avoid committing secrets. The `prowl init` command generates a `.gitignore` that includes this by default.
+Add `.prowlqa/.env` to your `.gitignore` to avoid committing secrets. The `prowlqa init` command generates a `.gitignore` that includes this by default.
 :::
 
 ## Interpolation in Steps

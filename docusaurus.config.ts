@@ -3,9 +3,15 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Prowl Docs',
-  tagline: 'CLI-first QA testing tool for deterministic web testing',
-  favicon: 'img/prowl-logo.png',
+  title: 'Prowl QA Docs',
+  tagline: 'CLI-first QA testing — made for agents, controlled by humans',
+  favicon: 'img/favicon.ico',
+
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/img/favicon-32x32.png'}},
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/img/favicon-16x16.png'}},
+    {tagName: 'link', attributes: {rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png'}},
+  ],
 
   future: {
     v4: true,
@@ -19,6 +25,16 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
+  customFields: {
+    feedbackApiUrl: 'https://prowl-feedback.prowlqa.dev/api/feedback',
+  },
+
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'throw',
+    },
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -30,7 +46,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/Prowl-qa/prowl-docs/tree/main/',
           routeBasePath: '/',
         },
         blog: false,
@@ -42,11 +57,11 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/prowl-stickers-1.png',
+    image: 'img/prowl-qa-stickers-1.png',
     announcementBar: {
       id: 'quickstart-banner',
       content:
-        'New to Prowl? <a href="/">Run your first deterministic smoke test in about a minute.</a>',
+        'Made for agents, controlled by humans. <a href="/agents">See how AI agents use ProwlQA \u2192</a>',
       isCloseable: true,
     },
     colorMode: {
@@ -55,25 +70,19 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Prowl Docs',
+      title: 'Prowl QA Docs',
       logo: {
-        alt: 'Prowl',
-        src: 'img/prowl-logo.png',
+        alt: 'Prowl QA',
+        src: 'img/prowl-qa-logo.png',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'docsSidebar',
-          position: 'left',
-          label: 'Docs',
-        },
         {
           href: 'https://github.com/Prowl-qa/prowl',
           label: 'GitHub',
           position: 'right',
         },
         {
-          href: 'https://www.npmjs.com/package/prowlai',
+          href: 'https://www.npmjs.com/package/prowlqa',
           label: 'npm',
           position: 'right',
         },
@@ -94,12 +103,12 @@ const config: Config = {
           title: 'Resources',
           items: [
             {label: 'GitHub', href: 'https://github.com/Prowl-qa/prowl'},
-            {label: 'npm', href: 'https://www.npmjs.com/package/prowlai'},
+            {label: 'npm', href: 'https://www.npmjs.com/package/prowlqa'},
             {label: 'Community Hub', href: 'https://github.com/Prowl-qa/prowl-hub'},
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl QA. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

@@ -6,10 +6,10 @@ title: Getting Started
 
 <div className="docs-hero">
   <div>
-    <p className="docs-hero__eyebrow">Prowl Documentation</p>
+    <p className="docs-hero__eyebrow">Prowl QA Documentation</p>
     <h1>Deterministic QA Hunts From Your CLI</h1>
     <p>
-      Prowl turns browser workflows into repeatable hunts you can run locally or in CI.
+      Prowl QA turns browser workflows into repeatable hunts you can run locally, in CI, or hand to an AI agent.
       This page gets you from zero to a passing smoke test quickly.
     </p>
     <div className="docs-hero__actions">
@@ -18,28 +18,28 @@ title: Getting Started
     </div>
   </div>
   <div className="docs-hero__art">
-    <img src="/img/prowl-mascot.png" alt="Prowl mascot with magnifying glass" />
+    <img src="/img/prowl-qa-mascot.png" alt="Prowl QA mascot with magnifying glass" />
   </div>
 </div>
 
 <div className="docs-quickstart">
   <p>
-    <img src="/img/prowl-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
+    <img src="/img/prowl-qa-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
     <strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.
   </p>
 </div>
 
 ## Outcome
 
-By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/runs/`.
+By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowlqa/runs/`.
 
 ## Install
 
 ```bash
-npm install -g prowlai
+npm install -g prowlqa
 ```
 
-Prowl uses Playwright under the hood. Install the browser:
+Prowl QA uses Playwright under the hood. Install the browser:
 
 ```bash
 npx playwright install chromium
@@ -49,13 +49,13 @@ npx playwright install chromium
 
 ```bash
 cd your-project
-prowl init
+prowlqa init
 ```
 
-This creates a `.prowl/` directory with a config file and 8 starter hunts:
+This creates a `.prowlqa/` directory with a config file and 8 starter hunts:
 
 ```
-.prowl/
+.prowlqa/
 ├── config.yml              # Target URL, browser settings, guardrails
 └── hunts/
     ├── homepage.yml         # Basic page load smoke test
@@ -70,21 +70,24 @@ This creates a `.prowl/` directory with a config file and 8 starter hunts:
 
 ## Configure
 
-Edit `.prowl/config.yml` to point at your app:
+Edit `.prowlqa/config.yml` to point at your app:
 
 ```yaml
 target:
   url: "http://localhost:3000"
 ```
 
-If your app uses authentication, capture storage state early with [`prowl login`](/auth) so hunts run as an authenticated user.
+If your app uses authentication, capture storage state early with [`prowlqa login`](/auth) so hunts run as an authenticated user.
 
 ## Write Your First Hunt
 
-Edit `.prowl/hunts/homepage.yml` or create a new file:
+Edit `.prowlqa/hunts/homepage.yml` or create a new file:
 
 ```yaml
 name: smoke-test
+description: "Validates homepage loads correctly"
+tags:
+  - smoke
 steps:
   - navigate: "/"
   - wait: "Welcome"
@@ -92,12 +95,21 @@ steps:
       visible: "Sign In"
 assertions:
   - noConsoleErrors: true
+retry:
+  maxRetries: 0
+  delay: 1000
 ```
+
+:::note
+- **`description`** — a human-readable summary shown in run output and `prowlqa list`
+- **`tags`** — categorize hunts for filtering with `--include-tags` and `--exclude-tags`
+- **`retry`** — configure automatic retries on failure (`maxRetries: 0` means no retries)
+:::
 
 ## Run
 
 ```bash
-prowl run smoke-test
+prowlqa run smoke-test
 ```
 
 ```
@@ -107,27 +119,27 @@ prowl run smoke-test
     ✓ assert visible "Sign In" (15ms)
 
   PASS smoke-test (220ms) 3/3 steps
-  Artifacts: .prowl/runs/2026-02-09_10-30-45
+  Artifacts: .prowlqa/runs/2026-02-09_10-30-45
 ```
 
 You now have a stable smoke test and a run artifact folder you can inspect in CI.
 
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/assertions">
+<div className="card-grid">
+  <a className="card" href="/assertions">
     <h3>Assertions</h3>
     <p>Fail fast with inline and hunt-level checks</p>
   </a>
-  <a class="card" href="/step-types">
+  <a className="card" href="/step-types">
     <h3>Step Types</h3>
-    <p>All 16 step types available in hunts</p>
+    <p>All 19 step types available in hunts</p>
   </a>
-  <a class="card" href="/configuration">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>Tune browser behavior, artifacts, and guardrails</p>
   </a>
-  <a class="card" href="/variables">
+  <a className="card" href="/variables">
     <h3>Variables</h3>
     <p>Inject credentials and dynamic runtime values safely</p>
   </a>

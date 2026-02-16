@@ -6,7 +6,7 @@ title: Assertions
 
 # Assertions
 
-Prowl supports two kinds of assertions: **inline assertions** (mid-flow checks as steps) and **hunt-level assertions** (evaluated after all steps complete).
+Prowl QA supports two kinds of assertions: **inline assertions** (mid-flow checks as steps) and **hunt-level assertions** (evaluated after all steps complete).
 
 ## Inline Assertions
 
@@ -114,7 +114,7 @@ assertions:
 Use `networkIgnorePatterns` in your config to exclude known noisy endpoints (analytics, third-party scripts) from network error checks.
 
 ```yaml
-# .prowl/config.yml
+# .prowlqa/config.yml
 assertions:
   networkIgnorePatterns:
     - "analytics.google.com"
@@ -122,27 +122,18 @@ assertions:
 ```
 :::
 
-### maxTotalTimeMs
-
-Fail if the total execution time exceeds a threshold.
-
-```yaml
-assertions:
-  - maxTotalTimeMs: 30000
-```
-
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/variables">
+<div className="card-grid">
+  <a className="card" href="/variables">
     <h3>Variables</h3>
     <p>Dynamic values, credentials, and env vars</p>
   </a>
-  <a class="card" href="/configuration">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>Browser settings, timeouts, and guardrails</p>
   </a>
-  <a class="card" href="/troubleshooting">
+  <a className="card" href="/troubleshooting">
     <h3>Troubleshooting</h3>
     <p>Common issues and debugging tips</p>
   </a>

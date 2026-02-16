@@ -1,7 +1,7 @@
-# CLAUDE.md - Prowl Documentation Site
+# CLAUDE.md - Prowl QA Documentation Site
 
 ## Project
-This is the Prowl documentation site built with Docusaurus 3.x (TypeScript).
+This is the Prowl QA documentation site built with Docusaurus 3.x (TypeScript).
 Hosted at docs.prowlqa.dev.
 
 ## Tech Stack
@@ -18,23 +18,24 @@ Hosted at docs.prowlqa.dev.
 - Use `<Tabs>` / `<TabItem>` from `@theme/Tabs` for shorthand vs explicit code examples (requires `.mdx`)
 - Use `<div class="card-grid">` with `<a class="card">` for "What's Next" navigation sections
 
-## Pages (9 total)
+## Pages (10 total)
 - `getting-started.md` — hero section, install/init/run quickstart, card grid
-- `step-types.mdx` — all 16 step types with tabbed shorthand/explicit examples, card grid
+- `step-types.mdx` — all 19 step types with tabbed shorthand/explicit examples, card grid
 - `assertions.md` — inline + hunt-level assertion reference, card grid
 - `configuration.md` — all config options with defaults
 - `variables.md` — interpolation, precedence, redaction
 - `selectors.md` — Playwright selector best practices
 - `auth.md` — authentication setup guide
 - `watch-mode.md` — watch mode guide
+- `agents.mdx` — agent-first integration guide (library API, --json output, CI, hub templates)
 - `troubleshooting.md` — common issues and debugging
 
 ## Branding
-- **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
-- **Favicon**: `img/prowl-logo.png` (same raccoon face)
-- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, used in hero)
-- **Stickers**: `static/img/prowl-stickers-1.png` (pixel art set, used in footer watermark)
-- **Social card**: `img/prowl-stickers-1.png` (set via `themeConfig.image`)
+- **Navbar logo**: `static/img/prowl-qa-logo.png` (raccoon face, transparent bg)
+- **Favicon**: `img/favicon.ico` (multi-size .ico: 16x16, 32x32, 48x48) + `img/apple-touch-icon.png` (180x180)
+- **Mascot**: `static/img/prowl-qa-mascot.png` (full-body raccoon with magnifying glass, used in hero)
+- **Stickers**: `static/img/prowl-qa-stickers-1.png` (pixel art set, used in footer watermark)
+- **Social card**: `img/prowl-qa-stickers-1.png` (set via `themeConfig.image`)
 - **Announcement bar**: Quickstart CTA banner at top of site
 
 ## Custom CSS Components
@@ -43,7 +44,7 @@ Hosted at docs.prowlqa.dev.
 - `.card-grid` / `.card` — CSS grid navigation cards for "What's Next" sections
 - `.navbar__logo img` — circular logo with drop shadow
 - `.main-wrapper::before` — subtle dot grid background overlay
-- `.footer::before` — sticker watermark in footer
+- `.footer` — relative positioning for footer content
 
 ## Design References
 When creating or updating pages, follow the visual style of:
@@ -57,6 +58,7 @@ When creating or updating pages, follow the visual style of:
 - Include practical examples in every reference page
 - Add "What's Next" card grids at the bottom of key pages for progressive discovery
 - Keep the sidebar flat (no deeply nested categories)
+- Keep commits atomic: commit only the files you touched and list each path explicitly. For tracked files run `git commit -m "<scoped message>" -- path/to/file1 path/to/file2`. For brand-new files, use the one-liner `git restore --staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" -- path/to/file1 path/to/file2`
 
 ## Commands
 ```bash

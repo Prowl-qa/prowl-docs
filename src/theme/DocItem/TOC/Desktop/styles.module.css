@@ -1,0 +1,13 @@
+.tocWithFeedback {
+  position: sticky;
+  top: calc(var(--ifm-navbar-height) + 1rem);
+  max-height: calc(100vh - var(--ifm-navbar-height) - 2rem);
+  overflow-y: auto;
+}
+
+/* Remove the TOC's own sticky positioning since the parent handles it */
+.tocWithFeedback > div {
+  position: static !important;
+  max-height: none !important;
+  overflow: visible !important;
+}

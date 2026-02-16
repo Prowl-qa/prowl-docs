@@ -69,6 +69,7 @@ body {
   pointer-events: none;
   background-image: radial-gradient(var(--site-grid-dot) 0.9px, transparent 0.9px);
   background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(to bottom, black 8%, transparent 80%);
   mask-image: linear-gradient(to bottom, black 8%, transparent 80%);
 }
 
@@ -162,16 +163,6 @@ body {
 .footer {
   position: relative;
   overflow: hidden;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  inset: auto 0 0;
-  height: 120px;
-  opacity: 0.12;
-  background: url('/img/prowl-stickers-1.png') center / contain no-repeat;
-  pointer-events: none;
 }
 
 .card-grid {

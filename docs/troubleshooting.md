@@ -6,9 +6,9 @@ title: Troubleshooting
 
 # Troubleshooting
 
-## "Could not find .prowl/config.yml"
+## "Could not find .prowlqa/config.yml"
 
-Run `prowl init` in your project root to create the `.prowl/` directory.
+Run `prowlqa init` in your project root to create the `.prowlqa/` directory.
 
 ## "Navigation to disallowed domain"
 
@@ -30,7 +30,7 @@ The selector matches a pattern in `guardrails.forbiddenSelectors`. Either change
 The `{{VAR_NAME}}` in your hunt couldn't be resolved. Check:
 
 1. Is it defined in the hunt's `vars:` block?
-2. Is it set in your `.prowl/.env` file?
+2. Is it set in your `.prowlqa/.env` file?
 3. Is it set as an environment variable?
 
 ## Selectors Not Finding Elements
@@ -50,33 +50,59 @@ The `{{VAR_NAME}}` in your hunt couldn't be resolved. Check:
 
 ```bash
 # Run a hunt
-prowl run <hunt-name>
-prowl run <hunt-name> --headed          # Show browser window
-prowl run <hunt-name> --trace           # Capture Playwright trace
-prowl run <hunt-name> --slow-mo 500     # Slow down actions (ms)
-prowl run <hunt-name> --url <override>  # Override target URL
-prowl run <hunt-name> --config <path>   # Custom config path
+prowlqa run <hunt-name>
+prowlqa run <hunt-name> --headed          # Show browser window
+prowlqa run <hunt-name> --trace           # Capture Playwright trace
+prowlqa run <hunt-name> --slow-mo 500     # Slow down actions (ms)
+prowlqa run <hunt-name> --url <override>  # Override target URL
+prowlqa run <hunt-name> --config <path>   # Custom config path
+prowlqa run <hunt-name> --browser chromium  # Override browser engine
+prowlqa run <hunt-name> --channel chrome    # Override browser channel
+prowlqa run <hunt-name> --viewport 1920x1080  # Override viewport size
+prowlqa run <hunt-name> --include-tags smoke  # Only run hunts with tag
+prowlqa run <hunt-name> --exclude-tags slow   # Skip hunts with tag
+prowlqa run <hunt-name> --json            # Machine-readable JSON output
+prowlqa run <hunt-name> --junit           # Generate JUnit XML report
+
+# CI mode — run all hunts with combined result
+prowlqa ci
+prowlqa ci --include-tags smoke           # Only run hunts with tag
+prowlqa ci --exclude-tags slow            # Skip hunts with tag
+prowlqa ci --json                         # Machine-readable JSON output
+prowlqa ci --junit                        # Generate JUnit XML reports
+prowlqa ci --browser firefox --viewport 1920x1080
+prowlqa ci --url <override> --headed --slow-mo 500 --trace --config <path>
+prowlqa ci --channel chrome
+# Exit codes: 0 = pass, 1 = fail, 2 = no hunts or all skipped
 
 # Watch mode — re-runs on file changes
-prowl watch <hunt-name>
+prowlqa watch <hunt-name>
+prowlqa watch <hunt-name> --headed        # Show browser window
+prowlqa watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
+prowlqa watch <hunt-name> --trace         # Capture Playwright trace
+prowlqa watch <hunt-name> --url <override>  # Override target URL
+prowlqa watch <hunt-name> --config <path>   # Custom config path
 
 # Auth — capture login state interactively
-prowl login
+prowlqa login
+prowlqa login --url <target>              # Override target URL for login
+prowlqa login --config <path>             # Use custom config path
 
-# Initialize — create .prowl directory with examples
-prowl init
-prowl init --force                      # Overwrite existing
+# Initialize — create .prowlqa directory with examples
+prowlqa init
+prowlqa init --force                      # Re-create config and starter hunts
 
 # List available hunts
-prowl list
+prowlqa list
+prowlqa list --json                       # Output as JSON
 ```
 
 ## Artifacts
 
-Every hunt run generates artifacts in `.prowl/runs/<timestamp>/`:
+Every hunt run generates artifacts in `.prowlqa/runs/<timestamp>/`:
 
 ```
-.prowl/runs/2026-02-09_10-30-45/
+.prowlqa/runs/2026-02-09_10-30-45/
 ├── summary.md           # Human-readable report
 ├── result.json          # Machine-readable results
 ├── console.log          # Browser console output
@@ -84,11 +110,14 @@ Every hunt run generates artifacts in `.prowl/runs/<timestamp>/`:
 │   ├── final.png        # Final page state
 │   └── failure_step_3.png  # Screenshot on failure (if any)
 ├── trace.zip            # Playwright trace (if --trace)
-└── network.har          # Network activity (if networkHar: true)
+├── network.har          # Network activity (if networkHar: true)
+└── junit.xml            # JUnit XML report (if --junit or junit: true)
 ```
+
+`prowlqa ci` generates a combined artifacts directory with results from all hunts and (when `--junit` is passed) a merged JUnit XML report compatible with most CI systems (GitHub Actions, GitLab CI, Jenkins, CircleCI).
 
 ### Viewing Traces
 
 ```bash
-npx playwright show-trace .prowl/runs/2026-02-09_10-30-45/trace.zip
+npx playwright show-trace .prowlqa/runs/2026-02-09_10-30-45/trace.zip
 ```
