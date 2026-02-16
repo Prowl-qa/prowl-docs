@@ -280,67 +280,40 @@ Capture a screenshot at any point.
 
 ## hover
 
-Hover over an element. Useful for triggering tooltips, dropdown menus, or hover states.
-
-<Tabs>
-  <TabItem value="shorthand" label="Shorthand" default>
+Hover over an element. Useful for triggering tooltips, dropdown menus, or hover states. Explicit-only — requires a selector.
 
 ```yaml
-# Finds by text content
-- hover: "Profile"
-```
-
-  </TabItem>
-  <TabItem value="explicit" label="Explicit">
-
-```yaml
-# Use any Playwright selector
 - hover:
     selector: "[data-testid='user-menu']"
+- hover:
+    selector: "text=Profile"
 ```
-
-  </TabItem>
-</Tabs>
 
 ## scroll
 
-Scroll the page by a relative pixel amount.
+Scroll the page by direction and optional pixel amount.
 
 ```yaml
-# Scroll down 500px
+# Scroll down (default amount)
 - scroll:
-    x: 0
-    y: 500
+    direction: "down"
 
-# Scroll up 300px
+# Scroll up by 300px
 - scroll:
-    x: 0
-    y: -300
+    direction: "up"
+    amount: 300
 ```
 
 ## scrollTo
 
-Scroll to a specific element on the page.
-
-<Tabs>
-  <TabItem value="shorthand" label="Shorthand" default>
+Scroll to a specific element on the page. Explicit-only — requires a selector.
 
 ```yaml
-# Finds by text content
-- scrollTo: "Footer"
-```
-
-  </TabItem>
-  <TabItem value="explicit" label="Explicit">
-
-```yaml
-# Use any Playwright selector
 - scrollTo:
     selector: "[data-testid='pricing-section']"
+- scrollTo:
+    selector: "text=Footer"
 ```
-
-  </TabItem>
-</Tabs>
 
 ## Shorthand vs Explicit Quick Reference
 
@@ -352,8 +325,6 @@ Scroll to a specific element on the page.
 | `select: { "State": "FL" }` | `selectOption: { selector: 'select[name="state"]', value: "FL" }` |
 | `wait: "Welcome"` | `waitForSelector: { selector: 'text="Welcome"' }` |
 | `runHunt: "login"` | `runHunt: { name: "login" }` |
-| `hover: "Profile"` | `hover: { selector: 'text="Profile"' }` |
-| `scrollTo: "Footer"` | `scrollTo: { selector: 'text="Footer"' }` |
 
 <div className="card-grid">
   <a className="card" href="/assertions">

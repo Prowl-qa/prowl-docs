@@ -12,6 +12,8 @@ For hunts that require authentication, use `prowlqa login` to capture browser st
 
 ```bash
 prowlqa login
+prowlqa login --url <target>              # Override target URL for login
+prowlqa login --config <path>             # Use custom config path
 ```
 
 This opens a headed Chromium window. Log in manually, then close the browser. Prowl QA saves cookies, localStorage, and sessionStorage to `.prowlqa/auth-state.json`.

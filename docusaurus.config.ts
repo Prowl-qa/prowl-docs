@@ -4,8 +4,14 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Prowl QA Docs',
-  tagline: 'CLI-first QA testing tool for deterministic web testing',
-  favicon: 'img/prowl-qa-logo.png',
+  tagline: 'CLI-first QA testing — made for agents, controlled by humans',
+  favicon: 'img/favicon.ico',
+
+  headTags: [
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/png', sizes: '32x32', href: '/img/favicon-32x32.png'}},
+    {tagName: 'link', attributes: {rel: 'icon', type: 'image/png', sizes: '16x16', href: '/img/favicon-16x16.png'}},
+    {tagName: 'link', attributes: {rel: 'apple-touch-icon', sizes: '180x180', href: '/img/apple-touch-icon.png'}},
+  ],
 
   future: {
     v4: true,
@@ -55,7 +61,7 @@ const config: Config = {
     announcementBar: {
       id: 'quickstart-banner',
       content:
-        'New to Prowl QA? <a href="/">Run your first deterministic smoke test in about a minute.</a>',
+        'Made for agents, controlled by humans. <a href="/agents">See how AI agents use ProwlQA \u2192</a>',
       isCloseable: true,
     },
     colorMode: {

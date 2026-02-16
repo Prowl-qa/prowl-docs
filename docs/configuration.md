@@ -29,6 +29,7 @@ artifacts:
   screenshots: "on-failure"           # "on-failure" or "all"
   networkHar: false                    # save network activity as HAR
   console: true                        # save browser console output
+  junit: false                         # generate JUnit XML report
 
 # Hunt-level assertions (applied to every hunt)
 assertions:
@@ -79,6 +80,7 @@ auth:
 | `screenshots` | `"on-failure" \| "all"` | `"on-failure"` | When to capture screenshots |
 | `networkHar` | `boolean` | `false` | Save network activity as HAR file |
 | `console` | `boolean` | `true` | Save browser console output |
+| `junit` | `boolean` | `false` | Generate JUnit XML report |
 
 ### assertions
 
@@ -122,4 +124,6 @@ prowlqa run <hunt> --channel chrome    # Override browser channel
 prowlqa run <hunt> --viewport 1920x1080  # Override viewport size
 prowlqa run <hunt> --include-tags smoke  # Only run hunts with tag
 prowlqa run <hunt> --exclude-tags slow   # Skip hunts with tag
+prowlqa run <hunt> --json            # Machine-readable JSON output
+prowlqa run <hunt> --junit           # Generate JUnit XML report
 ```

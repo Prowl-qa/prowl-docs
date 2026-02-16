@@ -28,6 +28,18 @@ prowlqa watch <hunt-name>
 - `.prowlqa/config.yml` — configuration changes
 - `.prowlqa/.env` — environment variable changes
 
+## Flags
+
+Watch mode accepts the same flags as `prowlqa run`:
+
+```bash
+prowlqa watch <hunt-name> --headed        # Show browser window
+prowlqa watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
+prowlqa watch <hunt-name> --trace         # Capture Playwright trace
+prowlqa watch <hunt-name> --url <override>  # Override target URL
+prowlqa watch <hunt-name> --config <path>   # Custom config path
+```
+
 ## Tips
 
 - Combine with `--headed` to watch the browser in real time: save the hunt file and see the browser replay instantly

@@ -61,9 +61,27 @@ prowlqa run <hunt-name> --channel chrome    # Override browser channel
 prowlqa run <hunt-name> --viewport 1920x1080  # Override viewport size
 prowlqa run <hunt-name> --include-tags smoke  # Only run hunts with tag
 prowlqa run <hunt-name> --exclude-tags slow   # Skip hunts with tag
+prowlqa run <hunt-name> --json            # Machine-readable JSON output
+prowlqa run <hunt-name> --junit           # Generate JUnit XML report
+
+# CI mode — run all hunts with combined result
+prowlqa ci
+prowlqa ci --include-tags smoke           # Only run hunts with tag
+prowlqa ci --exclude-tags slow            # Skip hunts with tag
+prowlqa ci --json                         # Machine-readable JSON output
+prowlqa ci --junit                        # Generate JUnit XML reports
+prowlqa ci --browser firefox --viewport 1920x1080
+prowlqa ci --url <override> --headed --slow-mo 500 --trace --config <path>
+prowlqa ci --channel chrome
+# Exit codes: 0 = pass, 1 = fail, 2 = no hunts or all skipped
 
 # Watch mode — re-runs on file changes
 prowlqa watch <hunt-name>
+prowlqa watch <hunt-name> --headed        # Show browser window
+prowlqa watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
+prowlqa watch <hunt-name> --trace         # Capture Playwright trace
+prowlqa watch <hunt-name> --url <override>  # Override target URL
+prowlqa watch <hunt-name> --config <path>   # Custom config path
 
 # Auth — capture login state interactively
 prowlqa login
@@ -72,7 +90,7 @@ prowlqa login --config <path>             # Use custom config path
 
 # Initialize — create .prowlqa directory with examples
 prowlqa init
-prowlqa init --force                      # Overwrite existing
+prowlqa init --force                      # Re-create config and starter hunts
 
 # List available hunts
 prowlqa list
@@ -92,8 +110,11 @@ Every hunt run generates artifacts in `.prowlqa/runs/<timestamp>/`:
 │   ├── final.png        # Final page state
 │   └── failure_step_3.png  # Screenshot on failure (if any)
 ├── trace.zip            # Playwright trace (if --trace)
-└── network.har          # Network activity (if networkHar: true)
+├── network.har          # Network activity (if networkHar: true)
+└── junit.xml            # JUnit XML report (if --junit or junit: true)
 ```
+
+`prowlqa ci` generates a combined artifacts directory with results from all hunts and (when `--junit` is passed) a merged JUnit XML report compatible with most CI systems (GitHub Actions, GitLab CI, Jenkins, CircleCI).
 
 ### Viewing Traces
 

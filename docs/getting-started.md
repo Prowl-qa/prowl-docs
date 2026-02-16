@@ -9,7 +9,7 @@ title: Getting Started
     <p className="docs-hero__eyebrow">Prowl QA Documentation</p>
     <h1>Deterministic QA Hunts From Your CLI</h1>
     <p>
-      Prowl QA turns browser workflows into repeatable hunts you can run locally or in CI.
+      Prowl QA turns browser workflows into repeatable hunts you can run locally, in CI, or hand to an AI agent.
       This page gets you from zero to a passing smoke test quickly.
     </p>
     <div className="docs-hero__actions">
