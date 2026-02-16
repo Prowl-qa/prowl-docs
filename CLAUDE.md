@@ -16,7 +16,7 @@ Hosted at docs.prowlqa.dev.
 - Each doc has frontmatter: `sidebar_position`, `slug`, `title`
 - Use `:::note`, `:::tip`, `:::warning` for callout boxes (Docusaurus admonitions)
 - Use `<Tabs>` / `<TabItem>` from `@theme/Tabs` for shorthand vs explicit code examples (requires `.mdx`)
-- Use `<div className="card-grid">` with `<a className="card">` for "What's Next" navigation sections
+- Use `<div class="card-grid">` with `<a class="card">` for "What's Next" navigation sections
 
 ## Pages (10 total)
 - `getting-started.md` — hero section, install/init/run quickstart, card grid

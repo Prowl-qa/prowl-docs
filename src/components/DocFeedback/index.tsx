@@ -45,7 +45,8 @@ export default function DocFeedback(): React.ReactElement | null {
         throw new Error(`Feedback request failed with status ${response.status}`);
       }
       setSubmitted(true);
-    } catch {
+    } catch (error) {
+      console.error('DocFeedback submit error', error);
       setSubmitError('Could not send feedback right now. Please try again.');
     } finally {
       setSubmitting(false);
