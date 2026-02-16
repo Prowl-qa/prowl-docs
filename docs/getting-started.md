@@ -112,7 +112,7 @@ retry:
 prowlqa run smoke-test
 ```
 
-```
+```text
   ● Running hunt: smoke-test
     ✓ navigate "/" (120ms)
     ✓ wait "Welcome" (85ms)
