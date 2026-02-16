@@ -24,6 +24,8 @@ Most agent-tool integrations use MCP or similar RPC protocols that inject tool s
 
 ### Token Efficiency Comparison
 
+The token values below are approximate estimates and will vary by LLM provider, model, prompt strategy, and conversation context.
+
 | | Prowl QA CLI | MCP-Based Tool |
 |---|---|---|
 | Discovery | `prowlqa list --json` ~150 tokens | Tool manifest + list call ~2,500 tokens |
@@ -188,41 +190,20 @@ const interpolated = interpolateHunt(hunt, {
 
 ## Using Hub Templates
 
-The [Prowl QA Community Hub](https://github.com/Prowl-qa/prowl-hub) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards. Agents can discover templates, pull them into a project, customize variables, and execute — all through the CLI or library API.
+The [Prowl QA Community Hub](https://github.com/Prowl-qa/prowl-hub) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
 
 :::note
 The `prowlqa hub` CLI is coming in a future release. In the meantime, browse and download templates directly from the [Prowl QA Community Hub](https://github.com/Prowl-qa/prowl-hub).
 :::
 
-### Discover Templates
+### Current Workflow (Today)
 
-Search and list available templates:
+1. Browse templates in the [Prowl QA Community Hub](https://github.com/Prowl-qa/prowl-hub).
+2. Copy the template hunt file into your local `.prowlqa/hunts/` directory.
+3. Customize `{{VAR}}` placeholders for your environment.
+4. Execute the hunt with `prowlqa run <hunt-name> --json`.
 
-```bash
-# List all templates
-prowlqa hub list --json
-
-# Search by keyword
-prowlqa hub search "auth" --json
-```
-
-```json
-[
-  { "name": "login-flow", "description": "Email/password login with error handling", "tags": ["auth", "critical"] },
-  { "name": "oauth-google", "description": "Google OAuth sign-in flow", "tags": ["auth", "oauth"] },
-  { "name": "password-reset", "description": "Forgot password and reset flow", "tags": ["auth", "email"] }
-]
-```
-
-### Pull and Customize
-
-Pull a template into your project and customize it with variables:
-
-```bash
-prowlqa hub pull login-flow
-```
-
-This creates a hunt file with `{{VAR}}` placeholders ready for customization:
+Example hunt after copying and customizing:
 
 ```yaml
 name: login-flow
@@ -240,19 +221,9 @@ steps:
 
 Variables are resolved from your config, environment, or CLI flags. See [Variables](/variables) for interpolation precedence.
 
-### Execute and Report
-
-Run the customized template like any other hunt:
-
-```bash
-prowlqa run login-flow --json
-```
-
-The output format is identical to any other hunt run — see [CLI Integration](#cli-integration---json-flags) for the full JSON schema.
-
 ### Library API for Templates
 
-Use the library API to pull, customize, and run templates programmatically:
+Use the library API to customize and run downloaded templates programmatically:
 
 ```typescript
 import { loadHunt, interpolateHunt, runHunt } from "prowlqa";

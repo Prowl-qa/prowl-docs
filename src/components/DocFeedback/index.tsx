@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useId, useState} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
 import styles from './styles.module.css';
@@ -22,14 +22,17 @@ export default function DocFeedback(): React.ReactElement | null {
   const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const textareaId = useId();
 
   if (!feedbackApiUrl) return null;
 
   async function handleSubmit() {
     if (!sentiment || submitting) return;
     setSubmitting(true);
+    setSubmitError(null);
     try {
-      await fetch(feedbackApiUrl!, {
+      const response = await fetch(feedbackApiUrl!, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -38,10 +41,15 @@ export default function DocFeedback(): React.ReactElement | null {
           comment: comment.trim().slice(0, 1000) || null,
         }),
       });
+      if (!response.ok) {
+        throw new Error(`Feedback request failed with status ${response.status}`);
+      }
+      setSubmitted(true);
     } catch {
-      // Silent fail — feedback is best-effort
+      setSubmitError('Could not send feedback right now. Please try again.');
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitted(true);
   }
 
   if (submitted) {
@@ -61,7 +69,10 @@ export default function DocFeedback(): React.ReactElement | null {
             key={e.value}
             type="button"
             className={`${styles.emojiBtn}${sentiment === e.value ? ` ${styles.emojiBtnSelected}` : ''}`}
-            onClick={() => setSentiment(e.value)}
+            onClick={() => {
+              setSentiment(e.value);
+              setSubmitError(null);
+            }}
             aria-label={e.label}>
             {e.icon}
           </button>
@@ -70,7 +81,11 @@ export default function DocFeedback(): React.ReactElement | null {
       <div
         className={`${styles.commentSection}${sentiment ? ` ${styles.commentSectionOpen}` : ''}`}>
         <div className={styles.commentInner}>
+          <label className={styles.commentLabel} htmlFor={textareaId}>
+            Additional feedback (optional)
+          </label>
           <textarea
+            id={textareaId}
             className={styles.textarea}
             placeholder="Any additional feedback? (optional)"
             value={comment}
@@ -84,6 +99,11 @@ export default function DocFeedback(): React.ReactElement | null {
             disabled={submitting}>
             {submitting ? 'Sending...' : 'Submit'}
           </button>
+          {submitError ? (
+            <p className={styles.submitError} role="alert">
+              {submitError}
+            </p>
+          ) : null}
         </div>
       </div>
     </div>

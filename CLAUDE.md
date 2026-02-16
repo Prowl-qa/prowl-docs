@@ -27,7 +27,7 @@ Hosted at docs.prowlqa.dev.
 - `selectors.md` — Playwright selector best practices
 - `auth.md` — authentication setup guide
 - `watch-mode.md` — watch mode guide
-- `agents.md` — agent-first integration guide (library API, --json output, CI, hub templates)
+- `agents.mdx` — agent-first integration guide (library API, --json output, CI, hub templates)
 - `troubleshooting.md` — common issues and debugging
 
 ## Branding
