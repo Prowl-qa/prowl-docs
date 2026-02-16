@@ -1,6 +1,7 @@
 import React, {useId, useState} from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {useLocation} from '@docusaurus/router';
+import clsx from 'clsx';
 import styles from './styles.module.css';
 
 type Sentiment = 'negative' | 'neutral' | 'positive';
@@ -69,7 +70,7 @@ export default function DocFeedback(): React.ReactElement | null {
           <button
             key={e.value}
             type="button"
-            className={`${styles.emojiBtn}${sentiment === e.value ? ` ${styles.emojiBtnSelected}` : ''}`}
+            className={clsx(styles.emojiBtn, sentiment === e.value && styles.emojiBtnSelected)}
             onClick={() => {
               setSentiment(e.value);
               setSubmitError(null);
@@ -80,7 +81,7 @@ export default function DocFeedback(): React.ReactElement | null {
         ))}
       </div>
       <div
-        className={`${styles.commentSection}${sentiment ? ` ${styles.commentSectionOpen}` : ''}`}>
+        className={clsx(styles.commentSection, sentiment && styles.commentSectionOpen)}>
         <div className={styles.commentInner}>
           <label className={styles.commentLabel} htmlFor={textareaId}>
             Additional feedback (optional)
