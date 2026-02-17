@@ -68,6 +68,15 @@ npm run serve   # Serve production build locally
 ```
 
 ## Related Repos
-- **CLI**: Prowl-qa/prowl — source of truth for features and step types
-- **Landing page**: Prowl-qa/prowl-web — marketing site at prowlqa.dev
-- **Community hub**: Prowl-qa/prowl-hub — community hunt templates
+
+All Prowl QA repos live at `~/Desktop/Current Projects/Prowl QA/Repositories/`.
+
+| Repo | Purpose | Local Path |
+|------|---------|------------|
+| `Prowl-qa/prowl` | CLI tool (source of truth) | `~/Desktop/Current Projects/Prowl QA/Repositories/prowl` |
+| `Prowl-qa/prowl-web` | Marketing site (prowlqa.dev) | `~/Desktop/Current Projects/Prowl QA/Repositories/prowl-web` |
+| `Prowl-qa/prowl-hub` | Community hunt templates | `~/Desktop/Current Projects/Prowl QA/Repositories/prowl-hub` |
+| `prowltools/prowl-twitter-bot` | Twitter bot (@prowlqa) | `~/Desktop/Current Projects/Prowl QA/Repositories/prowl-twitter-bot` |
+
+**Backlogs**: `~/Desktop/Backlogs/projects/Prowl/`
+**Assets**: `~/Desktop/Current Projects/Prowl QA/Assets/`
