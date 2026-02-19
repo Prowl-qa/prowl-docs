@@ -1,0 +1,36 @@
+name: tabbed-code-blocks
+description: Verify tab switching on step-types page (Shorthand/Explicit tabs)
+
+tags:
+  - interactive
+  - tabs
+  - content
+
+steps:
+  - navigate: "/step-types"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Wait for tab panel to appear
+  - waitForSelector:
+      selector: "[role='tablist']"
+      timeout: 5000
+
+  # Click the first "Explicit" tab on the page
+  - click:
+      selector: "[role='tab']:text-is('Explicit') >> nth=0"
+
+  # Verify the Explicit tab is now selected
+  - waitForSelector:
+      selector: "[role='tab'][aria-selected='true']:text-is('Explicit')"
+      timeout: 3000
+
+  # Click the first "Shorthand" tab to switch back
+  - click:
+      selector: "[role='tab']:text-is('Shorthand') >> nth=0"
+
+  # Verify the Shorthand tab is now selected
+  - waitForSelector:
+      selector: "[role='tab'][aria-selected='true']:text-is('Shorthand')"
+      timeout: 3000

@@ -1,0 +1,36 @@
+name: theme-toggle
+description: Verify dark/light mode toggle changes the data-theme attribute
+
+tags:
+  - theme
+  - accessibility
+  - interactive
+
+steps:
+  - navigate: "/"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Docusaurus v4 has a 3-state toggle: system → light → dark → system
+  # First click: system → light (no visible change since system resolves to light)
+  - click:
+      selector: "button[class*='toggleButton']"
+
+  # Second click: light → dark
+  - click:
+      selector: "button[class*='toggleButton']"
+
+  # Verify dark mode activates
+  - waitForSelector:
+      selector: "html[data-theme='dark']"
+      timeout: 3000
+
+  # Third click: dark → system (resolves back to light)
+  - click:
+      selector: "button[class*='toggleButton']"
+
+  # Verify light mode restores
+  - waitForSelector:
+      selector: "html[data-theme='light']"
+      timeout: 3000

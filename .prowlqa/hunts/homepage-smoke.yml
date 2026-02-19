@@ -1,0 +1,31 @@
+name: homepage-smoke
+description: Verify the getting-started page loads with hero section, mascot image, quickstart callout, and card grid
+
+tags:
+  - smoke
+  - homepage
+  - content
+
+steps:
+  - navigate: "/"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Hero section renders with heading
+  - wait: "Deterministic QA Hunts From Your CLI"
+
+  # Mascot image is visible
+  - waitForSelector:
+      selector: "img[alt='Prowl QA mascot with magnifying glass']"
+      timeout: 3000
+
+  # Quickstart callout is visible
+  - waitForSelector:
+      selector: ".docs-quickstart"
+      timeout: 3000
+
+  # Card grid is visible
+  - waitForSelector:
+      selector: ".card-grid"
+      timeout: 3000

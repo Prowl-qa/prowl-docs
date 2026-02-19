@@ -1,0 +1,21 @@
+target:
+  url: "http://localhost:3000"
+
+guardrails:
+  allowedDomains:
+    - "localhost"
+  maxSteps: 30
+
+assertions:
+  maxTotalTimeMs: 30000
+  noConsoleErrors: false
+
+artifacts:
+  screenshots: "on-failure"
+  console: true
+  networkHar: true
+  junit: true
+
+browser:
+  engine: chromium
+  viewport: desktop

@@ -1,0 +1,48 @@
+name: feedback-widget
+description: Verify feedback widget renders, emoji buttons work, and submission flow completes (mocked API)
+
+tags:
+  - interactive
+  - feedback
+  - mock
+
+steps:
+  - navigate: "/step-types"
+
+  # Mock the feedback API to avoid real submissions
+  - mockRoute:
+      url: "**/api/feedback"
+      response:
+        status: 200
+        contentType: "application/json"
+        body: '{"ok": true}'
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Wait for the feedback prompt
+  - wait: "Was this page helpful?"
+
+  # Click the positive emoji button
+  - click:
+      selector: "button[aria-label='This page was helpful']"
+
+  # Wait for textarea to appear
+  - waitForSelector:
+      selector: "textarea[placeholder*='additional feedback']"
+      timeout: 3000
+
+  # Fill in feedback
+  - fill:
+      selector: "textarea[placeholder*='additional feedback']"
+      value: "Test feedback from prowlqa"
+
+  # Submit
+  - click: "Submit"
+
+  # Confirm thank-you message
+  - wait: "Thanks for your feedback!"
+
+  # Clean up mock
+  - unmockRoute:
+      url: "**/api/feedback"
