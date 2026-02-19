@@ -229,7 +229,7 @@ body {
   margin-bottom: 0.65rem;
 }
 
-.docs-hero p {
+.docs-hero__subtitle {
   font-size: 1.06rem;
   margin-bottom: 1rem;
 }

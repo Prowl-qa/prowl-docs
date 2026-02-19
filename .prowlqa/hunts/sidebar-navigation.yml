@@ -1,0 +1,61 @@
+name: sidebar-navigation
+description: Click through each sidebar category and verify page transitions
+
+tags:
+  - navigation
+  - sidebar
+  - smoke
+
+steps:
+  - navigate: "/"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Reference category
+  - click: "Step Types"
+  - waitForUrl:
+      value: "/step-types"
+      timeout: 5000
+
+  - click: "Assertions"
+  - waitForUrl:
+      value: "/assertions"
+      timeout: 5000
+
+  - click: "Configuration"
+  - waitForUrl:
+      value: "/configuration"
+      timeout: 5000
+
+  - click: "Variables"
+  - waitForUrl:
+      value: "/variables"
+      timeout: 5000
+
+  - click: "Selectors"
+  - waitForUrl:
+      value: "/selectors"
+      timeout: 5000
+
+  # Guides category
+  - click: "Authentication"
+  - waitForUrl:
+      value: "/auth"
+      timeout: 5000
+
+  - click: "Watch Mode"
+  - waitForUrl:
+      value: "/watch-mode"
+      timeout: 5000
+
+  - click: "ProwlQA for Agents"
+  - waitForUrl:
+      value: "/agents"
+      timeout: 5000
+
+  # Standalone
+  - click: "Troubleshooting"
+  - waitForUrl:
+      value: "/troubleshooting"
+      timeout: 5000

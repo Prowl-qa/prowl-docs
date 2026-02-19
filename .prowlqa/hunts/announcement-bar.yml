@@ -1,0 +1,32 @@
+name: announcement-bar
+description: Verify the announcement bar renders and can be dismissed
+
+tags:
+  - interactive
+  - announcement
+  - smoke
+
+steps:
+  - navigate: "/"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Verify announcement bar is visible
+  - waitForSelector:
+      selector: "[role='banner'][class*='announcementBar']"
+      timeout: 5000
+
+  # Verify the link in the announcement bar
+  - waitForSelector:
+      selector: "[class*='announcementBar'] a[href='/agents']"
+      timeout: 3000
+
+  # Click the close button on the announcement bar
+  - click:
+      selector: "[class*='announcementBar'] button[aria-label='Close']"
+
+  # Verify announcement bar is dismissed
+  - waitForSelector:
+      selector: "html:not(:has([role='banner'][class*='announcementBar']))"
+      timeout: 3000

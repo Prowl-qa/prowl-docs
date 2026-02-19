@@ -82,6 +82,11 @@ const config: Config = {
           position: 'right',
         },
         {
+          href: 'https://hub.prowlqa.dev',
+          label: 'Hub',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/Prowl-qa/prowl',
           label: 'GitHub',
           position: 'right',
@@ -110,7 +115,14 @@ const config: Config = {
             {label: 'prowlqa.dev', href: 'https://prowlqa.dev'},
             {label: 'GitHub', href: 'https://github.com/Prowl-qa/prowl'},
             {label: 'npm', href: 'https://www.npmjs.com/package/prowlqa'},
-            {label: 'Community Hub', href: 'https://github.com/Prowl-qa/prowl-hub'},
+            {label: 'Community Hub', href: 'https://hub.prowlqa.dev'},
+          ],
+        },
+        {
+          title: 'Get in Touch',
+          items: [
+            {label: 'Email', href: 'mailto:info@prowlqa.dev'},
+            {label: 'Visit us on X', href: 'https://x.com/prowlqa'},
           ],
         },
       ],

@@ -68,6 +68,10 @@ npm run serve   # Serve production build locally
 ```
 
 ## Related Repos
-- **CLI**: Prowl-qa/prowl — source of truth for features and step types
-- **Landing page**: Prowl-qa/prowl-web — marketing site at prowlqa.dev
-- **Community hub**: Prowl-qa/prowl-hub — community hunt templates
+
+| Repo | Purpose |
+|------|---------|
+| `Prowl-qa/prowl` | CLI tool (source of truth) |
+| `Prowl-qa/prowl-web` | Marketing site (prowlqa.dev) |
+| `Prowl-qa/prowl-hub` | Community hunt templates |
+| `prowltools/prowl-twitter-bot` | Twitter bot (@prowlqa) |

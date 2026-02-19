@@ -1,0 +1,25 @@
+name: doc-next-prev
+description: Verify Docusaurus next/prev pagination links navigate between doc pages
+
+tags:
+  - navigation
+  - pagination
+
+steps:
+  - navigate: "/"
+
+  - waitForNetworkIdle:
+      timeout: 5000
+
+  # Click "Next" pagination link — should go to step-types
+  - click:
+      selector: ".pagination-nav__link--next"
+  - waitForUrl:
+      value: "/step-types"
+      timeout: 5000
+
+  # Click "Previous" pagination link — should go back to getting-started
+  - click:
+      selector: ".pagination-nav__link--prev"
+  - assert:
+      urlEquals: "http://localhost:3000/"

@@ -6,12 +6,12 @@ title: Getting Started
 
 <div className="docs-hero">
   <div>
-    <p className="docs-hero__eyebrow">Prowl QA Documentation</p>
+    <div className="docs-hero__eyebrow">Prowl QA Documentation</div>
     <h1>Deterministic QA Hunts From Your CLI</h1>
-    <p>
+    <div className="docs-hero__subtitle">
       Prowl QA turns browser workflows into repeatable hunts you can run locally, in CI, or hand to an AI agent.
       This page gets you from zero to a passing smoke test quickly.
-    </p>
+    </div>
     <div className="docs-hero__actions">
       <a className="button button--primary button--lg" href="#install">Start In 60 Seconds</a>
       <a className="button button--secondary button--lg" href="/step-types">Browse Step Types</a>

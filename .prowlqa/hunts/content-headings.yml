@@ -1,0 +1,44 @@
+name: content-headings
+description: Verify key headings and content exist on critical doc pages
+
+tags:
+  - content
+  - smoke
+  - headings
+
+steps:
+  # Getting Started — hero heading
+  - navigate: "/"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "Deterministic QA Hunts From Your CLI"
+
+  # Step Types
+  - navigate: "/step-types"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "Step Types"
+
+  # Assertions
+  - navigate: "/assertions"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "Assertions"
+
+  # Configuration
+  - navigate: "/configuration"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "Configuration"
+
+  # Agents
+  - navigate: "/agents"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "ProwlQA for Agents"
+
+  # Troubleshooting
+  - navigate: "/troubleshooting"
+  - waitForNetworkIdle:
+      timeout: 5000
+  - wait: "Troubleshooting"
