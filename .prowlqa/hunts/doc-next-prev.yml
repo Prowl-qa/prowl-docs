@@ -21,6 +21,5 @@ steps:
   # Click "Previous" pagination link — should go back to getting-started
   - click:
       selector: ".pagination-nav__link--prev"
-  - waitForUrl:
-      value: "/"
-      timeout: 5000
+  - assert:
+      urlEquals: "http://localhost:3000/"
