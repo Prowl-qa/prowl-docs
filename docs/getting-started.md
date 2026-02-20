@@ -39,6 +39,13 @@ By the end of this guide, you will run one hunt that validates your homepage and
 npm install -g prowlqa
 ```
 
+Or with Homebrew:
+
+```bash
+brew tap prowl-qa/tap
+brew install prowlqa
+```
+
 Prowl QA uses Playwright under the hood. Install the browser:
 
 ```bash
