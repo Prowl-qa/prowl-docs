@@ -191,10 +191,10 @@ const { hunt: interpolated } = interpolateHunt(hunt, {
 The [Prowl QA Community Hub](https://hub.prowlqa.dev) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
 
 :::note
-The `prowlqa hub` CLI is coming in a future release. In the meantime, browse and download templates directly from the [Prowl QA Community Hub](https://hub.prowlqa.dev).
+The `prowlqa hub` CLI is coming in a future release. In the meantime, browse templates on the [Prowl QA Community Hub](https://hub.prowlqa.dev) or use the [Hub API](/hub-api) for programmatic access.
 :::
 
-### Current Workflow (Today)
+### Manual Workflow
 
 1. Browse templates in the [Prowl QA Community Hub](https://hub.prowlqa.dev).
 2. Copy the template hunt file into your local `.prowlqa/hunts/` directory.
@@ -220,6 +220,10 @@ steps:
 ```
 
 Variables are resolved from your config, environment, or CLI flags. See [Variables](/variables) for interpolation precedence.
+
+### API Access
+
+Agents can skip the manual workflow entirely. The [Hub API](/hub-api) exposes REST endpoints for searching, filtering, and downloading templates programmatically — so an agent can discover the right template, fetch it, and run it without human intervention. See the [Hub API reference](/hub-api) for endpoints, schemas, and a full workflow example.
 
 ### Library API for Templates
 
