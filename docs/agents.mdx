@@ -6,35 +6,21 @@ title: ProwlQA for Agents
 
 # ProwlQA for Agents
 
-Prowl QA is CLI-first and agent-native by design. One CLI command replaces ten tool calls. Structured JSON output, deterministic exit codes, and a fraction of the tokens — everything an AI agent needs to discover, run, and report on browser tests without wrangling automation APIs directly.
+Prowl QA is CLI-first and agent-native by design. A single CLI command can capture an entire hunt run. Structured JSON output, deterministic exit codes, and minimal context overhead give AI agents what they need to discover, run, and report on browser tests without wrangling automation APIs directly.
 
 **Made for agents, controlled by humans.** You write the hunts, review the results, and set the guardrails. Agents handle the execution loop — discovering what to test, running the hunts, and reporting structured results back to your workflow.
 
 Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
 
-## Why CLI-First, Not MCP
+## Why CLI-First
 
-Most agent-tool integrations use MCP or similar RPC protocols that inject tool schemas into every conversation. Prowl QA takes a different approach: a plain CLI that agents call like any other shell command.
+Prowl QA is designed around the same interface agents already know: the shell. A single CLI command replaces multi-step tool orchestration, and structured output means agents spend less time parsing and more time acting.
 
-### Zero Context Tax
+### Minimal Context Overhead
 
-- **No tool manifest.** MCP injects its full schema into every conversation turn; the Prowl QA CLI is invisible until called.
+- **No schema preamble.** The CLI is invisible to the agent's context until invoked — no manifest or tool definitions sitting in every turn.
 - **Declarative, not imperative.** A 10-step hunt is a single `prowlqa run` call — not 10+ individual tool invocations the agent has to reason through.
-- **Pay-per-use.** Zero tokens when idle. MCP manifests cost ~2-3k tokens just to sit in context.
-
-### Token Efficiency Comparison
-
-The token values below are approximate estimates and will vary by LLM provider, model, prompt strategy, and conversation context.
-
-| | Prowl QA CLI | MCP-Based Tool |
-|---|---|---|
-| Discovery | `prowlqa list --json` ~150 tokens | Tool manifest + list call ~2,500 tokens |
-| 10-step test | `prowlqa run <hunt> --json` ~800-1,200 tokens | 10+ individual tool calls ~15,000-20,000 tokens |
-| Result parsing | Exit code check — 0 tokens | Parse nested responses ~500-1,000 tokens |
-| Idle cost | 0 tokens | ~2,000-3,000 tokens (manifest always loaded) |
-| **Total per cycle** | **~1,250 tokens** | **~18,000-23,000 tokens** |
-
-That's a 10-15x difference per test cycle, compounding across every conversation.
+- **Pay-per-use.** Tokens are only spent when the agent actually calls a command and reads its output.
 
 ### Exit Codes Enable Branching
 
@@ -45,7 +31,7 @@ prowlqa ci --json && echo "All hunts passed" || echo "Failures detected"
 ```
 
 :::tip
-Prowl QA is agent-ready out of the box. No MCP server, no tool manifest, no per-step reasoning. Install, run, parse.
+Prowl QA is agent-ready out of the box. Install, run, parse — structured JSON output and deterministic exit codes from the first command.
 :::
 
 ## Agent Workflow: Discover, Run, Report
