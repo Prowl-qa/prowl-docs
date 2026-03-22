@@ -12,6 +12,41 @@ Prowl QA is CLI-first and agent-native by design. A single CLI command can captu
 
 Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
 
+## Quickstart in 60 Seconds
+
+Get an agent running hunts in four commands:
+
+```bash
+# 1. Install
+npm install -g prowlqa
+
+# 2. Initialize a project
+prowlqa init
+
+# 3. Run a hunt with structured output
+prowlqa run smoke-test --json
+```
+
+```json
+{
+  "hunt": "smoke-test",
+  "status": "passed",
+  "steps": 4,
+  "duration": "1.2s"
+}
+```
+
+```bash
+# 4. Branch on the result
+prowlqa run smoke-test --json && echo "✅ Passed" || echo "❌ Failed"
+```
+
+Exit codes make branching simple: `0` = passed, `1` = failed, `2` = no hunts found. Run all hunts at once with `prowlqa ci --json`.
+
+:::tip
+That's the full loop — install, run, branch. The sections below cover the details: workflow patterns, the Node.js library API, CI integration, and Hub templates.
+:::
+
 ## Why CLI-First
 
 Prowl QA is designed around the same interface agents already know: the shell. A single CLI command replaces multi-step tool orchestration, and structured output means agents spend less time parsing and more time acting.
