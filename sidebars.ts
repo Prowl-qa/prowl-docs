@@ -23,6 +23,7 @@ const sidebars: SidebarsConfig = {
         'auth',
         'watch-mode',
         'agents',
+        'hub-api',
       ],
     },
     'troubleshooting',

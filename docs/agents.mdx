@@ -12,6 +12,41 @@ Prowl QA is CLI-first and agent-native by design. A single CLI command can captu
 
 Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
 
+## Quickstart in 60 Seconds
+
+Get an agent running hunts in four commands:
+
+```bash
+# 1. Install
+npm install -g prowlqa
+
+# 2. Initialize a project
+prowlqa init
+
+# 3. Run a hunt with structured output
+prowlqa run smoke-test --json
+```
+
+```json
+{
+  "hunt": "smoke-test",
+  "status": "passed",
+  "steps": 4,
+  "duration": "1.2s"
+}
+```
+
+```bash
+# 4. Branch on the result
+prowlqa run smoke-test --json && echo "✅ Passed" || echo "❌ Failed"
+```
+
+Exit codes make branching simple: `0` = passed, `1` = failed, `2` = no hunts found. Run all hunts at once with `prowlqa ci --json`.
+
+:::tip
+That's the full loop — install, run, branch. The sections below cover the details: workflow patterns, the Node.js library API, CI integration, and Hub templates.
+:::
+
 ## Why CLI-First
 
 Prowl QA is designed around the same interface agents already know: the shell. A single CLI command replaces multi-step tool orchestration, and structured output means agents spend less time parsing and more time acting.
@@ -191,10 +226,10 @@ const { hunt: interpolated } = interpolateHunt(hunt, {
 The [Prowl QA Community Hub](https://hub.prowlqa.dev) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
 
 :::note
-The `prowlqa hub` CLI is coming in a future release. In the meantime, browse and download templates directly from the [Prowl QA Community Hub](https://hub.prowlqa.dev).
+The `prowlqa hub` CLI is coming in a future release. In the meantime, browse templates on the [Prowl QA Community Hub](https://hub.prowlqa.dev) or use the [Hub API](/hub-api) for programmatic access.
 :::
 
-### Current Workflow (Today)
+### Manual Workflow
 
 1. Browse templates in the [Prowl QA Community Hub](https://hub.prowlqa.dev).
 2. Copy the template hunt file into your local `.prowlqa/hunts/` directory.
@@ -220,6 +255,10 @@ steps:
 ```
 
 Variables are resolved from your config, environment, or CLI flags. See [Variables](/variables) for interpolation precedence.
+
+### API Access
+
+Agents can skip the manual workflow entirely. The [Hub API](/hub-api) exposes REST endpoints for searching, filtering, and downloading templates programmatically — so an agent can discover the right template, fetch it, and run it without human intervention. See the [Hub API reference](/hub-api) for endpoints, schemas, and a full workflow example.
 
 ### Library API for Templates
 
