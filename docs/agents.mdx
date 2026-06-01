@@ -10,7 +10,7 @@ Prowl QA is CLI-first and agent-native by design. A single CLI command can captu
 
 **Made for agents, controlled by humans.** You write the hunts, review the results, and set the guardrails. Agents handle the execution loop — discovering what to test, running the hunts, and reporting structured results back to your workflow.
 
-Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
+Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration, the [MCP Server](/mcp) to connect an agent without shell access, or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
 
 ## Quickstart in 60 Seconds
 
@@ -176,6 +176,29 @@ prowlqa ci --junit
 Each hunt run directory gets its own `junit.xml` (for example `.prowlqa/runs/<timestamp>/junit.xml`).  
 In CI mode, `prowlqa ci` also writes a combined summary JSON file at `.prowlqa/runs/ci-<timestamp>/ci-result.json`.
 
+### `prowlqa history <hunt> --json`
+
+Every `prowlqa run` and `prowlqa ci` appends to `.prowlqa/history.json`. Agents can read past runs to detect flakes or track duration trends:
+
+```bash
+prowlqa history smoke-test --json --limit 50
+```
+
+```json
+[
+  { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "startedAt": "2026-05-28T17:15:12.481Z", "runDir": ".prowlqa/runs/2026-05-28_17-15-12-481" },
+  { "hunt": "smoke-test", "status": "fail", "durationMs": 1840, "startedAt": "2026-05-28T09:02:55.001Z", "runDir": ".prowlqa/runs/2026-05-28_09-02-55-001" }
+]
+```
+
+Retention is configurable via `history.maxRuns` — see [Configuration](/configuration#history).
+
+## Connect Over MCP
+
+For agents that support the [Model Context Protocol](https://modelcontextprotocol.io), Prowl QA ships an MCP server that exposes QA as named tools (`list_hunts`, `run_hunt`, `run_suite`, `list_projects`) over stdio — no shell access required. The agent connects once and drives runs through tool calls, with `run_suite` optionally logging failures straight to your backlog.
+
+See the [MCP Server guide](/mcp) for client configuration, the tool reference, automated bug-logging, and multi-project setup.
+
 ## Library API (Node.js)
 
 For deeper integration, import Prowl QA as a library:
@@ -189,6 +212,9 @@ import { runHunt, loadConfig, listHunts, loadHunt } from "prowlqa";
 | Function | Description |
 |----------|-------------|
 | `runHunt({ huntName, ...options })` | Run a hunt programmatically and get a typed `RunResult` |
+| `runSuite(options?)` | Run an entire suite (the engine behind `prowlqa ci`); returns aggregated `CiResult` |
+| `updateBacklogFromSuite(suiteResult, options?)` | Log a suite's failures as deduplicated bug tickets in `docs/backlog.md` |
+| `readHistory(configDir)` / `readHuntHistory(configDir, hunt)` | Read run history from `.prowlqa/history.json` |
 | `loadConfig(configPath?)` | Load and validate config, returning `{ config, configPath, configDir }` |
 | `loadHunt(huntName, configDir)` | Load and parse a single hunt file from `<configDir>/hunts/` |
 | `listHunts(configDir)` | List available hunt names from `<configDir>/hunts/` |
@@ -220,6 +246,66 @@ const { hunt: interpolated } = interpolateHunt(hunt, {
   PASSWORD: process.env.TEST_PASSWORD ?? "",
 });
 ```
+
+### Suite Runner and Automated Bug-Logging
+
+`runSuite()` runs an entire hunt suite programmatically — the same engine behind `prowlqa ci` — and `updateBacklogFromSuite()` turns its failures into deduplicated bug tickets. This is the non-CLI path to the same automated bug-logging the MCP [`run_suite` tool](/mcp#logging-bugs-automatically) performs.
+
+```typescript
+import { runSuite, updateBacklogFromSuite } from "prowlqa";
+
+const suite = await runSuite({
+  includeTags: ["smoke"],
+  parallel: 4,
+});
+
+console.log(`${suite.result.passed}/${suite.result.totalHunts} passed`);
+
+// Log failures to docs/backlog.md (and detect regressions against docs/resolved.md)
+const summary = updateBacklogFromSuite(suite, { projectRoot: process.cwd() });
+
+console.log("New tickets:", summary.created);     // e.g. ["QA-014"]
+console.log("Regressions:", summary.regressions); // e.g. ["QA-015"]
+console.log("Already open:", summary.skipped);    // left untouched
+```
+
+`runSuite(options?)` returns `Promise<{ result: CiResult; resultPath: string | null }>`. Key options:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `configPath` | `string` | Path to config (defaults to discovery from cwd) |
+| `urlOverride` | `string` | Override `target.url` |
+| `includeTags` / `excludeTags` | `string[]` | Tag filters |
+| `parallel` | `number` | Number of concurrent workers |
+| `junit` | `boolean` | Emit `junit.xml` per run |
+| `headed`, `slowMo`, `trace`, `browser`, `channel`, `viewport` | — | Same semantics as the matching CLI flags |
+| `hooks` | `RunSuiteHooks` | Progress callbacks: `onHuntStart`, `onStep`, `onHuntSuccess`, `onHuntFailure`, `onHuntSkipped` |
+
+`updateBacklogFromSuite(suiteResult, options?)` returns a `BugLogSummary` — `{ created, regressions, skipped, backlogPath }`. A failure is fingerprinted by hunt + failing step (type/selector) + normalized error, so new failures get a `QA-NNN` ticket under a `## QA Findings (automated)` section, already-open failures are skipped, and failures matching a resolved ticket are logged as regressions. Options:
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `projectRoot` | `string` | `process.cwd()` | Project root containing `docs/` |
+| `backlogPath` | `string` | `<projectRoot>/docs/backlog.md` | Override the backlog path |
+| `resolvedPath` | `string` | `<projectRoot>/docs/resolved.md` | Override the resolved-tickets path |
+| `date` | `string` | today (`YYYY-MM-DD`) | Date stamp for new tickets |
+
+### Run History
+
+`readHistory()` and `readHuntHistory()` read the `.prowlqa/history.json` log written by every `run` and `ci`:
+
+```typescript
+import { loadConfig, readHistory, readHuntHistory } from "prowlqa";
+
+const { configDir } = loadConfig();
+
+const all = readHistory(configDir);                     // { entries: HistoryEntry[] }
+const smoke = readHuntHistory(configDir, "smoke-test"); // HistoryEntry[]
+
+const failRate = smoke.filter((e) => e.status === "fail").length / smoke.length;
+```
+
+`HistoryEntry` is `{ hunt: string; status: "pass" | "fail"; durationMs: number; startedAt: string; runDir?: string }`. Retention is capped per hunt by `history.maxRuns` — see [Configuration](/configuration#history).
 
 ## Using Hub Templates
 
@@ -314,7 +400,7 @@ Browse all templates and contribute your own at the [Prowl QA Community Hub](htt
   </a>
   <a class="card" href="/step-types">
     <h3>Step Types</h3>
-    <p>All 19 step types available in hunts</p>
+    <p>All 28 step types available in hunts</p>
   </a>
   <a class="card" href="/troubleshooting">
     <h3>Troubleshooting</h3>

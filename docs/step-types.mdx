@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 # Step Types
 
-Prowl QA supports 19 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
+Prowl QA supports 28 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
 
 ## navigate
 
@@ -98,6 +98,20 @@ Type into the currently focused element. Useful after clicking into a field.
 
   </TabItem>
 </Tabs>
+
+## copyText
+
+Extract the text content of an element and store it as a runtime variable for use in later steps. Explicit-only.
+
+- `selector` (required) — element to read text from
+- `as` (required) — variable name to capture the text into
+
+```yaml
+- copyText:
+    selector: "[data-testid='order-id']"
+    as: "ORDER_ID"
+- navigate: "/orders/{{ORDER_ID}}"
+```
 
 ## press
 
@@ -212,6 +226,26 @@ Wait for all network requests to complete.
     timeout: 5000
 ```
 
+## waitForDownload
+
+Wait for a file download to start and save it into the run's artifact directory. Explicit-only; pass `null` to accept any download. Author it immediately after the step that triggers the download.
+
+- `filename` (optional) — assert the downloaded file's name; the step fails if it doesn't match
+- `timeout` (optional, default `30000`) — max time to wait, in ms
+
+```yaml
+# Assert the filename
+- click: "Export CSV"
+- waitForDownload:
+    filename: "report.csv"
+
+# Accept any download
+- click: "Download"
+- waitForDownload: null
+```
+
+The downloaded file is saved into the run directory (`.prowlqa/runs/<timestamp>/`).
+
 ## onDialog
 
 Handle browser-native dialogs (alert, confirm, prompt). Register the handler **before** the action that triggers the dialog.
@@ -268,6 +302,132 @@ Execute another hunt file inline. Enables reusable sub-flows like login.
 </Tabs>
 
 Circular dependencies are detected automatically (`A → B → A` will error).
+
+## if
+
+Conditionally run steps based on whether a selector is visible. Explicit-only.
+
+- `visible` or `notVisible` (exactly one) — the selector to test
+- `then` (required) — steps to run when the condition holds
+- `else` (optional) — steps to run otherwise
+
+```yaml
+- if:
+    visible: ".cookie-banner"
+    then:
+      - click: ".accept"
+    else:
+      - wait: "Welcome back"
+```
+
+## repeat
+
+Repeat a block of steps a fixed number of times or while a selector condition holds. Explicit-only. The `maxSteps` guardrail is enforced across all iterations.
+
+- `times` (fixed count) **or** `while` (condition) — exactly one
+- `while.visible` / `while.notVisible` — the condition, when using `while`
+- `maxIterations` (required with `while`) — safety cap on loop count
+- `steps` (required) — steps to run each iteration
+
+```yaml
+# Fixed count
+- repeat:
+    times: 3
+    steps:
+      - click: ".load-more"
+
+# Condition-based loop
+- repeat:
+    while:
+      visible: ".load-more"
+    maxIterations: 10
+    steps:
+      - click: ".load-more"
+```
+
+## mockRoute
+
+Intercept a URL pattern and return a custom response — useful for testing error, loading, or empty states. Explicit-only.
+
+- `url` (required) — Playwright route pattern (e.g. `**/api/users`)
+- `response.status` (required)
+- exactly one of `response.body` or `response.file`
+- `response.contentType` (optional, default `application/json`)
+
+```yaml
+- mockRoute:
+    url: "**/api/users"
+    response:
+      status: 200
+      body: '{"users":[{"id":1}]}'
+```
+
+## unmockRoute
+
+Remove a previously registered route mock. Explicit-only.
+
+- `url` (required) — must match the mocked route's pattern
+
+```yaml
+- unmockRoute:
+    url: "**/api/users"
+```
+
+## evalScript
+
+Evaluate a JavaScript expression in the browser page context, optionally capturing the result as a runtime variable.
+
+<Tabs>
+  <TabItem value="shorthand" label="Shorthand" default>
+
+```yaml
+# Evaluate without capturing
+- evalScript: "window.scrollTo(0, 0)"
+```
+
+  </TabItem>
+  <TabItem value="explicit" label="Explicit (capture result)">
+
+```yaml
+- evalScript:
+    expression: "document.querySelectorAll('tr').length"
+    as: "ROW_COUNT"
+- assert:
+    visible: "{{ROW_COUNT}} results"
+```
+
+  </TabItem>
+</Tabs>
+
+The captured result is stringified and available as `{{ROW_COUNT}}` in later steps.
+
+## runScript
+
+Execute an external JavaScript file in the browser page context. Explicit-only.
+
+- `file` (required) — path to the script; absolute, or relative to the config directory (`.prowlqa/`)
+
+```yaml
+- runScript:
+    file: "scripts/seed-data.js"
+```
+
+## assertScreenshot
+
+Visual regression check: compare the current screenshot against a stored baseline. Explicit-only.
+
+- `name` (required) — baseline identifier; stored at `.prowlqa/baselines/<name>.png`
+- `threshold` (optional, default `0.1`) — allowed pixel-difference fraction (0–1)
+
+```yaml
+- assertScreenshot:
+    name: "homepage"
+- assertScreenshot:
+    name: "checkout-form"
+    threshold: 0.05
+```
+
+On the first run the baseline is created and the step passes. On later runs the current screenshot is compared against the baseline; the step fails if the difference exceeds `threshold`, writing a diff image into the run directory. Accept new baselines with `prowlqa update-baselines`.
 
 ## screenshot
 
