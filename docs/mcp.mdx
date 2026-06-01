@@ -1,0 +1,216 @@
+---
+sidebar_position: 11
+slug: /mcp
+title: MCP Server
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# MCP Server
+
+Prowl QA can run as an [MCP](https://modelcontextprotocol.io) server, exposing QA as a small set of named tools that any MCP-capable agent can call over stdio. The agent triggers runs and reads structured results through these tools — it never needs shell access to your repo.
+
+This is the deepest form of the [agent integration](/agents): instead of shelling out to `prowlqa run`, an agent connects once and drives QA through `list_hunts`, `run_hunt`, `run_suite`, and `list_projects`.
+
+## Prerequisites
+
+- **`prowlqa` must be on your `PATH`.** Install it globally with `npm install -g prowlqa`, or launch it through `npx` (see the [npx config](#configuring-an-mcp-client) below). If the binary can't be found, the MCP client fails to start the server with no hunt-specific error.
+- **The target project must be initialized** — a `.prowlqa/` directory with a valid config and hunts. Run `prowlqa init` and author hunts first. Pointed at an uninitialized repo, MCP tool calls fail with a missing `.prowlqa/config.yml` error.
+
+## Starting the server
+
+```bash
+prowlqa mcp
+```
+
+This starts a stdio server for the current project — it discovers `.prowlqa/` from the working directory, exactly like the other commands. To drive several repos from one server, pass a [project registry](#driving-multiple-projects):
+
+```bash
+prowlqa mcp --projects ~/.prowlqa/projects.yml
+```
+
+## Configuring an MCP client
+
+Point your MCP client at the server. The configuration shape is the same across clients — a `mcpServers` entry with the command, its arguments, and the working directory of the project to test.
+
+<Tabs>
+  <TabItem value="generic" label="Generic" default>
+
+```json
+{
+  "mcpServers": {
+    "prowlqa": {
+      "command": "prowlqa",
+      "args": ["mcp"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="claude-desktop" label="Claude Desktop">
+
+Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "prowlqa": {
+      "command": "prowlqa",
+      "args": ["mcp"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+Restart Claude Desktop after editing. The Prowl QA tools then appear in the tools menu.
+
+  </TabItem>
+  <TabItem value="cursor" label="Cursor">
+
+Add to `.cursor/mcp.json` (project-scoped) or `~/.cursor/mcp.json` (global):
+
+```json
+{
+  "mcpServers": {
+    "prowlqa": {
+      "command": "prowlqa",
+      "args": ["mcp"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value="openclaw" label="OpenClaw">
+
+```json
+{
+  "mcpServers": {
+    "prowlqa": {
+      "command": "prowlqa",
+      "args": ["mcp"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+OpenClaw also lets you allow-list which tools the agent may call — see [Controlling what the agent can do](#controlling-what-the-agent-can-do).
+
+  </TabItem>
+  <TabItem value="npx" label="npx (no global install)">
+
+If `prowlqa` isn't installed globally, launch it through `npx`:
+
+```json
+{
+  "mcpServers": {
+    "prowlqa": {
+      "command": "npx",
+      "args": ["prowlqa", "mcp"],
+      "cwd": "/path/to/your/project"
+    }
+  }
+}
+```
+
+  </TabItem>
+</Tabs>
+
+## Tools
+
+| Tool | Arguments | Returns |
+|------|-----------|---------|
+| `list_hunts` | `project?` | Hunt names in run order |
+| `run_hunt` | `hunt`, `project?` | The full `RunResult` for a single hunt |
+| `run_suite` | `includeTags?`, `excludeTags?`, `parallel?`, `logBugs?`, `project?` | Pass/fail/skip counts, the `ci-result.json` path, and the bug tickets created |
+| `list_projects` | — | Registered projects (empty unless a [registry](#driving-multiple-projects) is configured) |
+
+Existing guardrails (`allowedDomains`, `forbiddenSelectors`, `maxSteps`, `maxTotalTimeMs`) apply to every run the server triggers.
+
+### Controlling what the agent can do
+
+Prowl QA exposes only these four tools and never runs arbitrary shell. To restrict the agent further, allow-list tool names in your MCP client (e.g. OpenClaw) config — for example, allow `list_hunts` and `run_suite` but withhold `run_hunt`. That allow-listing is configured on the agent/client side, not in Prowl QA.
+
+## Logging bugs automatically
+
+`run_suite` runs every hunt and, by default, logs each failure as a deduplicated bug ticket in the project's `docs/backlog.md`, under a `## QA Findings (automated)` section that stays separate from your hand-written items. A bug is identified by hunt + failing step + normalized error, so:
+
+- a brand-new failure creates a `QA-NNN` ticket with the hunt, failing step, error, and a link to the run artifacts;
+- a failure that already has an open ticket is left alone (no duplicates);
+- a failure matching something already in `docs/resolved.md` is logged as a **regression** that references the old ticket id.
+
+Pass `logBugs: false` to run without touching the backlog. A `run_suite` response looks like this:
+
+```json
+{
+  "status": "fail",
+  "totalHunts": 8,
+  "passed": 6,
+  "failed": 2,
+  "skipped": 0,
+  "resultPath": "/path/to/project/.prowlqa/runs/ci-2026-05-26_09-12-03-456/ci-result.json",
+  "bugs": {
+    "created": ["QA-014"],
+    "regressions": ["QA-015"],
+    "alreadyOpen": ["QA-009"],
+    "backlogPath": "/path/to/project/docs/backlog.md"
+  }
+}
+```
+
+`status` is one of `pass`, `fail`, `no-hunts`, or `all-skipped`. When `logBugs` is `false`, the `bugs` arrays are empty and `backlogPath` is `null`.
+
+:::tip
+The same bug-logging flow is available to non-MCP consumers via the [`updateBacklogFromSuite()` library function](/agents#suite-runner-and-automated-bug-logging).
+:::
+
+## Driving multiple projects
+
+By default the server acts on the current directory. To drive several repos from a single server, give it a **project registry** — one YAML file that maps project names to repo roots. This file lives *outside* any repo (it spans many), not inside a target project:
+
+```yaml
+# ~/.prowlqa/projects.yml
+projects:
+  coupe:
+    root: /Users/you/projects/coupe
+  storefront:
+    root: /Users/you/projects/storefront
+    configPath: /custom/.prowlqa/config.yml   # optional; defaults to <root>/.prowlqa/config.yml
+```
+
+The registry is resolved in priority order:
+
+1. `prowlqa mcp --projects <path>`
+2. the `PROWLQA_PROJECTS` environment variable
+3. `~/.prowlqa/projects.yml`
+
+With a registry loaded, every tool accepts an optional `project` argument that selects which repo to act on, and `list_projects` enumerates what's available. For example, these `run_suite` arguments run the smoke suite for `coupe` and log any failures to `coupe/docs/backlog.md`:
+
+```jsonc
+{ "project": "coupe", "includeTags": ["smoke"] }
+```
+
+Omit `project` and the tool falls back to the current directory. Naming a project that isn't registered — or naming one when no registry is configured — returns a clear error.
+
+## What's Next
+
+<div className="card-grid">
+  <a className="card" href="/agents">
+    <h3>Prowl QA for Agents</h3>
+    <p>CLI-first patterns, JSON output, and the library API</p>
+  </a>
+  <a className="card" href="/configuration">
+    <h3>Configuration</h3>
+    <p>Guardrails that apply to every MCP-triggered run</p>
+  </a>
+  <a className="card" href="/hub-api">
+    <h3>Hub API</h3>
+    <p>Fetch community hunt templates programmatically</p>
+  </a>
+</div>
