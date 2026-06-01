@@ -67,3 +67,7 @@
 ### ~~PQD-003: Document the `runSuite()` / `updateBacklogFromSuite()` library API (prowlqa 0.1.1)~~
 **Resolved**: 2026-06-01 (commit c1dcd77, branch: site-updates)
 **Description**: Extended the Library API in `docs/agents.mdx` with `runSuite()`, `updateBacklogFromSuite()`, and `readHistory()`/`readHuntHistory()` — full option tables and return types (`CiResult`, `BugLogSummary`, `HistoryEntry`) plus the automated bug-logging flow for non-CLI consumers. Added a `prowlqa history --json` example and an MCP cross-link. Same commit also backfilled the 9 step types undocumented since 0.1.0–0.1.1 (`copyText`, `waitForDownload`, `if`, `repeat`, `mockRoute`, `unmockRoute`, `evalScript`, `runScript`, `assertScreenshot`; count 19→28), the `{{RANDOM_*}}` built-in variables, `history.maxRuns` config, guardrail substring/`about:`/`data:` semantics, and the `assert visible` prose-as-text note.
+
+### ~~PQD-001 / P1.8-004: "Edit this page" link — keep removed (decision)~~
+**Resolved**: 2026-06-01 (branch: site-updates, decision — no code change)
+**Description**: Re-evaluated now that `Prowl-qa/prowl-docs` is public. Decided to keep the Docusaurus `editUrl` disabled for now — not inviting community edits to the docs yet — so the "Edit this page" link stays off. To revisit later, re-add `editUrl: 'https://github.com/Prowl-qa/prowl-docs/tree/main/'` to the `docs` preset options in `docusaurus.config.ts`.
