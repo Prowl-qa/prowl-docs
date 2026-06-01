@@ -21,6 +21,10 @@ Assert that text is visible on the page.
     visible: "Welcome back"
 ```
 
+:::note
+`visible` and `notVisible` accept either plain text or a CSS selector. Prose values — including those with punctuation like `"Name:"` or a sentence ending in `.` — are matched as **text**. Values with a clear selector signature (a leading `.`, `#`, or `[`, an attribute bracket, or an engine prefix like `css=` / `xpath=` / `text=`) are matched as **selectors**, e.g. `visible: "img[alt='Logo']"`.
+:::
+
 ### notVisible
 
 Assert that text is NOT visible on the page.

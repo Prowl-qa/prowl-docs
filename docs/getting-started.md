@@ -140,7 +140,7 @@ You now have a stable smoke test and a run artifact folder you can inspect in CI
   </a>
   <a className="card" href="/step-types">
     <h3>Step Types</h3>
-    <p>All 19 step types available in hunts</p>
+    <p>All 28 step types available in hunts</p>
   </a>
   <a className="card" href="/configuration">
     <h3>Configuration</h3>

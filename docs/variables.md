@@ -54,6 +54,34 @@ steps:
       value: "/dashboard/{{ORG_ID}}"
 ```
 
+## Built-in Random Variables
+
+Prowl QA provides a set of `{{RANDOM_*}}` variables for generating unique test data — useful for sign-up flows, create-record tests, and anything that needs a fresh value each run. They are generated **once per hunt run**, so every reference within a single hunt resolves to the same value.
+
+| Variable | Generates | Example |
+|----------|-----------|---------|
+| `{{RANDOM_EMAIL}}` | A unique test email | `prowl_a7b2c9d1@test.com` |
+| `{{RANDOM_NAME}}` | A first + last name | `Jordan Smith` |
+| `{{RANDOM_NUMBER}}` | A 4-digit number (1000–9999) | `4729` |
+| `{{RANDOM_UUID}}` | A UUID v4 | `550e8400-e29b-41d4-a716-446655440000` |
+| `{{RANDOM_TEXT}}` | 8 lowercase alphanumeric chars | `abc3def9` |
+
+```yaml
+steps:
+  - navigate: "/signup"
+  - fill:
+      "Full name": "{{RANDOM_NAME}}"
+  - fill:
+      "Email": "{{RANDOM_EMAIL}}"
+  - click: "Create account"
+  - assert:
+      visible: "Welcome, {{RANDOM_NAME}}"
+```
+
+:::note
+Because each variable is fixed for the duration of a run, `{{RANDOM_EMAIL}}` used in a sign-up step and again in a later login step will match — no need to capture it yourself.
+:::
+
 ## Nested Variable References
 
 Hunt vars can reference environment variables:

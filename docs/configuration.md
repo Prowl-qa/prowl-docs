@@ -52,6 +52,10 @@ guardrails:
 # Auth state from `prowlqa login`
 auth:
   storageStatePath: ".prowlqa/auth-state.json"
+
+# Run history retention
+history:
+  maxRuns: 100                         # keep the last N runs per hunt
 ```
 
 ## Section Reference
@@ -100,7 +104,9 @@ auth:
 | `forbiddenSelectors` | `string[]` | `["[data-danger]", ".delete-btn"]` | Selectors that steps cannot target |
 
 :::warning
-Forbidden selectors use substring matching. Forbidding `"delete"` will also forbid selectors containing `"undelete"` or `"delete-history"`.
+**`forbiddenSelectors`** and **`assertions.networkIgnorePatterns`** use case-sensitive substring matching (`includes()`). A pattern of `"Delete"` matches `"Delete History"`, but `"delete"` does not — and `".delete-btn"` also matches `".undelete-btn"` because the substring is present. Prefer exact-enough patterns over broad fragments.
+
+**`allowedDomains`** is enforced only for `http:` and `https:` navigations. The `about:` and `data:` protocols (for example `about:blank`) bypass the allowlist by design, so hunts can interact with browser-internal pages.
 :::
 
 ### auth
@@ -108,6 +114,21 @@ Forbidden selectors use substring matching. Forbidding `"delete"` will also forb
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `storageStatePath` | `string` | `".prowlqa/auth-state.json"` | Path to saved auth state from `prowlqa login` |
+
+### history
+
+Every `prowlqa run` and `prowlqa ci` appends an entry to `.prowlqa/history.json` (hunt name, status, start time, duration, and run directory). Retention is capped **per hunt** — once a hunt exceeds the cap, its oldest entries are dropped on the next write; other hunts are unaffected.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxRuns` | `number` | `100` | Number of runs to keep per hunt |
+
+Inspect history with `prowlqa history <hunt-name>` (add `--json` for machine-readable output, `--limit <n>` to change the slice — default 20):
+
+```bash
+prowlqa history smoke-test
+prowlqa history smoke-test --limit 50 --json
+```
 
 ## CLI Overrides
 

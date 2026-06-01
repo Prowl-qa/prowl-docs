@@ -47,6 +47,9 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
+          // Internal project-management files kept in-repo for backlog tooling,
+          // not published as site pages.
+          exclude: ['backlog.md', 'resolved.md', 'research/**'],
         },
         blog: false,
         theme: {
