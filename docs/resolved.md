@@ -59,3 +59,11 @@
 ### ~~P1.8-003: Favicon generation from mascot~~
 **Resolved**: 2026-02-16 (branch: docs-fixes)
 **Description**: Generated proper multi-size favicons from the 1024x1024 raccoon face logo PNG. Created `favicon.ico` (7.7KB, embedding 16x16 + 32x32 + 48x48 PNGs), `favicon-16x16.png`, `favicon-32x32.png`, and `apple-touch-icon.png` (180x180). Updated `docusaurus.config.ts` to use `.ico` as primary favicon and added `headTags` with `<link>` elements for sized PNGs and apple-touch-icon. Updated CLAUDE.md branding section.
+
+### ~~PQD-002: Document the MCP server and agent integration (prowlqa 0.1.1)~~
+**Resolved**: 2026-06-01 (commit 0be9766, branch: site-updates)
+**Description**: Added `docs/mcp.mdx` — a dedicated MCP Server guide covering the `prowlqa mcp` stdio server, PATH/init prerequisites, MCP client configs (generic, Claude Desktop, Cursor, OpenClaw, npx) in tabs, the four tools (`list_hunts`, `run_hunt`, `run_suite`, `list_projects`) with arguments and return shapes, automated bug-logging with the `QA-NNN` response and `logBugs` opt-out, and the multi-project registry (`--projects` / `PROWLQA_PROJECTS` / `~/.prowlqa/projects.yml`). Added to the Guides sidebar and cross-linked from the agents page. Also excluded internal `backlog.md`/`resolved.md` from the production build so the `{PQD-NNN}` syntax no longer breaks MDX compilation.
+
+### ~~PQD-003: Document the `runSuite()` / `updateBacklogFromSuite()` library API (prowlqa 0.1.1)~~
+**Resolved**: 2026-06-01 (commit c1dcd77, branch: site-updates)
+**Description**: Extended the Library API in `docs/agents.mdx` with `runSuite()`, `updateBacklogFromSuite()`, and `readHistory()`/`readHuntHistory()` — full option tables and return types (`CiResult`, `BugLogSummary`, `HistoryEntry`) plus the automated bug-logging flow for non-CLI consumers. Added a `prowlqa history --json` example and an MCP cross-link. Same commit also backfilled the 9 step types undocumented since 0.1.0–0.1.1 (`copyText`, `waitForDownload`, `if`, `repeat`, `mockRoute`, `unmockRoute`, `evalScript`, `runScript`, `assertScreenshot`; count 19→28), the `{{RANDOM_*}}` built-in variables, `history.maxRuns` config, guardrail substring/`about:`/`data:` semantics, and the `assert visible` prose-as-text note.
