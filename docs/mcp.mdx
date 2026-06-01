@@ -32,7 +32,7 @@ prowlqa mcp --projects ~/.prowlqa/projects.yml
 
 ## Configuring an MCP client
 
-Point your MCP client at the server. The configuration shape is the same across clients — a `mcpServers` entry with the command, its arguments, and the working directory of the project to test.
+Point your MCP client at a command that starts the server from the initialized project. Most stdio MCP clients support `command`, `args`, and `env`; a `cwd` field is not portable, so these examples use a shell wrapper to enter the project directory before launching `prowlqa mcp`. If your client has a documented working-directory setting, you can use that instead.
 
 <Tabs>
   <TabItem value="generic" label="Generic" default>
@@ -41,9 +41,8 @@ Point your MCP client at the server. The configuration shape is the same across 
 {
   "mcpServers": {
     "prowlqa": {
-      "command": "prowlqa",
-      "args": ["mcp"],
-      "cwd": "/path/to/your/project"
+      "command": "/bin/sh",
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
     }
   }
 }
@@ -58,9 +57,8 @@ Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claud
 {
   "mcpServers": {
     "prowlqa": {
-      "command": "prowlqa",
-      "args": ["mcp"],
-      "cwd": "/path/to/your/project"
+      "command": "/bin/sh",
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
     }
   }
 }
@@ -77,9 +75,8 @@ Add to `.cursor/mcp.json` (project-scoped) or `~/.cursor/mcp.json` (global):
 {
   "mcpServers": {
     "prowlqa": {
-      "command": "prowlqa",
-      "args": ["mcp"],
-      "cwd": "/path/to/your/project"
+      "command": "/bin/sh",
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
     }
   }
 }
@@ -92,9 +89,8 @@ Add to `.cursor/mcp.json` (project-scoped) or `~/.cursor/mcp.json` (global):
 {
   "mcpServers": {
     "prowlqa": {
-      "command": "prowlqa",
-      "args": ["mcp"],
-      "cwd": "/path/to/your/project"
+      "command": "/bin/sh",
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
     }
   }
 }
@@ -111,9 +107,8 @@ If `prowlqa` isn't installed globally, launch it through `npx`:
 {
   "mcpServers": {
     "prowlqa": {
-      "command": "npx",
-      "args": ["prowlqa", "mcp"],
-      "cwd": "/path/to/your/project"
+      "command": "/bin/sh",
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec npx -y prowlqa mcp"]
     }
   }
 }
