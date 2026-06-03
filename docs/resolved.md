@@ -71,3 +71,7 @@
 ### ~~PQD-001 / P1.8-004: "Edit this page" link — keep removed (decision)~~
 **Resolved**: 2026-06-01 (branch: site-updates, decision — no code change)
 **Description**: Re-evaluated now that `prowl-tools/prowl-docs` is public. Decided to keep the Docusaurus `editUrl` disabled for now — not inviting community edits to the docs yet — so the "Edit this page" link stays off. To revisit later, re-add `editUrl: 'https://github.com/prowl-tools/prowl-docs/tree/main/'` to the `docs` preset options in `docusaurus.config.ts`.
+
+### ~~Rebrand: Prowl QA → Prowl (docs site)~~
+**Resolved**: 2026-06-03 (branch: rebrand-to-prowl-tools)
+**Description**: Rebranded the docs site for the Prowl / prowl-tools rename. `docusaurus.config.ts`: title "Prowl Docs", `url` docs.prowl.tools, `organizationName` prowl-tools, npm/GitHub/Hub links, feedback API → prowl-feedback.prowl.tools, mailto info@prowl.tools. All `docs/*.md(x)`: command `prowlqa`→`prowl`, install → `prowl-tools`, `.prowlqa/`→`.prowl/`, ProwlQA→Prowl, MCP env → `PROWL_PROJECTS` (+ `~/.prowl/projects.yml`). Renamed brand image assets `prowl-qa-*`→`prowl-*` and the site's own `.prowlqa/` test-hunt dir → `.prowl/`. The `@prowlqa` X handle left unchanged pending the handle decision. Build + typecheck pass. Note: the feedback API subdomain `prowl-feedback.prowl.tools` must be stood up at DNS-cutover time.
