@@ -11,33 +11,33 @@ Watch mode re-runs a hunt automatically when files change. It's useful during hu
 ## Usage
 
 ```bash
-prowlqa watch <hunt-name>
+prowl watch <hunt-name>
 ```
 
 ## How It Works
 
-1. Prowl QA runs the hunt immediately on startup
-2. It watches the hunt YAML file, the resolved `config.yml`, and `.env` in that same config directory (default: `.prowlqa/config.yml` and `.prowlqa/.env`)
+1. Prowl runs the hunt immediately on startup
+2. It watches the hunt YAML file, the resolved `config.yml`, and `.env` in that same config directory (default: `.prowl/config.yml` and `.prowl/.env`)
 3. On any file save, the hunt re-runs automatically
 4. Rapid saves are debounced (300ms) to avoid unnecessary runs
 5. Press `Ctrl+C` to stop
 
 ## Watched Files
 
-- `.prowlqa/hunts/<hunt-name>.yml` — the hunt file itself
-- `.prowlqa/config.yml` — configuration changes
-- `.prowlqa/.env` — environment variable changes
+- `.prowl/hunts/<hunt-name>.yml` — the hunt file itself
+- `.prowl/config.yml` — configuration changes
+- `.prowl/.env` — environment variable changes
 
 ## Flags
 
-Watch mode supports this subset of `prowlqa run` flags:
+Watch mode supports this subset of `prowl run` flags:
 
 ```bash
-prowlqa watch <hunt-name> --headed        # Show browser window
-prowlqa watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
-prowlqa watch <hunt-name> --trace         # Capture Playwright trace
-prowlqa watch <hunt-name> --url <override>  # Override target URL
-prowlqa watch <hunt-name> --config <path>   # Custom config path
+prowl watch <hunt-name> --headed        # Show browser window
+prowl watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
+prowl watch <hunt-name> --trace         # Capture Playwright trace
+prowl watch <hunt-name> --url <override>  # Override target URL
+prowl watch <hunt-name> --config <path>   # Custom config path
 ```
 
 When `--config <path>` is used, watch mode tracks that resolved `config.yml` and the `.env` file next to it.

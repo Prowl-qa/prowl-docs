@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 # Step Types
 
-Prowl QA supports 28 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
+Prowl supports 28 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
 
 ## navigate
 
@@ -244,7 +244,7 @@ Wait for a file download to start and save it into the run's artifact directory.
 - waitForDownload: null
 ```
 
-The downloaded file is saved into the run directory (`.prowlqa/runs/<timestamp>/`).
+The downloaded file is saved into the run directory (`.prowl/runs/<timestamp>/`).
 
 ## onDialog
 
@@ -258,7 +258,7 @@ Handle browser-native dialogs (alert, confirm, prompt). Register the handler **b
 
 ## setInputFiles
 
-Set files on `<input type="file">` elements. Paths are relative to `.prowlqa/`.
+Set files on `<input type="file">` elements. Paths are relative to `.prowl/`.
 
 ```yaml
 # Single file
@@ -405,7 +405,7 @@ The captured result is stringified and available as `{{ROW_COUNT}}` in later ste
 
 Execute an external JavaScript file in the browser page context. Explicit-only.
 
-- `file` (required) — path to the script; absolute, or relative to the config directory (`.prowlqa/`)
+- `file` (required) — path to the script; absolute, or relative to the config directory (`.prowl/`)
 
 ```yaml
 - runScript:
@@ -416,7 +416,7 @@ Execute an external JavaScript file in the browser page context. Explicit-only.
 
 Visual regression check: compare the current screenshot against a stored baseline. Explicit-only.
 
-- `name` (required) — baseline identifier; stored at `.prowlqa/baselines/<name>.png`
+- `name` (required) — baseline identifier; stored at `.prowl/baselines/<name>.png`
 - `threshold` (optional, default `0.1`) — allowed pixel-difference fraction (0–1)
 
 ```yaml
@@ -427,7 +427,7 @@ Visual regression check: compare the current screenshot against a stored baselin
     threshold: 0.05
 ```
 
-On the first run the baseline is created and the step passes. On later runs the current screenshot is compared against the baseline; the step fails if the difference exceeds `threshold`, writing a diff image into the run directory. Accept new baselines with `prowlqa update-baselines`.
+On the first run the baseline is created and the step passes. On later runs the current screenshot is compared against the baseline; the step fails if the difference exceeds `threshold`, writing a diff image into the run directory. Accept new baselines with `prowl update-baselines`.
 
 ## screenshot
 

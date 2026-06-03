@@ -49,7 +49,7 @@ steps:
       value: "/watch-mode"
       timeout: 5000
 
-  - click: "ProwlQA for Agents"
+  - click: "Prowl for Agents"
   - waitForUrl:
       value: "/agents"
       timeout: 5000

@@ -6,7 +6,7 @@ title: Selectors
 
 # Selectors
 
-Prowl QA uses Playwright's selector engine. Choose selectors based on stability and maintainability.
+Prowl uses Playwright's selector engine. Choose selectors based on stability and maintainability.
 
 ## Selector Priority (Best to Worst)
 
@@ -30,7 +30,7 @@ Semantic and resilient to styling changes.
 
 ### 3. Labels / Placeholders
 
-Via shorthand, Prowl QA resolves these automatically.
+Via shorthand, Prowl resolves these automatically.
 
 ```yaml
 - fill:
@@ -56,7 +56,7 @@ Fragile — avoid class names that change.
 
 ## Shorthand Resolution
 
-When you use shorthand syntax, Prowl QA resolves selectors using Playwright's built-in locators:
+When you use shorthand syntax, Prowl resolves selectors using Playwright's built-in locators:
 
 | Shorthand | Resolution Strategy |
 |-----------|-------------------|
@@ -73,7 +73,7 @@ Shorthand `click` uses **substring matching** on button names. `click: "Save"` w
 Configure selectors that steps cannot target, as a safety guardrail:
 
 ```yaml
-# .prowlqa/config.yml
+# .prowl/config.yml
 guardrails:
   forbiddenSelectors:
     - "[data-danger]"

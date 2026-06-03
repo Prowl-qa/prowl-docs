@@ -14,10 +14,10 @@ Variables are resolved in this precedence order (highest to lowest):
 
 1. **Hunt vars** — defined in the hunt's `vars:` block
 2. **Environment variables** — from `process.env`
-3. **`.env` file** — loaded from the same directory as the resolved `config.yml` (default: `.prowlqa/.env`)
+3. **`.env` file** — loaded from the same directory as the resolved `config.yml` (default: `.prowl/.env`)
 
 ```yaml
-# .prowlqa/hunts/login-flow.yml
+# .prowl/hunts/login-flow.yml
 vars:
   EMAIL: "{{TEST_EMAIL}}"     # References env var TEST_EMAIL
   TIMEOUT: "5000"             # Static value
@@ -29,7 +29,7 @@ steps:
 
 ## .env File
 
-Create `.prowlqa/.env` for secrets and environment-specific values (or place `.env` next to your custom `--config` file):
+Create `.prowl/.env` for secrets and environment-specific values (or place `.env` next to your custom `--config` file):
 
 ```env
 TEST_EMAIL=user@example.com
@@ -37,7 +37,7 @@ TEST_PASSWORD=secret123
 ```
 
 :::warning
-Add your active config-directory `.env` file to `.gitignore` to avoid committing secrets. The `prowlqa init` command generates `.prowlqa/.gitignore` including `.env` by default.
+Add your active config-directory `.env` file to `.gitignore` to avoid committing secrets. The `prowl init` command generates `.prowl/.gitignore` including `.env` by default.
 :::
 
 ## Interpolation in Steps
@@ -56,7 +56,7 @@ steps:
 
 ## Built-in Random Variables
 
-Prowl QA provides a set of `{{RANDOM_*}}` variables for generating unique test data — useful for sign-up flows, create-record tests, and anything that needs a fresh value each run. They are generated **once per hunt run**, so every reference within a single hunt resolves to the same value.
+Prowl provides a set of `{{RANDOM_*}}` variables for generating unique test data — useful for sign-up flows, create-record tests, and anything that needs a fresh value each run. They are generated **once per hunt run**, so every reference within a single hunt resolves to the same value.
 
 | Variable | Generates | Example |
 |----------|-----------|---------|

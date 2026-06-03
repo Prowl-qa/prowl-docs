@@ -6,10 +6,10 @@ title: Getting Started
 
 <div className="docs-hero">
   <div>
-    <div className="docs-hero__eyebrow">Prowl QA Documentation</div>
+    <div className="docs-hero__eyebrow">Prowl Documentation</div>
     <h1>Deterministic QA Hunts From Your CLI</h1>
     <div className="docs-hero__subtitle">
-      Prowl QA turns browser workflows into repeatable hunts you can run locally, in CI, or hand to an AI agent.
+      Prowl turns browser workflows into repeatable hunts you can run locally, in CI, or hand to an AI agent.
       This page gets you from zero to a passing smoke test quickly.
     </div>
     <div className="docs-hero__actions">
@@ -18,35 +18,35 @@ title: Getting Started
     </div>
   </div>
   <div className="docs-hero__art">
-    <img src="/img/prowl-qa-mascot.png" alt="Prowl QA mascot with magnifying glass" />
+    <img src="/img/prowl-mascot.png" alt="Prowl mascot with magnifying glass" />
   </div>
 </div>
 
 <div className="docs-quickstart">
   <p>
-    <img src="/img/prowl-qa-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
+    <img src="/img/prowl-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
     <strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.
   </p>
 </div>
 
 ## Outcome
 
-By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowlqa/runs/`.
+By the end of this guide, you will run one hunt that validates your homepage and produces artifacts under `.prowl/runs/`.
 
 ## Install
 
 ```bash
-npm install -g prowlqa
+npm install -g prowl-tools
 ```
 
 Or with Homebrew:
 
 ```bash
-brew tap prowl-qa/tap
-brew install prowlqa
+brew tap prowl-tools/tap
+brew install prowl
 ```
 
-Prowl QA uses Playwright under the hood. Install the browser:
+Prowl uses Playwright under the hood. Install the browser:
 
 ```bash
 npx playwright install chromium
@@ -56,13 +56,13 @@ npx playwright install chromium
 
 ```bash
 cd your-project
-prowlqa init
+prowl init
 ```
 
-This creates a `.prowlqa/` directory with a config file and 8 starter hunts:
+This creates a `.prowl/` directory with a config file and 8 starter hunts:
 
 ```
-.prowlqa/
+.prowl/
 ├── config.yml              # Target URL, browser settings, guardrails
 └── hunts/
     ├── homepage.yml         # Basic page load smoke test
@@ -77,18 +77,18 @@ This creates a `.prowlqa/` directory with a config file and 8 starter hunts:
 
 ## Configure
 
-Edit `.prowlqa/config.yml` to point at your app:
+Edit `.prowl/config.yml` to point at your app:
 
 ```yaml
 target:
   url: "http://localhost:3000"
 ```
 
-If your app uses authentication, capture storage state early with [`prowlqa login`](/auth) so hunts run as an authenticated user.
+If your app uses authentication, capture storage state early with [`prowl login`](/auth) so hunts run as an authenticated user.
 
 ## Write Your First Hunt
 
-Edit `.prowlqa/hunts/homepage.yml` or create a new file:
+Edit `.prowl/hunts/homepage.yml` or create a new file:
 
 ```yaml
 name: smoke-test
@@ -108,7 +108,7 @@ retry:
 ```
 
 :::note
-- **`description`** — a human-readable summary stored in hunt metadata and shown by `prowlqa list`
+- **`description`** — a human-readable summary stored in hunt metadata and shown by `prowl list`
 - **`tags`** — categorize hunts for filtering with `--include-tags` and `--exclude-tags`
 - **`retry`** — configure automatic retries on failure (`maxRetries: 0` means no retries)
 :::
@@ -116,7 +116,7 @@ retry:
 ## Run
 
 ```bash
-prowlqa run smoke-test
+prowl run smoke-test
 ```
 
 ```text
@@ -126,7 +126,7 @@ prowlqa run smoke-test
     ✓ assert visible "Sign In" (15ms)
 
   PASS smoke-test (220ms) 3/3 steps
-  Artifacts: .prowlqa/runs/2026-02-09_10-30-45
+  Artifacts: .prowl/runs/2026-02-09_10-30-45
 ```
 
 You now have a stable smoke test and a run artifact folder you can inspect in CI.

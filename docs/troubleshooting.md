@@ -6,9 +6,9 @@ title: Troubleshooting
 
 # Troubleshooting
 
-## "Could not find .prowlqa/config.yml"
+## "Could not find .prowl/config.yml"
 
-Run `prowlqa init` in your project root to create the `.prowlqa/` directory.
+Run `prowl init` in your project root to create the `.prowl/` directory.
 
 ## "Navigation to disallowed domain"
 
@@ -30,7 +30,7 @@ The selector matches a pattern in `guardrails.forbiddenSelectors`. Either change
 The `{{VAR_NAME}}` in your hunt couldn't be resolved. Check:
 
 1. Is it defined in the hunt's `vars:` block?
-2. Is it set in the `.env` file next to your active `config.yml`? (default: `.prowlqa/.env`)
+2. Is it set in the `.env` file next to your active `config.yml`? (default: `.prowl/.env`)
 3. Is it set as an environment variable?
 
 ## Selectors Not Finding Elements
@@ -50,59 +50,59 @@ The `{{VAR_NAME}}` in your hunt couldn't be resolved. Check:
 
 ```bash
 # Run a hunt
-prowlqa run <hunt-name>
-prowlqa run <hunt-name> --headed          # Show browser window
-prowlqa run <hunt-name> --trace           # Capture Playwright trace
-prowlqa run <hunt-name> --slow-mo 500     # Slow down actions (ms)
-prowlqa run <hunt-name> --url <override>  # Override target URL
-prowlqa run <hunt-name> --config <path>   # Custom config path
-prowlqa run <hunt-name> --browser chromium  # Override browser engine
-prowlqa run <hunt-name> --channel chrome    # Override browser channel
-prowlqa run <hunt-name> --viewport 1920x1080  # Override viewport size
-prowlqa run <hunt-name> --include-tags smoke  # Only run hunts with tag
-prowlqa run <hunt-name> --exclude-tags slow   # Skip hunts with tag
-prowlqa run <hunt-name> --json            # Machine-readable JSON output
-prowlqa run <hunt-name> --junit           # Generate JUnit XML report
+prowl run <hunt-name>
+prowl run <hunt-name> --headed          # Show browser window
+prowl run <hunt-name> --trace           # Capture Playwright trace
+prowl run <hunt-name> --slow-mo 500     # Slow down actions (ms)
+prowl run <hunt-name> --url <override>  # Override target URL
+prowl run <hunt-name> --config <path>   # Custom config path
+prowl run <hunt-name> --browser chromium  # Override browser engine
+prowl run <hunt-name> --channel chrome    # Override browser channel
+prowl run <hunt-name> --viewport 1920x1080  # Override viewport size
+prowl run <hunt-name> --include-tags smoke  # Only run hunts with tag
+prowl run <hunt-name> --exclude-tags slow   # Skip hunts with tag
+prowl run <hunt-name> --json            # Machine-readable JSON output
+prowl run <hunt-name> --junit           # Generate JUnit XML report
 
 # CI mode — run all hunts with combined result
-prowlqa ci
-prowlqa ci --include-tags smoke           # Only run hunts with tag
-prowlqa ci --exclude-tags slow            # Skip hunts with tag
-prowlqa ci --json                         # Machine-readable JSON output
-prowlqa ci --junit                        # Generate JUnit XML reports
-prowlqa ci --browser firefox --viewport 1920x1080
-prowlqa ci --url <override> --headed --slow-mo 500 --trace --config <path>
-prowlqa ci --channel chrome
+prowl ci
+prowl ci --include-tags smoke           # Only run hunts with tag
+prowl ci --exclude-tags slow            # Skip hunts with tag
+prowl ci --json                         # Machine-readable JSON output
+prowl ci --junit                        # Generate JUnit XML reports
+prowl ci --browser firefox --viewport 1920x1080
+prowl ci --url <override> --headed --slow-mo 500 --trace --config <path>
+prowl ci --channel chrome
 # Exit codes: 0 = pass, 1 = fail, 2 = no hunts or all skipped
 
 # Watch mode — re-runs on file changes
-prowlqa watch <hunt-name>
-prowlqa watch <hunt-name> --headed        # Show browser window
-prowlqa watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
-prowlqa watch <hunt-name> --trace         # Capture Playwright trace
-prowlqa watch <hunt-name> --url <override>  # Override target URL
-prowlqa watch <hunt-name> --config <path>   # Custom config path
+prowl watch <hunt-name>
+prowl watch <hunt-name> --headed        # Show browser window
+prowl watch <hunt-name> --slow-mo 500   # Slow down actions (ms)
+prowl watch <hunt-name> --trace         # Capture Playwright trace
+prowl watch <hunt-name> --url <override>  # Override target URL
+prowl watch <hunt-name> --config <path>   # Custom config path
 
 # Auth — capture login state interactively
-prowlqa login
-prowlqa login --url <target>              # Override target URL for login
-prowlqa login --config <path>             # Use custom config path
+prowl login
+prowl login --url <target>              # Override target URL for login
+prowl login --config <path>             # Use custom config path
 
-# Initialize — create .prowlqa directory with examples
-prowlqa init
-prowlqa init --force                      # Re-create config and starter hunts
+# Initialize — create .prowl directory with examples
+prowl init
+prowl init --force                      # Re-create config and starter hunts
 
 # List available hunts
-prowlqa list
-prowlqa list --json                       # Output as JSON
+prowl list
+prowl list --json                       # Output as JSON
 ```
 
 ## Artifacts
 
-Every hunt run generates artifacts in `.prowlqa/runs/<timestamp>/`:
+Every hunt run generates artifacts in `.prowl/runs/<timestamp>/`:
 
 ```
-.prowlqa/runs/2026-02-09_10-30-45/
+.prowl/runs/2026-02-09_10-30-45/
 ├── summary.md           # Human-readable report
 ├── result.json          # Machine-readable results
 ├── console.log          # Browser console output
@@ -114,11 +114,11 @@ Every hunt run generates artifacts in `.prowlqa/runs/<timestamp>/`:
 └── junit.xml            # JUnit XML report (if --junit or junit: true)
 ```
 
-`prowlqa ci` writes a combined summary file to `.prowlqa/runs/ci-<timestamp>/ci-result.json`.  
+`prowl ci` writes a combined summary file to `.prowl/runs/ci-<timestamp>/ci-result.json`.  
 When `--junit` is passed, each hunt run directory still gets its own `junit.xml` (there is no merged JUnit file yet).
 
 ### Viewing Traces
 
 ```bash
-npx playwright show-trace .prowlqa/runs/2026-02-09_10-30-45/trace.zip
+npx playwright show-trace .prowl/runs/2026-02-09_10-30-45/trace.zip
 ```

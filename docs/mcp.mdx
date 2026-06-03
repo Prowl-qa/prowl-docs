@@ -9,30 +9,30 @@ import TabItem from '@theme/TabItem';
 
 # MCP Server
 
-Prowl QA can run as an [MCP](https://modelcontextprotocol.io) server, exposing QA as a small set of named tools that any MCP-capable agent can call over stdio. The agent triggers runs and reads structured results through these tools — it never needs shell access to your repo.
+Prowl can run as an [MCP](https://modelcontextprotocol.io) server, exposing QA as a small set of named tools that any MCP-capable agent can call over stdio. The agent triggers runs and reads structured results through these tools — it never needs shell access to your repo.
 
-This is the deepest form of the [agent integration](/agents): instead of shelling out to `prowlqa run`, an agent connects once and drives QA through `list_hunts`, `run_hunt`, `run_suite`, and `list_projects`.
+This is the deepest form of the [agent integration](/agents): instead of shelling out to `prowl run`, an agent connects once and drives QA through `list_hunts`, `run_hunt`, `run_suite`, and `list_projects`.
 
 ## Prerequisites
 
-- **`prowlqa` must be on your `PATH`.** Install it globally with `npm install -g prowlqa`, or launch it through `npx` (see the [npx config](#configuring-an-mcp-client) below). If the binary can't be found, the MCP client fails to start the server with no hunt-specific error.
-- **The target project must be initialized** — a `.prowlqa/` directory with a valid config and hunts. Run `prowlqa init` and author hunts first. Pointed at an uninitialized repo, MCP tool calls fail with a missing `.prowlqa/config.yml` error.
+- **`prowl` must be on your `PATH`.** Install it globally with `npm install -g prowl-tools`, or launch it through `npx` (see the [npx config](#configuring-an-mcp-client) below). If the binary can't be found, the MCP client fails to start the server with no hunt-specific error.
+- **The target project must be initialized** — a `.prowl/` directory with a valid config and hunts. Run `prowl init` and author hunts first. Pointed at an uninitialized repo, MCP tool calls fail with a missing `.prowl/config.yml` error.
 
 ## Starting the server
 
 ```bash
-prowlqa mcp
+prowl mcp
 ```
 
-This starts a stdio server for the current project — it discovers `.prowlqa/` from the working directory, exactly like the other commands. To drive several repos from one server, pass a [project registry](#driving-multiple-projects):
+This starts a stdio server for the current project — it discovers `.prowl/` from the working directory, exactly like the other commands. To drive several repos from one server, pass a [project registry](#driving-multiple-projects):
 
 ```bash
-prowlqa mcp --projects ~/.prowlqa/projects.yml
+prowl mcp --projects ~/.prowl/projects.yml
 ```
 
 ## Configuring an MCP client
 
-Point your MCP client at a command that starts the server from the initialized project. Most stdio MCP clients support `command`, `args`, and `env`; a `cwd` field is not portable, so these examples use a shell wrapper to enter the project directory before launching `prowlqa mcp`. If your client has a documented working-directory setting, you can use that instead.
+Point your MCP client at a command that starts the server from the initialized project. Most stdio MCP clients support `command`, `args`, and `env`; a `cwd` field is not portable, so these examples use a shell wrapper to enter the project directory before launching `prowl mcp`. If your client has a documented working-directory setting, you can use that instead.
 
 <Tabs>
   <TabItem value="generic" label="Generic" default>
@@ -40,9 +40,9 @@ Point your MCP client at a command that starts the server from the initialized p
 ```json
 {
   "mcpServers": {
-    "prowlqa": {
+    "prowl": {
       "command": "/bin/sh",
-      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowl mcp"]
     }
   }
 }
@@ -56,15 +56,15 @@ Add to `claude_desktop_config.json` (macOS: `~/Library/Application Support/Claud
 ```json
 {
   "mcpServers": {
-    "prowlqa": {
+    "prowl": {
       "command": "/bin/sh",
-      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowl mcp"]
     }
   }
 }
 ```
 
-Restart Claude Desktop after editing. The Prowl QA tools then appear in the tools menu.
+Restart Claude Desktop after editing. The Prowl tools then appear in the tools menu.
 
   </TabItem>
   <TabItem value="cursor" label="Cursor">
@@ -74,9 +74,9 @@ Add to `.cursor/mcp.json` (project-scoped) or `~/.cursor/mcp.json` (global):
 ```json
 {
   "mcpServers": {
-    "prowlqa": {
+    "prowl": {
       "command": "/bin/sh",
-      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowl mcp"]
     }
   }
 }
@@ -88,9 +88,9 @@ Add to `.cursor/mcp.json` (project-scoped) or `~/.cursor/mcp.json` (global):
 ```json
 {
   "mcpServers": {
-    "prowlqa": {
+    "prowl": {
       "command": "/bin/sh",
-      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowlqa mcp"]
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec prowl mcp"]
     }
   }
 }
@@ -101,14 +101,14 @@ OpenClaw also lets you allow-list which tools the agent may call — see [Contro
   </TabItem>
   <TabItem value="npx" label="npx (no global install)">
 
-If `prowlqa` isn't installed globally, launch it through `npx`:
+If `prowl` isn't installed globally, launch it through `npx`:
 
 ```json
 {
   "mcpServers": {
-    "prowlqa": {
+    "prowl": {
       "command": "/bin/sh",
-      "args": ["-lc", "cd \"/path/to/your/project\" && exec npx -y prowlqa mcp"]
+      "args": ["-lc", "cd \"/path/to/your/project\" && exec npx -y prowl mcp"]
     }
   }
 }
@@ -130,7 +130,7 @@ Existing guardrails (`allowedDomains`, `forbiddenSelectors`, `maxSteps`, `maxTot
 
 ### Controlling what the agent can do
 
-Prowl QA exposes only these four tools and never runs arbitrary shell. To restrict the agent further, allow-list tool names in your MCP client (e.g. OpenClaw) config — for example, allow `list_hunts` and `run_suite` but withhold `run_hunt`. That allow-listing is configured on the agent/client side, not in Prowl QA.
+Prowl exposes only these four tools and never runs arbitrary shell. To restrict the agent further, allow-list tool names in your MCP client (e.g. OpenClaw) config — for example, allow `list_hunts` and `run_suite` but withhold `run_hunt`. That allow-listing is configured on the agent/client side, not in Prowl.
 
 ## Logging bugs automatically
 
@@ -149,7 +149,7 @@ Pass `logBugs: false` to run without touching the backlog. A `run_suite` respons
   "passed": 6,
   "failed": 2,
   "skipped": 0,
-  "resultPath": "/path/to/project/.prowlqa/runs/ci-2026-05-26_09-12-03-456/ci-result.json",
+  "resultPath": "/path/to/project/.prowl/runs/ci-2026-05-26_09-12-03-456/ci-result.json",
   "bugs": {
     "created": ["QA-014"],
     "regressions": ["QA-015"],
@@ -170,20 +170,20 @@ The same bug-logging flow is available to non-MCP consumers via the [`updateBack
 By default the server acts on the current directory. To drive several repos from a single server, give it a **project registry** — one YAML file that maps project names to repo roots. This file lives *outside* any repo (it spans many), not inside a target project:
 
 ```yaml
-# ~/.prowlqa/projects.yml
+# ~/.prowl/projects.yml
 projects:
   coupe:
     root: /Users/you/projects/coupe
   storefront:
     root: /Users/you/projects/storefront
-    configPath: /custom/.prowlqa/config.yml   # optional; defaults to <root>/.prowlqa/config.yml
+    configPath: /custom/.prowl/config.yml   # optional; defaults to <root>/.prowl/config.yml
 ```
 
 The registry is resolved in priority order:
 
-1. `prowlqa mcp --projects <path>`
-2. the `PROWLQA_PROJECTS` environment variable
-3. `~/.prowlqa/projects.yml`
+1. `prowl mcp --projects <path>`
+2. the `PROWL_PROJECTS` environment variable
+3. `~/.prowl/projects.yml`
 
 With a registry loaded, every tool accepts an optional `project` argument that selects which repo to act on, and `list_projects` enumerates what's available. For example, these `run_suite` arguments run the smoke suite for `coupe` and log any failures to `coupe/docs/backlog.md`:
 
@@ -197,7 +197,7 @@ Omit `project` and the tool falls back to the current directory. Naming a projec
 
 <div className="card-grid">
   <a className="card" href="/agents">
-    <h3>Prowl QA for Agents</h3>
+    <h3>Prowl for Agents</h3>
     <p>CLI-first patterns, JSON output, and the library API</p>
   </a>
   <a className="card" href="/configuration">

@@ -1,12 +1,12 @@
 ---
 sidebar_position: 10
 slug: /agents
-title: ProwlQA for Agents
+title: Prowl for Agents
 ---
 
-# ProwlQA for Agents
+# Prowl for Agents
 
-Prowl QA is CLI-first and agent-native by design. A single CLI command can capture an entire hunt run. Structured JSON output, deterministic exit codes, and minimal context overhead give AI agents what they need to discover, run, and report on browser tests without wrangling automation APIs directly.
+Prowl is CLI-first and agent-native by design. A single CLI command can capture an entire hunt run. Structured JSON output, deterministic exit codes, and minimal context overhead give AI agents what they need to discover, run, and report on browser tests without wrangling automation APIs directly.
 
 **Made for agents, controlled by humans.** You write the hunts, review the results, and set the guardrails. Agents handle the execution loop — discovering what to test, running the hunts, and reporting structured results back to your workflow.
 
@@ -18,13 +18,13 @@ Get an agent running hunts in four commands:
 
 ```bash
 # 1. Install
-npm install -g prowlqa
+npm install -g prowl-tools
 
 # 2. Initialize a project
-prowlqa init
+prowl init
 
 # 3. Run a hunt with structured output
-prowlqa run smoke-test --json
+prowl run smoke-test --json
 ```
 
 ```json
@@ -38,10 +38,10 @@ prowlqa run smoke-test --json
 
 ```bash
 # 4. Branch on the result
-prowlqa run smoke-test --json && echo "✅ Passed" || echo "❌ Failed"
+prowl run smoke-test --json && echo "✅ Passed" || echo "❌ Failed"
 ```
 
-Exit codes make branching simple: `0` = passed, `1` = failed, `2` = no hunts found. Run all hunts at once with `prowlqa ci --json`.
+Exit codes make branching simple: `0` = passed, `1` = failed, `2` = no hunts found. Run all hunts at once with `prowl ci --json`.
 
 :::tip
 That's the full loop — install, run, branch. The sections below cover the details: workflow patterns, the Node.js library API, CI integration, and Hub templates.
@@ -49,12 +49,12 @@ That's the full loop — install, run, branch. The sections below cover the deta
 
 ## Why CLI-First
 
-Prowl QA is designed around the same interface agents already know: the shell. A single CLI command replaces multi-step tool orchestration, and structured output means agents spend less time parsing and more time acting.
+Prowl is designed around the same interface agents already know: the shell. A single CLI command replaces multi-step tool orchestration, and structured output means agents spend less time parsing and more time acting.
 
 ### Minimal Context Overhead
 
 - **No schema preamble.** The CLI is invisible to the agent's context until invoked — no manifest or tool definitions sitting in every turn.
-- **Declarative, not imperative.** A 10-step hunt is a single `prowlqa run` call — not 10+ individual tool invocations the agent has to reason through.
+- **Declarative, not imperative.** A 10-step hunt is a single `prowl run` call — not 10+ individual tool invocations the agent has to reason through.
 - **Pay-per-use.** Tokens are only spent when the agent actually calls a command and reads its output.
 
 ### Exit Codes Enable Branching
@@ -62,11 +62,11 @@ Prowl QA is designed around the same interface agents already know: the shell. A
 Agents don't need to parse response bodies to decide what to do next. A zero exit code means pass, non-zero means fail — standard shell semantics that every agent framework already understands.
 
 ```bash
-prowlqa ci --json && echo "All hunts passed" || echo "Failures detected"
+prowl ci --json && echo "All hunts passed" || echo "Failures detected"
 ```
 
 :::tip
-Prowl QA is agent-ready out of the box. Install, run, parse — structured JSON output and deterministic exit codes from the first command.
+Prowl is agent-ready out of the box. Install, run, parse — structured JSON output and deterministic exit codes from the first command.
 :::
 
 ## Agent Workflow: Discover, Run, Report
@@ -78,7 +78,7 @@ Every agent integration follows the same three-step pattern — each step is a s
 List available hunts and their metadata:
 
 ```bash
-prowlqa list --json
+prowl list --json
 ```
 
 ```json
@@ -97,10 +97,10 @@ Execute a single hunt or all hunts:
 
 ```bash
 # Single hunt
-prowlqa run smoke-test --json
+prowl run smoke-test --json
 
 # All hunts (CI mode)
-prowlqa ci --json
+prowl ci --json
 ```
 
 ### 3. Report
@@ -115,7 +115,7 @@ Parse the structured JSON output and check exit codes:
 
 ## CLI Integration (`--json` flags)
 
-### `prowlqa run <hunt> --json`
+### `prowl run <hunt> --json`
 
 Returns a single hunt result:
 
@@ -144,7 +144,7 @@ Returns a single hunt result:
 }
 ```
 
-### `prowlqa ci --json`
+### `prowl ci --json`
 
 Returns a combined result for all hunts:
 
@@ -158,8 +158,8 @@ Returns a combined result for all hunts:
   "failed": 1,
   "skipped": 0,
   "hunts": [
-    { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "runDir": "/path/to/.prowlqa/runs/2026-02-16_17-15-15" },
-    { "hunt": "login-flow", "status": "pass", "durationMs": 1450, "runDir": "/path/to/.prowlqa/runs/2026-02-16_17-15-20" },
+    { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "runDir": "/path/to/.prowl/runs/2026-02-16_17-15-15" },
+    { "hunt": "login-flow", "status": "pass", "durationMs": 1450, "runDir": "/path/to/.prowl/runs/2026-02-16_17-15-20" },
     { "hunt": "checkout-flow", "status": "fail", "durationMs": 3200, "error": "Assertion failed: visible \"Order Confirmed\"" }
   ]
 }
@@ -170,24 +170,24 @@ Returns a combined result for all hunts:
 For CI systems that consume JUnit XML (GitHub Actions, GitLab CI, Jenkins, CircleCI), pass `--junit`:
 
 ```bash
-prowlqa ci --junit
+prowl ci --junit
 ```
 
-Each hunt run directory gets its own `junit.xml` (for example `.prowlqa/runs/<timestamp>/junit.xml`).  
-In CI mode, `prowlqa ci` also writes a combined summary JSON file at `.prowlqa/runs/ci-<timestamp>/ci-result.json`.
+Each hunt run directory gets its own `junit.xml` (for example `.prowl/runs/<timestamp>/junit.xml`).  
+In CI mode, `prowl ci` also writes a combined summary JSON file at `.prowl/runs/ci-<timestamp>/ci-result.json`.
 
-### `prowlqa history <hunt> --json`
+### `prowl history <hunt> --json`
 
-Every `prowlqa run` and `prowlqa ci` appends to `.prowlqa/history.json`. Agents can read past runs to detect flakes or track duration trends:
+Every `prowl run` and `prowl ci` appends to `.prowl/history.json`. Agents can read past runs to detect flakes or track duration trends:
 
 ```bash
-prowlqa history smoke-test --json --limit 50
+prowl history smoke-test --json --limit 50
 ```
 
 ```json
 [
-  { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "startedAt": "2026-05-28T17:15:12.481Z", "runDir": ".prowlqa/runs/2026-05-28_17-15-12-481" },
-  { "hunt": "smoke-test", "status": "fail", "durationMs": 1840, "startedAt": "2026-05-28T09:02:55.001Z", "runDir": ".prowlqa/runs/2026-05-28_09-02-55-001" }
+  { "hunt": "smoke-test", "status": "pass", "durationMs": 220, "startedAt": "2026-05-28T17:15:12.481Z", "runDir": ".prowl/runs/2026-05-28_17-15-12-481" },
+  { "hunt": "smoke-test", "status": "fail", "durationMs": 1840, "startedAt": "2026-05-28T09:02:55.001Z", "runDir": ".prowl/runs/2026-05-28_09-02-55-001" }
 ]
 ```
 
@@ -195,16 +195,16 @@ Retention is configurable via `history.maxRuns` — see [Configuration](/configu
 
 ## Connect Over MCP
 
-For agents that support the [Model Context Protocol](https://modelcontextprotocol.io), Prowl QA ships an MCP server that exposes QA as named tools (`list_hunts`, `run_hunt`, `run_suite`, `list_projects`) over stdio — no shell access required. The agent connects once and drives runs through tool calls, with `run_suite` optionally logging failures straight to your backlog.
+For agents that support the [Model Context Protocol](https://modelcontextprotocol.io), Prowl ships an MCP server that exposes QA as named tools (`list_hunts`, `run_hunt`, `run_suite`, `list_projects`) over stdio — no shell access required. The agent connects once and drives runs through tool calls, with `run_suite` optionally logging failures straight to your backlog.
 
 See the [MCP Server guide](/mcp) for client configuration, the tool reference, automated bug-logging, and multi-project setup.
 
 ## Library API (Node.js)
 
-For deeper integration, import Prowl QA as a library:
+For deeper integration, import Prowl as a library:
 
 ```typescript
-import { runHunt, loadConfig, listHunts, loadHunt } from "prowlqa";
+import { runHunt, loadConfig, listHunts, loadHunt } from "prowl-tools";
 ```
 
 ### Core Functions
@@ -212,19 +212,19 @@ import { runHunt, loadConfig, listHunts, loadHunt } from "prowlqa";
 | Function | Description |
 |----------|-------------|
 | `runHunt({ huntName, ...options })` | Run a hunt programmatically and get a typed `RunResult` |
-| `runSuite(options?)` | Run an entire suite (the engine behind `prowlqa ci`); returns aggregated `CiResult` |
+| `runSuite(options?)` | Run an entire suite (the engine behind `prowl ci`); returns aggregated `CiResult` |
 | `updateBacklogFromSuite(suiteResult, options?)` | Log a suite's failures as deduplicated bug tickets in `docs/backlog.md` |
-| `readHistory(configDir)` / `readHuntHistory(configDir, hunt)` | Read run history from `.prowlqa/history.json` |
+| `readHistory(configDir)` / `readHuntHistory(configDir, hunt)` | Read run history from `.prowl/history.json` |
 | `loadConfig(configPath?)` | Load and validate config, returning `{ config, configPath, configDir }` |
 | `loadHunt(huntName, configDir)` | Load and parse a single hunt file from `<configDir>/hunts/` |
 | `listHunts(configDir)` | List available hunt names from `<configDir>/hunts/` |
 
 ### Schemas
 
-Prowl QA exports Zod schemas for validation:
+Prowl exports Zod schemas for validation:
 
 ```typescript
-import { huntSchema, configSchema, stepSchema } from "prowlqa";
+import { huntSchema, configSchema, stepSchema } from "prowl-tools";
 
 // Validate a hunt file an agent generated
 const result = huntSchema.safeParse(agentGeneratedHunt);
@@ -236,7 +236,7 @@ if (!result.success) {
 ### Variable Interpolation
 
 ```typescript
-import { loadConfig, loadHunt, interpolateHunt } from "prowlqa";
+import { loadConfig, loadHunt, interpolateHunt } from "prowl-tools";
 
 const { configDir } = loadConfig();
 const hunt = loadHunt("login-flow", configDir);
@@ -249,10 +249,10 @@ const { hunt: interpolated } = interpolateHunt(hunt, {
 
 ### Suite Runner and Automated Bug-Logging
 
-`runSuite()` runs an entire hunt suite programmatically — the same engine behind `prowlqa ci` — and `updateBacklogFromSuite()` turns its failures into deduplicated bug tickets. This is the non-CLI path to the same automated bug-logging the MCP [`run_suite` tool](/mcp#logging-bugs-automatically) performs.
+`runSuite()` runs an entire hunt suite programmatically — the same engine behind `prowl ci` — and `updateBacklogFromSuite()` turns its failures into deduplicated bug tickets. This is the non-CLI path to the same automated bug-logging the MCP [`run_suite` tool](/mcp#logging-bugs-automatically) performs.
 
 ```typescript
-import { runSuite, updateBacklogFromSuite } from "prowlqa";
+import { runSuite, updateBacklogFromSuite } from "prowl-tools";
 
 const suite = await runSuite({
   includeTags: ["smoke"],
@@ -292,10 +292,10 @@ console.log("Already open:", summary.skipped);    // left untouched
 
 ### Run History
 
-`readHistory()` and `readHuntHistory()` read the `.prowlqa/history.json` log written by every `run` and `ci`:
+`readHistory()` and `readHuntHistory()` read the `.prowl/history.json` log written by every `run` and `ci`:
 
 ```typescript
-import { loadConfig, readHistory, readHuntHistory } from "prowlqa";
+import { loadConfig, readHistory, readHuntHistory } from "prowl-tools";
 
 const { configDir } = loadConfig();
 
@@ -309,18 +309,18 @@ const failRate = smoke.filter((e) => e.status === "fail").length / smoke.length;
 
 ## Using Hub Templates
 
-The [Prowl QA Community Hub](https://hub.prowlqa.dev) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
+The [Prowl Community Hub](https://hub.prowl.tools) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
 
 :::note
-The `prowlqa hub` CLI is coming in a future release. In the meantime, browse templates on the [Prowl QA Community Hub](https://hub.prowlqa.dev) or use the [Hub API](/hub-api) for programmatic access.
+The `prowl hub` CLI is coming in a future release. In the meantime, browse templates on the [Prowl Community Hub](https://hub.prowl.tools) or use the [Hub API](/hub-api) for programmatic access.
 :::
 
 ### Manual Workflow
 
-1. Browse templates in the [Prowl QA Community Hub](https://hub.prowlqa.dev).
-2. Copy the template hunt file into your local `.prowlqa/hunts/` directory.
+1. Browse templates in the [Prowl Community Hub](https://hub.prowl.tools).
+2. Copy the template hunt file into your local `.prowl/hunts/` directory.
 3. Customize `{{VAR}}` placeholders for your environment.
-4. Execute the hunt with `prowlqa run <hunt-name> --json`.
+4. Execute the hunt with `prowl run <hunt-name> --json`.
 
 Example hunt after copying and customizing:
 
@@ -351,7 +351,7 @@ Agents can skip the manual workflow entirely. The [Hub API](/hub-api) exposes RE
 Use the library API to customize and run downloaded templates programmatically:
 
 ```typescript
-import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowlqa";
+import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowl-tools";
 
 const { configPath, configDir } = loadConfig();
 
@@ -386,11 +386,11 @@ if (result.status === "pass") {
 ```
 
 :::note
-Browse all templates and contribute your own at the [Prowl QA Community Hub](https://hub.prowlqa.dev).
+Browse all templates and contribute your own at the [Prowl Community Hub](https://hub.prowl.tools).
 :::
 
 <div className="card-grid">
-  <a className="card" href="https://hub.prowlqa.dev" target="_blank">
+  <a className="card" href="https://hub.prowl.tools" target="_blank">
     <h3>Community Hub</h3>
     <p>Pre-built hunt templates for common test patterns</p>
   </a>

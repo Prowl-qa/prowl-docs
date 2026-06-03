@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Prowl QA Docs',
+  title: 'Prowl Docs',
   tagline: 'CLI-first QA testing — made for agents, controlled by humans',
   favicon: 'img/favicon.ico',
 
@@ -17,16 +17,16 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://docs.prowlqa.dev',
+  url: 'https://docs.prowl.tools',
   baseUrl: '/',
 
-  organizationName: 'Prowl-qa',
+  organizationName: 'prowl-tools',
   projectName: 'prowl-docs',
 
   onBrokenLinks: 'throw',
 
   customFields: {
-    feedbackApiUrl: 'https://prowl-feedback.prowlqa.dev/api/feedback',
+    feedbackApiUrl: 'https://prowl-feedback.prowl.tools/api/feedback',
   },
 
   markdown: {
@@ -60,11 +60,11 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/prowl-qa-stickers-1.png',
+    image: 'img/prowl-stickers-1.png',
     announcementBar: {
       id: 'quickstart-banner',
       content:
-        'Made for agents, controlled by humans. <a href="/agents">See how AI agents use ProwlQA \u2192</a>',
+        'Made for agents, controlled by humans. <a href="/agents">See how AI agents use Prowl \u2192</a>',
       isCloseable: true,
     },
     colorMode: {
@@ -73,34 +73,34 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Prowl QA Docs',
+      title: 'Prowl Docs',
       logo: {
-        alt: 'Prowl QA',
-        src: 'img/prowl-qa-logo.png',
+        alt: 'Prowl',
+        src: 'img/prowl-logo.png',
       },
       items: [
         {
-          href: 'https://prowlqa.dev/blog',
+          href: 'https://prowl.tools/blog',
           label: 'Blog',
           position: 'right',
         },
         {
-          href: 'https://prowlqa.dev',
+          href: 'https://prowl.tools',
           label: 'Home',
           position: 'right',
         },
         {
-          href: 'https://hub.prowlqa.dev',
+          href: 'https://hub.prowl.tools',
           label: 'Hub',
           position: 'right',
         },
         {
-          href: 'https://github.com/Prowl-qa/prowl',
+          href: 'https://github.com/prowl-tools/prowl',
           label: 'GitHub',
           position: 'right',
         },
         {
-          href: 'https://www.npmjs.com/package/prowlqa',
+          href: 'https://www.npmjs.com/package/prowl-tools',
           label: 'npm',
           position: 'right',
         },
@@ -120,22 +120,22 @@ const config: Config = {
         {
           title: 'Resources',
           items: [
-            {label: 'Blog', href: 'https://prowlqa.dev/blog'},
-            {label: 'prowlqa.dev', href: 'https://prowlqa.dev'},
-            {label: 'GitHub', href: 'https://github.com/Prowl-qa/prowl'},
-            {label: 'npm', href: 'https://www.npmjs.com/package/prowlqa'},
-            {label: 'Community Hub', href: 'https://hub.prowlqa.dev'},
+            {label: 'Blog', href: 'https://prowl.tools/blog'},
+            {label: 'prowl.tools', href: 'https://prowl.tools'},
+            {label: 'GitHub', href: 'https://github.com/prowl-tools/prowl'},
+            {label: 'npm', href: 'https://www.npmjs.com/package/prowl-tools'},
+            {label: 'Community Hub', href: 'https://hub.prowl.tools'},
           ],
         },
         {
           title: 'Get in Touch',
           items: [
-            {label: 'Email', href: 'mailto:info@prowlqa.dev'},
+            {label: 'Email', href: 'mailto:info@prowl.tools'},
             {label: 'Visit us on X', href: 'https://x.com/prowlqa'},
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl QA. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

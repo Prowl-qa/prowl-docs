@@ -6,9 +6,9 @@ title: Hub API
 
 # Hub API
 
-The [Prowl QA Community Hub](https://hub.prowlqa.dev) has two interfaces: a website for humans and a REST API for agents. The website lets you browse, preview, and copy templates. The API lets agents do the same thing programmatically — search for relevant templates, fetch hunt content, and pipe it directly into their workflow without manual intervention.
+The [Prowl Community Hub](https://hub.prowl.tools) has two interfaces: a website for humans and a REST API for agents. The website lets you browse, preview, and copy templates. The API lets agents do the same thing programmatically — search for relevant templates, fetch hunt content, and pipe it directly into their workflow without manual intervention.
 
-**Base URL:** `https://hub.prowlqa.dev`
+**Base URL:** `https://hub.prowl.tools`
 
 ## Agent Discovery
 
@@ -16,8 +16,8 @@ Agents can discover the Hub API through two machine-readable entry points:
 
 | Resource | URL | Purpose |
 |----------|-----|---------|
-| `llms.txt` | [`/llms.txt`](https://hub.prowlqa.dev/llms.txt) | Plain-text overview of the API for LLM agents — describes available endpoints and how to use them |
-| OpenAPI Spec | [`/api/openapi.json`](https://hub.prowlqa.dev/api/openapi.json) | Full OpenAPI 3.0.3 specification with request/response schemas for tool-use integrations |
+| `llms.txt` | [`/llms.txt`](https://hub.prowl.tools/llms.txt) | Plain-text overview of the API for LLM agents — describes available endpoints and how to use them |
+| OpenAPI Spec | [`/api/openapi.json`](https://hub.prowl.tools/api/openapi.json) | Full OpenAPI 3.0.3 specification with request/response schemas for tool-use integrations |
 
 If your agent supports tool discovery via OpenAPI, point it at `/api/openapi.json`. For agents that consume plain-text context, `/llms.txt` provides a concise summary they can reason over.
 
@@ -28,7 +28,7 @@ If your agent supports tool discovery via OpenAPI, point it at `/api/openapi.jso
 Returns the full catalog of published hunts with their content included.
 
 ```bash
-curl https://hub.prowlqa.dev/api/hunts
+curl https://hub.prowl.tools/api/hunts
 ```
 
 **Response:** `200 OK` — Array of [`HuntRecord`](#huntrecord) objects.
@@ -49,7 +49,7 @@ Search and filter hunts by keyword, category, or tags.
 
 ```bash
 # Search for login-related templates
-curl "https://hub.prowlqa.dev/api/hunts/search?q=login&category=auth&limit=5"
+curl "https://hub.prowl.tools/api/hunts/search?q=login&category=auth&limit=5"
 ```
 
 **Response:** `200 OK` — Array of [`HuntSummary`](#huntsummary) objects.
@@ -61,7 +61,7 @@ curl "https://hub.prowlqa.dev/api/hunts/search?q=login&category=auth&limit=5"
 Fetch a single hunt by its ID, including the full YAML content.
 
 ```bash
-curl https://hub.prowlqa.dev/api/hunts/login-flow
+curl https://hub.prowl.tools/api/hunts/login-flow
 ```
 
 **Response:** `200 OK` — A single [`HuntRecord`](#huntrecord) object.
@@ -81,10 +81,10 @@ Download the raw YAML file for a hunt template.
 
 ```bash
 # Download the raw YAML
-curl "https://hub.prowlqa.dev/api/hunts/file?path=hunts/auth/login-flow.yaml"
+curl "https://hub.prowl.tools/api/hunts/file?path=hunts/auth/login-flow.yaml"
 
 # Preview without tracking
-curl "https://hub.prowlqa.dev/api/hunts/file?path=hunts/auth/login-flow.yaml&preview=1"
+curl "https://hub.prowl.tools/api/hunts/file?path=hunts/auth/login-flow.yaml&preview=1"
 ```
 
 **Response:** `200 OK` — Raw YAML content (`text/yaml`).
@@ -96,7 +96,7 @@ curl "https://hub.prowlqa.dev/api/hunts/file?path=hunts/auth/login-flow.yaml&pre
 Returns the full OpenAPI 3.0.3 specification for the Hub API.
 
 ```bash
-curl https://hub.prowlqa.dev/api/openapi.json
+curl https://hub.prowl.tools/api/openapi.json
 ```
 
 **Response:** `200 OK` — OpenAPI JSON document.
@@ -161,7 +161,7 @@ Here's a realistic pipeline showing how an agent discovers, fetches, and runs a 
 The agent knows it needs to test a login flow. It searches the hub:
 
 ```bash
-curl "https://hub.prowlqa.dev/api/hunts/search?q=login&category=auth&limit=3"
+curl "https://hub.prowl.tools/api/hunts/search?q=login&category=auth&limit=3"
 ```
 
 ```json
@@ -183,7 +183,7 @@ The agent picks the best match based on the description and tags.
 ### Step 2: Fetch the full template
 
 ```bash
-curl "https://hub.prowlqa.dev/api/hunts/file?path=hunts/auth/login-flow.yaml"
+curl "https://hub.prowl.tools/api/hunts/file?path=hunts/auth/login-flow.yaml"
 ```
 
 ```yaml
@@ -204,7 +204,7 @@ steps:
 
 ### Step 3: Save to the local hunts directory
 
-The agent writes the YAML to `.prowlqa/hunts/login-flow.yaml` in the project.
+The agent writes the YAML to `.prowl/hunts/login-flow.yaml` in the project.
 
 ### Step 4: Run the hunt
 
@@ -212,7 +212,7 @@ The agent writes the YAML to `.prowlqa/hunts/login-flow.yaml` in the project.
 BASE_URL=https://staging.example.com \
 EMAIL=test@example.com \
 PASSWORD=$TEST_PASSWORD \
-prowlqa run login-flow --json
+prowl run login-flow --json
 ```
 
 The agent reads the JSON output, checks the exit code, and reports the result — all without a human ever opening the hub website.
@@ -223,10 +223,10 @@ Agents that support OpenAPI tool-use can import `/api/openapi.json` directly and
 
 <div class="card-grid">
   <a class="card" href="/agents">
-    <h3>ProwlQA for Agents</h3>
+    <h3>Prowl for Agents</h3>
     <p>CLI integration, library API, and agent workflow patterns</p>
   </a>
-  <a class="card" href="https://hub.prowlqa.dev" target="_blank">
+  <a class="card" href="https://hub.prowl.tools" target="_blank">
     <h3>Community Hub</h3>
     <p>Browse and download pre-built hunt templates</p>
   </a>

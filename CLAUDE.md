@@ -1,8 +1,8 @@
-# CLAUDE.md - Prowl QA Documentation Site
+# CLAUDE.md - Prowl Documentation Site
 
 ## Project
-This is the Prowl QA documentation site built with Docusaurus 3.x (TypeScript).
-Hosted at docs.prowlqa.dev.
+This is the Prowl documentation site built with Docusaurus 3.x (TypeScript).
+Hosted at docs.prowl.tools.
 
 ## Tech Stack
 - **Framework**: Docusaurus 3.x (classic preset, v4 future flag enabled)
@@ -31,11 +31,11 @@ Hosted at docs.prowlqa.dev.
 - `troubleshooting.md` — common issues and debugging
 
 ## Branding
-- **Navbar logo**: `static/img/prowl-qa-logo.png` (raccoon face, transparent bg)
+- **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
 - **Favicon**: `img/favicon.ico` (multi-size .ico: 16x16, 32x32, 48x48) + `img/apple-touch-icon.png` (180x180)
-- **Mascot**: `static/img/prowl-qa-mascot.png` (full-body raccoon with magnifying glass, used in hero)
-- **Stickers**: `static/img/prowl-qa-stickers-1.png` (pixel art set, used in footer watermark)
-- **Social card**: `img/prowl-qa-stickers-1.png` (set via `themeConfig.image`)
+- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, used in hero)
+- **Stickers**: `static/img/prowl-stickers-1.png` (pixel art set, used in footer watermark)
+- **Social card**: `img/prowl-stickers-1.png` (set via `themeConfig.image`)
 - **Announcement bar**: Quickstart CTA banner at top of site
 
 ## Custom CSS Components
@@ -53,7 +53,7 @@ When creating or updating pages, follow the visual style of:
 - OpenClaw docs (docs.openclaw.ai) — card-based nav, progressive disclosure, step-by-step guides
 
 ## Key Conventions
-- Keep docs in sync with the CLI repo (Prowl-qa/prowl) — that's the source of truth for features
+- Keep docs in sync with the CLI repo (prowl-tools/prowl) — that's the source of truth for features
 - Use tabbed code blocks (`<Tabs>`) for shorthand vs explicit syntax examples
 - Include practical examples in every reference page
 - Add "What's Next" card grids at the bottom of key pages for progressive discovery
@@ -71,7 +71,7 @@ npm run serve   # Serve production build locally
 
 | Repo | Purpose |
 |------|---------|
-| `Prowl-qa/prowl` | CLI tool (source of truth) |
-| `Prowl-qa/prowl-web` | Marketing site (prowlqa.dev) |
-| `Prowl-qa/prowl-hub` | Community hunt templates |
+| `prowl-tools/prowl` | CLI tool (source of truth) |
+| `prowl-tools/prowl-web` | Marketing site (prowl.tools) |
+| `prowl-tools/prowl-hub` | Community hunt templates |
 | `prowltools/prowl-twitter-bot` | Twitter bot (@prowlqa) |
