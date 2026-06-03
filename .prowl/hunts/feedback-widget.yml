@@ -35,7 +35,7 @@ steps:
   # Fill in feedback
   - fill:
       selector: "textarea[placeholder*='additional feedback']"
-      value: "Test feedback from prowlqa"
+      value: "Test feedback from prowl"
 
   # Submit
   - click: "Submit"

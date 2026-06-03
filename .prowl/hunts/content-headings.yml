@@ -35,7 +35,7 @@ steps:
   - navigate: "/agents"
   - waitForNetworkIdle:
       timeout: 5000
-  - wait: "ProwlQA for Agents"
+  - wait: "Prowl for Agents"
 
   # Troubleshooting
   - navigate: "/troubleshooting"
