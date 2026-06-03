@@ -6,19 +6,19 @@ title: Authentication
 
 # Authentication
 
-For hunts that require authentication, use `prowlqa login` to capture browser state.
+For hunts that require authentication, use `prowl login` to capture browser state.
 
 ## Capturing Auth State
 
 ```bash
-prowlqa login
-prowlqa login --url <target>              # Override target URL for login
-prowlqa login --config <path>             # Use custom config path
+prowl login
+prowl login --url <target>              # Override target URL for login
+prowl login --config <path>             # Use custom config path
 ```
 
-This opens a headed Chromium window. Log in manually, then close the browser. Prowl QA saves cookies, localStorage, and sessionStorage to `.prowlqa/auth-state.json`.
+This opens a headed Chromium window. Log in manually, then close the browser. Prowl saves cookies, localStorage, and sessionStorage to `.prowl/auth-state.json`.
 
-All subsequent `prowlqa run` commands will load this auth state, so your hunts start already logged in.
+All subsequent `prowl run` commands will load this auth state, so your hunts start already logged in.
 
 ## Configuration
 
@@ -26,14 +26,14 @@ Auth state is loaded automatically from the path in `config.yml`:
 
 ```yaml
 auth:
-  storageStatePath: ".prowlqa/auth-state.json"
+  storageStatePath: ".prowl/auth-state.json"
 ```
 
 No changes to your hunts are needed — auth state is applied before the first step executes.
 
 ## Refreshing Auth
 
-If your session expires, run `prowlqa login` again to re-capture.
+If your session expires, run `prowl login` again to re-capture.
 
 :::tip
 For CI environments where interactive login isn't possible, you can generate the auth state file programmatically (e.g., via API login) and place it at the configured path.
@@ -45,8 +45,8 @@ The auth state file contains session cookies and storage data. Keep it out of ve
 
 ```gitignore
 # .gitignore
-.prowlqa/auth-state.json
-.prowlqa/.env
+.prowl/auth-state.json
+.prowl/.env
 ```
 
-The `prowlqa init` command generates a `.gitignore` that includes these exclusions by default.
+The `prowl init` command generates a `.gitignore` that includes these exclusions by default.

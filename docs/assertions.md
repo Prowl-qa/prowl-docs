@@ -6,7 +6,7 @@ title: Assertions
 
 # Assertions
 
-Prowl QA supports two kinds of assertions: **inline assertions** (mid-flow checks as steps) and **hunt-level assertions** (evaluated after all steps complete).
+Prowl supports two kinds of assertions: **inline assertions** (mid-flow checks as steps) and **hunt-level assertions** (evaluated after all steps complete).
 
 ## Inline Assertions
 
@@ -118,7 +118,7 @@ assertions:
 Use `networkIgnorePatterns` in your config to exclude known noisy endpoints (analytics, third-party scripts) from network error checks.
 
 ```yaml
-# .prowlqa/config.yml
+# .prowl/config.yml
 assertions:
   networkIgnorePatterns:
     - "analytics.google.com"

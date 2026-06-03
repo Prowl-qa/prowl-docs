@@ -6,7 +6,7 @@ title: Configuration
 
 # Configuration
 
-Prowl QA configuration lives at `.prowlqa/config.yml`. All options with their defaults:
+Prowl configuration lives at `.prowl/config.yml`. All options with their defaults:
 
 ```yaml
 # The base URL for all hunt navigation
@@ -49,9 +49,9 @@ guardrails:
     - "[data-danger]"
     - ".delete-btn"
 
-# Auth state from `prowlqa login`
+# Auth state from `prowl login`
 auth:
-  storageStatePath: ".prowlqa/auth-state.json"
+  storageStatePath: ".prowl/auth-state.json"
 
 # Run history retention
 history:
@@ -113,21 +113,21 @@ history:
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `storageStatePath` | `string` | `".prowlqa/auth-state.json"` | Path to saved auth state from `prowlqa login` |
+| `storageStatePath` | `string` | `".prowl/auth-state.json"` | Path to saved auth state from `prowl login` |
 
 ### history
 
-Every `prowlqa run` and `prowlqa ci` appends an entry to `.prowlqa/history.json` (hunt name, status, start time, duration, and run directory). Retention is capped **per hunt** — once a hunt exceeds the cap, its oldest entries are dropped on the next write; other hunts are unaffected.
+Every `prowl run` and `prowl ci` appends an entry to `.prowl/history.json` (hunt name, status, start time, duration, and run directory). Retention is capped **per hunt** — once a hunt exceeds the cap, its oldest entries are dropped on the next write; other hunts are unaffected.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `maxRuns` | `number` | `100` | Number of runs to keep per hunt |
 
-Inspect history with `prowlqa history <hunt-name>` (add `--json` for machine-readable output, `--limit <n>` to change the slice — default 20):
+Inspect history with `prowl history <hunt-name>` (add `--json` for machine-readable output, `--limit <n>` to change the slice — default 20):
 
 ```bash
-prowlqa history smoke-test
-prowlqa history smoke-test --limit 50 --json
+prowl history smoke-test
+prowl history smoke-test --limit 50 --json
 ```
 
 ## CLI Overrides
@@ -135,16 +135,16 @@ prowlqa history smoke-test --limit 50 --json
 Several config options can be overridden from the command line:
 
 ```bash
-prowlqa run <hunt> --headed          # Override headless: false
-prowlqa run <hunt> --trace           # Capture Playwright trace
-prowlqa run <hunt> --slow-mo 500     # Override slowMo
-prowlqa run <hunt> --url <override>  # Override target.url
-prowlqa run <hunt> --config <path>   # Use different config file
-prowlqa run <hunt> --browser chromium  # Override browser engine
-prowlqa run <hunt> --channel chrome    # Override browser channel
-prowlqa run <hunt> --viewport 1920x1080  # Override viewport size
-prowlqa run <hunt> --include-tags smoke  # Only run hunts with tag
-prowlqa run <hunt> --exclude-tags slow   # Skip hunts with tag
-prowlqa run <hunt> --json            # Machine-readable JSON output
-prowlqa run <hunt> --junit           # Generate JUnit XML report
+prowl run <hunt> --headed          # Override headless: false
+prowl run <hunt> --trace           # Capture Playwright trace
+prowl run <hunt> --slow-mo 500     # Override slowMo
+prowl run <hunt> --url <override>  # Override target.url
+prowl run <hunt> --config <path>   # Use different config file
+prowl run <hunt> --browser chromium  # Override browser engine
+prowl run <hunt> --channel chrome    # Override browser channel
+prowl run <hunt> --viewport 1920x1080  # Override viewport size
+prowl run <hunt> --include-tags smoke  # Only run hunts with tag
+prowl run <hunt> --exclude-tags slow   # Skip hunts with tag
+prowl run <hunt> --json            # Machine-readable JSON output
+prowl run <hunt> --junit           # Generate JUnit XML report
 ```

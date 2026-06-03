@@ -1,9 +1,9 @@
 # Prowl Docs - Product Backlog
 
-**Repo**: `Prowl-qa/prowl-docs`
+**Repo**: `prowl-tools/prowl-docs`
 **Local path**: `~/Desktop/prowl-docs`
 **Stack**: Docusaurus 3.x (TypeScript)
-**Hosting**: Vercel or GitHub Pages at docs.prowlqa.dev
+**Hosting**: Vercel or GitHub Pages at docs.prowl.tools
 **Branch**: `docs-build`
 
 ---
