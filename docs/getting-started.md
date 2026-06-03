@@ -18,13 +18,13 @@ title: Getting Started
     </div>
   </div>
   <div className="docs-hero__art">
-    <img src="/img/prowl-qa-mascot.png" alt="Prowl QA mascot with magnifying glass" />
+    <img src="/img/prowl-mascot.png" alt="Prowl QA mascot with magnifying glass" />
   </div>
 </div>
 
 <div className="docs-quickstart">
   <p>
-    <img src="/img/prowl-qa-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
+    <img src="/img/prowl-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
     <strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.
   </p>
 </div>

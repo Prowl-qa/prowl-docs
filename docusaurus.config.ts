@@ -60,7 +60,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/prowl-qa-stickers-1.png',
+    image: 'img/prowl-stickers-1.png',
     announcementBar: {
       id: 'quickstart-banner',
       content:
@@ -76,7 +76,7 @@ const config: Config = {
       title: 'Prowl QA Docs',
       logo: {
         alt: 'Prowl QA',
-        src: 'img/prowl-qa-logo.png',
+        src: 'img/prowl-logo.png',
       },
       items: [
         {

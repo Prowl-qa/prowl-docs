@@ -31,11 +31,11 @@ Hosted at docs.prowlqa.dev.
 - `troubleshooting.md` — common issues and debugging
 
 ## Branding
-- **Navbar logo**: `static/img/prowl-qa-logo.png` (raccoon face, transparent bg)
+- **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
 - **Favicon**: `img/favicon.ico` (multi-size .ico: 16x16, 32x32, 48x48) + `img/apple-touch-icon.png` (180x180)
-- **Mascot**: `static/img/prowl-qa-mascot.png` (full-body raccoon with magnifying glass, used in hero)
-- **Stickers**: `static/img/prowl-qa-stickers-1.png` (pixel art set, used in footer watermark)
-- **Social card**: `img/prowl-qa-stickers-1.png` (set via `themeConfig.image`)
+- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, used in hero)
+- **Stickers**: `static/img/prowl-stickers-1.png` (pixel art set, used in footer watermark)
+- **Social card**: `img/prowl-stickers-1.png` (set via `themeConfig.image`)
 - **Announcement bar**: Quickstart CTA banner at top of site
 
 ## Custom CSS Components
