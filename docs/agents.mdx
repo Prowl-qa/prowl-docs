@@ -204,7 +204,7 @@ See the [MCP Server guide](/mcp) for client configuration, the tool reference, a
 For deeper integration, import Prowl as a library:
 
 ```typescript
-import { runHunt, loadConfig, listHunts, loadHunt } from "prowl";
+import { runHunt, loadConfig, listHunts, loadHunt } from "prowl-tools";
 ```
 
 ### Core Functions
@@ -224,7 +224,7 @@ import { runHunt, loadConfig, listHunts, loadHunt } from "prowl";
 Prowl exports Zod schemas for validation:
 
 ```typescript
-import { huntSchema, configSchema, stepSchema } from "prowl";
+import { huntSchema, configSchema, stepSchema } from "prowl-tools";
 
 // Validate a hunt file an agent generated
 const result = huntSchema.safeParse(agentGeneratedHunt);
@@ -236,7 +236,7 @@ if (!result.success) {
 ### Variable Interpolation
 
 ```typescript
-import { loadConfig, loadHunt, interpolateHunt } from "prowl";
+import { loadConfig, loadHunt, interpolateHunt } from "prowl-tools";
 
 const { configDir } = loadConfig();
 const hunt = loadHunt("login-flow", configDir);
@@ -252,7 +252,7 @@ const { hunt: interpolated } = interpolateHunt(hunt, {
 `runSuite()` runs an entire hunt suite programmatically — the same engine behind `prowl ci` — and `updateBacklogFromSuite()` turns its failures into deduplicated bug tickets. This is the non-CLI path to the same automated bug-logging the MCP [`run_suite` tool](/mcp#logging-bugs-automatically) performs.
 
 ```typescript
-import { runSuite, updateBacklogFromSuite } from "prowl";
+import { runSuite, updateBacklogFromSuite } from "prowl-tools";
 
 const suite = await runSuite({
   includeTags: ["smoke"],
@@ -295,7 +295,7 @@ console.log("Already open:", summary.skipped);    // left untouched
 `readHistory()` and `readHuntHistory()` read the `.prowl/history.json` log written by every `run` and `ci`:
 
 ```typescript
-import { loadConfig, readHistory, readHuntHistory } from "prowl";
+import { loadConfig, readHistory, readHuntHistory } from "prowl-tools";
 
 const { configDir } = loadConfig();
 
@@ -351,7 +351,7 @@ Agents can skip the manual workflow entirely. The [Hub API](/hub-api) exposes RE
 Use the library API to customize and run downloaded templates programmatically:
 
 ```typescript
-import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowl";
+import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowl-tools";
 
 const { configPath, configDir } = loadConfig();
 
