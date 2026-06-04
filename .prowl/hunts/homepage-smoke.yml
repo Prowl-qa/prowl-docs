@@ -17,7 +17,7 @@ steps:
 
   # Mascot image is visible
   - waitForSelector:
-      selector: "img[alt='Prowl QA mascot with magnifying glass']"
+      selector: "img[alt='Prowl mascot with magnifying glass']"
       timeout: 3000
 
   # Quickstart callout is visible
