@@ -135,7 +135,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Prowl. Built with Docusaurus.`,
+      copyright: `Copyright \u00a9 ${new Date().getFullYear()} Genkei Labs. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
