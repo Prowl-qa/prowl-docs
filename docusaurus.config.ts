@@ -80,6 +80,18 @@ const config: Config = {
       },
       items: [
         {
+          type: 'dropdown',
+          label: 'Docs',
+          position: 'right',
+          items: [
+            {label: 'Prowl CLI (this site)', href: 'https://docs.prowl.tools'},
+            {label: 'Code Review', href: 'https://review.prowl.tools'},
+            {label: 'Prowl Hub', href: 'https://hub.prowl.tools'},
+            {label: 'Prowl Infra', href: 'https://infra.prowl.tools'},
+            {label: 'All docs ↗', href: 'https://prowl.tools/docs'},
+          ],
+        },
+        {
           href: 'https://prowl.tools/blog',
           label: 'Blog',
           position: 'right',
