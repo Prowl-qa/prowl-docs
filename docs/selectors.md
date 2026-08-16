@@ -8,6 +8,10 @@ title: Selectors
 
 Prowl uses Playwright's selector engine. Choose selectors based on stability and maintainability.
 
+:::note
+This page covers the **web target**. The experimental [macOS target](/macos-target) uses a different, Accessibility-based selector dialect (`id=`, `role=`, `label=`, `text=`, plus `statusItem` / `menu=`).
+:::
+
 ## Selector Priority (Best to Worst)
 
 ### 1. data-testid (best)
