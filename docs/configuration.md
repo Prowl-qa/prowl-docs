@@ -69,7 +69,7 @@ The `target` block carries a discriminant, `type`, that selects the execution ta
 |--------|------|---------|-------------|
 | `type` | `"web" \| "macos"` | `"web"` | Execution target. `"web"` drives a browser; `"macos"` drives a native macOS app (experimental) |
 | `url` | `string` | (required for `web`) | Base URL for all relative navigation. Web target only — not accepted on `macos` |
-| `app` | `string` | (required for `macos`) | Bundle id or `.app` path of the target app. macOS target only — not accepted on `web` |
+| `app` | `string` | (required for `macos`) | Bundle ID or absolute `.app` path of the target app. macOS target only — not accepted on `web` |
 
 :::note
 The `macos` target is experimental and unreleased. See the [macOS Target](/macos-target) guide for the native selector dialect, step-compatibility matrix, `guardrails.allowedApps`, and Accessibility-permission setup.

@@ -12,7 +12,7 @@ import TabItem from '@theme/TabItem';
 Prowl supports 28 step types. Most have both a **shorthand** form (concise, readable) and an **explicit** form (full control over selectors).
 
 :::note
-These steps target the **web**. On the experimental [macOS target](/macos-target), a portable subset runs unchanged while web-only steps (`navigate`, network mocking, dialogs, etc.) are rejected up front — see its step-compatibility matrix.
+These steps target the **web**. On the experimental [macOS target](/macos-target), a portable subset is supported on both web and macOS, although steps such as `screenshot`, `hover`, and `press` have target-specific behavior. Web-only steps (`navigate`, network mocking, dialogs, etc.) are rejected up front — see its step-compatibility matrix.
 :::
 
 ## navigate
