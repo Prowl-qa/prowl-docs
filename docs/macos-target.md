@@ -202,12 +202,7 @@ The `screenshot` / `assertScreenshot` steps additionally need **Screen Recording
 
 Headless CI can't click "Allow" in a permission dialog, so the permissions must be **pre-provisioned** before the run:
 
-- Grant Accessibility (and Screen Recording, if you screenshot) to the runner's **host app** ahead of time — for example with a **TCC configuration profile via MDM** on a self-hosted runner, or, on ephemeral runners where it's acceptable, by seeding the **TCC database** directly:
-
-  ```bash
-  sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" \
-    "INSERT OR REPLACE INTO access VALUES('kTCCServiceAccessibility','<runner-app-bundle-id>',0,2,2,1,NULL,NULL,NULL,'UNUSED',NULL,0,1,NULL,NULL,NULL);"
-  ```
+- Grant Accessibility (and Screen Recording, if you screenshot) to the runner's **host app** ahead of time. The supported route is a **PPPC/TCC configuration profile via MDM** on a self-hosted runner. Some teams instead seed the **TCC database** (`/Library/Application Support/com.apple.TCC/TCC.db`) with `sqlite3` in their runner image — be aware that the `access` table's schema **differs across macOS versions** (a hardcoded `INSERT` from a blog post will break on another release), and **SIP blocks direct writes** to `TCC.db`, so this only works on images with SIP disabled or a shell that has Full Disk Access.
 
 - The **target app must be installed and registered** with Launch Services on the runner so Prowl can launch it by bundle id.
 
