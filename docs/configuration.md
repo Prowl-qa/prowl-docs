@@ -11,7 +11,8 @@ Prowl configuration lives at `.prowl/config.yml`. All options with their default
 ```yaml
 # The base URL for all hunt navigation
 target:
-  url: "http://localhost:3000"        # Required
+  type: "web"                          # "web" (default) or "macos"
+  url: "http://localhost:3000"        # Required for the web target
 
 # Browser settings
 browser:
@@ -62,9 +63,17 @@ history:
 
 ### target
 
+The `target` block carries a discriminant, `type`, that selects the execution target. It is **optional and defaults to `"web"`**, so existing `target: { url }` configs are unchanged.
+
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `url` | `string` | (required) | Base URL for all relative navigation |
+| `type` | `"web" \| "macos"` | `"web"` | Execution target. `"web"` drives a browser; `"macos"` drives a native macOS app (experimental) |
+| `url` | `string` | (required for `web`) | Base URL for all relative navigation. Web target only — not accepted on `macos` |
+| `app` | `string` | (required for `macos`) | Bundle id or `.app` path of the target app. macOS target only — not accepted on `web` |
+
+:::note
+The `macos` target is experimental and unreleased. See the [macOS Target](/macos-target) guide for the native selector dialect, step-compatibility matrix, `guardrails.allowedApps`, and Accessibility-permission setup.
+:::
 
 ### browser
 
@@ -100,7 +109,8 @@ history:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `maxSteps` | `number` | `50` | Maximum steps per hunt |
-| `allowedDomains` | `string[]` | `["localhost", "127.0.0.1", "0.0.0.0"]` | Domains the browser can navigate to |
+| `allowedDomains` | `string[]` | `["localhost", "127.0.0.1", "0.0.0.0"]` | Domains the browser can navigate to (web target) |
+| `allowedApps` | `string[]` | `[]` | Apps the [macOS target](/macos-target) may drive; empty allows the target app. Native analog of `allowedDomains` |
 | `forbiddenSelectors` | `string[]` | `["[data-danger]", ".delete-btn"]` | Selectors that steps cannot target |
 
 :::warning
