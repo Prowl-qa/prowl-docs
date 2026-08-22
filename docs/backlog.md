@@ -39,7 +39,7 @@ pages to the sidebar. CI recipes and `prowl analyze` for mobile are tracked in t
 
 ## Medium Priority
 
-{PQD-005} **"Beyond YAML" guide — graduating complex flows to the library API**
+### {PQD-005} **"Beyond YAML" guide — graduating complex flows to the library API**
    Practitioner research (Maestro users: *"YAML starts feeling like a cage when I need more
 control on tricky stuff"*) shows the YAML-cage complaint is the sharpest criticism aimed at
 YAML-first tools, and Prowl already has the answer but never documents the path. Write a guide
