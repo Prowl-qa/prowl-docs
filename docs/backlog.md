@@ -35,6 +35,21 @@ from prowl GTM-002 ({PROWL-037})
 **Deliverable**: A Guides page ("Beyond YAML" or similar) with a worked example of the same flow
 at each level of escalation, cross-linked from the step-types and macOS-target pages.
 
+### {PQD-006} **Document mobile `prowl analyze` + CI recipes once the next CLI release ships**
+**Priority**: Medium
+**Description**: CLI PROWL-061 is implemented and resolved in the prowl repo but sits in the
+*Unreleased* CHANGELOG — not yet in any published npm version, so it was deliberately left out
+of the PQD-004 pages (docs track the released CLI). When the next CLI release (0.1.6) ships:
+- Document `prowl analyze` for the Android and iOS targets (native routing flags `--app` /
+  `--platform` / `--device` / `--udid`, ranked selector candidates per dialect, `--json`) on the
+  two target pages and/or the agents page.
+- Add the mobile CI recipes (GitHub Actions: Android emulator on ubuntu-latest, iOS simulator
+  on macos-* with a cached WDA build) sourced from the CLI README.
+- Refresh `docs/ios.md`'s WDA section: 0.1.6 changes the launch path to `xcodebuild
+  test-without-building` and loosens `PROWL_WDA_RUNNER` to also accept an `.xctestrun` or
+  `Build/Products` directory.
+Source from the CLI README + the (by then) released CHANGELOG entry; verify against source.
+
 ## Low Priority
 
 *No active items.*
