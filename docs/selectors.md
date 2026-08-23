@@ -9,7 +9,7 @@ title: Selectors
 Prowl uses Playwright's selector engine. Choose selectors based on stability and maintainability.
 
 :::note
-This page covers the **web target**. The experimental [macOS target](/macos-target) uses a different, Accessibility-based selector dialect (`id=`, `role=`, `label=`, `text=`, plus `statusItem` / `menu=`).
+This page covers the **web target**, which uses Playwright's selector engine. The experimental **native targets** use their own accessibility-based dialects — see [Native selector dialects](#native-selector-dialects) below and the [macOS](/macos-target), [Android](/android), and [iOS](/ios) target pages.
 :::
 
 ## Selector Priority (Best to Worst)
@@ -71,6 +71,24 @@ When you use shorthand syntax, Prowl resolves selectors using Playwright's built
 :::note
 Shorthand `click` uses **substring matching** on button names. `click: "Save"` will match a button labeled "Save & New". For exact matching, use the explicit form: `click: { selector: 'button:text-is("Save")' }`.
 :::
+
+## Native selector dialects
+
+The sections above describe the **web target**. The experimental native targets ([macOS](/macos-target), [Android](/android), [iOS](/ios)) do **not** use Playwright — they address the platform accessibility tree instead. The four core prefixes carry the **same meaning across all three native targets**, so a selector reads the same everywhere; only what each maps to on the platform differs. Prefer `id=` — the native analog of `data-testid`.
+
+| Prefix | Android | iOS |
+|--------|---------|-----|
+| `id=` | `resource-id` — a bare name is auto-qualified with the app's package (`id=save` → `com.pkg:id/save`); other namespaces use the full form (`id=android:id/title`) | accessibility id (`accessibilityIdentifier`) |
+| `label=` | `content-desc` (exact) | `accessibilityLabel` (exact — a `label ==` NSPredicate) |
+| `text=` or bare | visible text (substring) | `label` / `value` (substring) |
+| `role=` | widget class (e.g. `role=android.widget.Button`); add `[name="…"]` for a visible-text substring | `XCUIElementType…` class (shorthand `role=Button`); add `[name="…"]` for a `label`/`value` substring |
+
+- **iOS** additionally supports `:focus` — the element with keyboard focus (`hasKeyboardFocus == 1`).
+- **Android (Jetpack Compose):** test tags only surface as `resource-id` when the app sets `Modifier.testTag(...)` **and** enables `testTagsAsResourceId = true`; otherwise match Compose UI with `text=` or `label=`.
+- **macOS** uses the same `id=` / `label=` / `role=` / `text=` prefixes plus menu-bar magic selectors (`statusItem`, `menu=`) — see the [macOS target](/macos-target) page.
+- `forbiddenSelectors` applies on native targets too, with the same case-sensitive substring semantics.
+
+See the [Android](/android) and [iOS](/ios) target pages for the full dialect, worked examples, and step compatibility.
 
 ## Forbidden Selectors
 

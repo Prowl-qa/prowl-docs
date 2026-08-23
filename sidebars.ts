@@ -17,12 +17,21 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Targets',
+      collapsed: false,
+      items: [
+        'macos-target',
+        'android',
+        'ios',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Guides',
       collapsed: false,
       items: [
         'auth',
         'watch-mode',
-        'macos-target',
         'agents',
         'mcp',
         'hub-api',
