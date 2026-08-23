@@ -50,6 +50,31 @@ of the PQD-004 pages (docs track the released CLI). When the next CLI release (0
   `Build/Products` directory.
 Source from the CLI README + the (by then) released CHANGELOG entry; verify against source.
 
+### {PQD-007} **Document the `assertWithAI` step type once the next CLI release ships**
+**Priority**: Medium
+**Description**: CLI PROWL-020 added a new `assertWithAI: <string>` step type — an AI-powered
+visual assertion (screenshot + a natural-language condition → a vision LLM returns pass/fail with
+an explanation). It's implemented and resolved in the prowl repo but sits in the *Unreleased*
+CHANGELOG (ships in **0.1.6**); per the docs-track-the-released-CLI convention (same gate as
+{PQD-006}), document it when 0.1.6 is published. Add to the **Step Types** reference (and note it
+on the Assertions page):
+- The step shape `assertWithAI: "<condition>"` with a worked example, and that the model's
+  explanation is surfaced in the run report (on pass and fail).
+- **BYOK config / env vars**: `PROWL_AI_PROVIDER` (`anthropic` | `openai`), `PROWL_AI_KEY`,
+  `PROWL_AI_MODEL` (defaults are vision-capable), and `PROWL_AI_BASE_URL` (override endpoint —
+  the forward-compat seam for a future managed-AI path).
+- **Determinism caveat (document honestly)**: AI assertions are non-deterministic — the explicit
+  exception to Prowl's determinism principle. Note the low-temperature call and that the
+  explanation is always recorded for auditability.
+- **Graceful degradation**: with no AI provider configured the step **skips with a warning** (a
+  non-fatal `warn`/`○` outcome that neither fails the run nor silently passes) — document this so
+  CI users understand the behavior when `PROWL_AI_KEY` is unset.
+- **Target-agnostic**: works on any target with a screenshot capability (web + the native
+  targets), not web-only.
+Optionally cross-link that this is the first consumer of Prowl's BYOK AI layer (the managed-credit
+path is future). Source from the CLI README + the (by then) released CHANGELOG; verify against
+source.
+
 ## Low Priority
 
 *No active items.*
