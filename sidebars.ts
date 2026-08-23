@@ -20,6 +20,7 @@ const sidebars: SidebarsConfig = {
       label: 'Targets',
       collapsed: false,
       items: [
+        'macos-target',
         'android',
         'ios',
       ],
@@ -31,7 +32,6 @@ const sidebars: SidebarsConfig = {
       items: [
         'auth',
         'watch-mode',
-        'macos-target',
         'agents',
         'mcp',
         'hub-api',
