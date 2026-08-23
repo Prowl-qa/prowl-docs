@@ -8,8 +8,8 @@ title: macOS Target (Experimental)
 
 Prowl can drive **native macOS apps** — including menu bar extras (`NSStatusItem` + `NSMenu`) — through Apple's Accessibility API, in addition to the web. You point `target.type` at `macos`, write the same portable steps you already know, and Prowl runs them against a real app instead of a browser page.
 
-:::warning Experimental and not yet released
-This target is experimental **and** unreleased. It is **not** in the published `prowl-tools` npm package (latest is **0.1.3**). To use it today you must run the CLI from a **source checkout** and build the Swift helper locally (see [Requirements](#requirements)). The API, selector dialect, and step coverage may still change.
+:::warning Experimental
+This target is **experimental**. The macOS code path shipped in Prowl **0.1.4** (the CLI is now at 0.1.5), so a normal `prowl-tools` install includes it — but its Swift helper binary, `prowl-macdriver`, is **not** bundled in the npm package: you build it locally (see [Requirements](#requirements)), or point `PROWL_MACDRIVER_BIN` at a prebuilt binary. The API, selector dialect, and step coverage may still change.
 :::
 
 ## Requirements
