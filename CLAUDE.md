@@ -18,17 +18,21 @@ truth for features. (Prowl Review has its own docs site, `prowl-code-review-docs
 
 ## Content Structure
 - Docs live in `docs/` as `.md`/`.mdx` files
-- Sidebar is manually configured in `sidebars.ts` (two categories: Reference, Guides)
+- Sidebar is manually configured in `sidebars.ts` (three categories: Reference, Targets, Guides)
 - Each doc has frontmatter: `sidebar_position`, `slug`, `title`
 - Use `:::note` / `:::tip` / `:::warning` for callouts (Docusaurus admonitions)
 - Use `<Tabs>` / `<TabItem>` from `@theme/Tabs` for shorthand vs explicit code examples (`.mdx`)
-- Use `<div class="card-grid">` with `<a class="card">` for "What's Next" navigation sections
+- Use `<div className="card-grid">` with `<a className="card">` for "What's Next" navigation sections
+  (use `className`, not `class` — `.md`/`.mdx` are JSX-processed, so `class` emits React DOM warnings)
 
-## Pages (10 total)
-`getting-started.md` (hero, install/init/run quickstart), `step-types.mdx` (all 19 step types,
-tabbed examples), `assertions.md`, `configuration.md`, `variables.md`, `selectors.md`, `auth.md`,
-`watch-mode.md`, `agents.mdx` (agent-first integration: library API, `--json`, CI, hub templates),
-`troubleshooting.md`.
+## Pages (15 total)
+- **Reference**: `step-types.mdx` (all 28 step types, tabbed examples, step↔target compatibility
+  matrix), `assertions.md`, `configuration.md`, `variables.md`, `selectors.md` (web + native
+  selector dialects).
+- **Targets** (experimental native execution targets): `macos-target.md`, `android.md`, `ios.md`.
+- **Guides**: `auth.md`, `watch-mode.md`, `agents.mdx` (agent-first integration: library API,
+  `--json`, CI, hub templates), `mcp.mdx`, `hub-api.md`.
+- Plus `getting-started.md` (hero, install/init/run quickstart) and `troubleshooting.md`.
 
 ## Branding
 - **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
