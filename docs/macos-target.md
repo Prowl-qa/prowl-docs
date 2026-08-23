@@ -16,7 +16,7 @@ This target is **experimental**. The macOS code path shipped in Prowl **0.1.4** 
 
 - **macOS 13 or newer** (the helper's platform target).
 - A **Swift toolchain** — Xcode or the Xcode Command Line Tools.
-- A **source checkout** of the [`prowl`](https://github.com/prowl-tools/prowl) repository, linked onto your `PATH` with `npm link` (the npm package does not include the macOS code path yet).
+- A **source checkout** of the [`prowl`](https://github.com/prowl-tools/prowl) repository only to build `prowl-macdriver`. Install the CLI normally from npm with `npm install -g prowl-tools`; a source checkout is not required for CLI installation.
 - **Accessibility** permission for the terminal that hosts Prowl — and **Screen Recording** permission too, if your hunt takes screenshots. See [Permissions](#permissions).
 
 ## Enabling it
@@ -132,7 +132,7 @@ The last two are **menu bar magic selectors**:
 
 ## Step compatibility
 
-Portable steps run on **both** targets. Web-only steps are **rejected up front** at validation time on the macOS target — with a friendly error — before anything launches. The same check runs for **sub-hunts** invoked via `runHunt`, so a web-only step buried in a sub-hunt fails fast rather than partway through a run.
+Portable steps run on **both** targets. Web-only steps in the top-level hunt are **rejected up front** at validation time on the macOS target — with a friendly error — before anything launches. A `runHunt` step validates its referenced hunt when that step executes, before the nested hunt starts.
 
 | Portable (web **and** macOS) | Web-only (rejected on macOS) |
 |---|---|

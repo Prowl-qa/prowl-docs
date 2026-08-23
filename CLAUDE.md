@@ -14,7 +14,8 @@ truth for features. (Prowl Review has its own docs site, `prowl-code-review-docs
 - **Language**: TypeScript
 - **Styling**: custom CSS in `src/css/custom.css` (Space Grotesk headings, Source Sans 3 body,
   JetBrains Mono code)
-- **Deployment**: Vercel or GitHub Pages (not yet configured)
+- **Deployment**: Vercel at `docs.prowl.tools`; `main` auto-deploys on merge, and PRs receive
+  Vercel preview deployments.
 
 ## Content Structure
 - Docs live in `docs/` as `.md`/`.mdx` files

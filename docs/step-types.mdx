@@ -17,7 +17,7 @@ These steps target the **web**. A **portable subset** also runs on the experimen
 
 ## Step compatibility by target
 
-The **web** target runs every step. On a **native** target, web-only steps are **rejected up front** at validation time — before anything launches — with a clear, target-labelled error; the same check runs for sub-hunts invoked via `runHunt`.
+The **web** target runs every step. On a **native** target, web-only steps in the top-level hunt are **rejected up front** at validation time — before anything launches — with a clear, target-labelled error. A `runHunt` step validates its referenced hunt when that step executes, before the nested hunt starts.
 
 | Step | Web | macOS | Android / iOS |
 |------|:---:|:-----:|:-------------:|
@@ -35,6 +35,7 @@ The **web** target runs every step. On a **native** target, web-only steps are *
 | `waitForDownload` | ✅ | ❌ | ❌ |
 | `scroll` (directional) | ✅ | ❌ | ❌ |
 | `assert: urlIncludes` / `urlEquals` | ✅ | ❌ | ❌ |
+| Hunt-level `assertions:` blocks | ✅ | ❌ | ❌ |
 
 `hover` and `scrollTo` are portable on macOS but **rejected on the touch targets** (Android and iOS) — they have no touch equivalent yet. A web-only step produces an error naming the offending step, for example:
 
@@ -44,6 +45,8 @@ use a portable step (click, fill, type, press, wait, assert visible, screenshot,
 ```
 
 See the [Android](/android) and [iOS](/ios) target pages for per-target selector dialects and step notes (e.g. `press` supports a smaller key set on iOS).
+
+Native targets reject non-empty hunt-level `assertions:` blocks before launch. Use inline `assert: visible` and `assert: notVisible` steps for native UI checks.
 
 ## navigate
 

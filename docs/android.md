@@ -8,7 +8,7 @@ title: Android Target
 
 Prowl can drive **native Android apps** on an emulator or a USB-connected device, in addition to the web. You point `target.type` at `android`, write the same portable steps you already know, and Prowl runs them against a real app instead of a browser page.
 
-It follows the same "external agent + JSON protocol" shape as the [macOS target](/macos-target): `adb` handles device lifecycle, and the on-device [`appium-uiautomator2-server`](https://github.com/appium/appium-uiautomator2-driver) (Apache-2.0) handles UI interaction over a plain HTTP/JSON API driven with raw `fetch` — no Appium server, no JVM, no gRPC.
+It follows the same "external agent + JSON protocol" shape as the [macOS target](/macos-target): `adb` handles device lifecycle, and the on-device [`appium-uiautomator2-server`](https://github.com/appium/appium-uiautomator2-server) (Apache-2.0) handles UI interaction over a plain HTTP/JSON API driven with raw `fetch` — no Appium server, no JVM, no gRPC.
 
 :::warning Experimental
 The Android target shipped in Prowl **0.1.5** and is **experimental**. Its API, selector dialect, and step coverage may still change.
@@ -21,7 +21,7 @@ The Android target shipped in Prowl **0.1.5** and is **experimental**. Its API, 
 
 ### The on-device agent
 
-UI interaction is handled by [`appium-uiautomator2-server`](https://github.com/appium/appium-uiautomator2-driver) (Apache-2.0). Its two prebuilt APKs ship **inside the npm dependency** and are installed onto the device automatically — there is nothing to build.
+UI interaction is handled by [`appium-uiautomator2-server`](https://github.com/appium/appium-uiautomator2-server) (Apache-2.0). Its two prebuilt APKs ship **inside the npm dependency** and are installed onto the device automatically — there is nothing to build.
 
 As of Prowl 0.1.5 this agent is an **`optionalDependency`** (pinned to `appium-uiautomator2-server@10.6.2`). Default `npm install -g prowl-tools` installs it, so the Android target works out of the box. But a lean, web-only install can skip it:
 
@@ -113,7 +113,7 @@ Compose nodes only expose a `resource-id` when the app sets `Modifier.testTag(..
 
 ## Step compatibility
 
-Portable steps run on the Android target; web-only steps are **rejected up front** at validation time — before anything launches — with a clear, Android-labelled error. The same check runs for sub-hunts invoked via `runHunt`.
+Portable steps run on the Android target; web-only steps in the top-level hunt are **rejected up front** at validation time — before anything launches — with a clear, Android-labelled error. A `runHunt` step validates its referenced hunt when that step executes, before the nested hunt starts.
 
 | Portable (Android) | Not supported on Android |
 |---|---|
@@ -136,6 +136,7 @@ Notes:
 - **`press`** maps key names (`Enter`, `Tab`, `Backspace`, `Back`, `Home`, arrow keys, …) onto Android key codes and dispatches them to the focused view.
 - **`hover` and `scrollTo`** have no touch equivalent yet and are rejected with a clear message; scroll-gesture support is a follow-up. (On the macOS target these two are portable — the rejection is specific to touch targets.)
 - URL assertions (`urlIncludes` / `urlEquals`) are web-only; use inline `assert: visible` / `notVisible` steps for checks on this target.
+- Hunt-level `assertions:` blocks are rejected before launch on this target; use inline `assert: visible` / `assert: notVisible` steps for native UI checks.
 
 ## Worked example
 

@@ -128,7 +128,7 @@ Text/label/role+name selectors compile to WDA NSPredicate strings (quotes and ba
 
 ## Step compatibility
 
-Portable steps run on the iOS target; web-only steps are **rejected up front** at validation time — before anything launches — with a clear, iOS-labelled error. The same check runs for sub-hunts invoked via `runHunt`.
+Portable steps run on the iOS target; web-only steps in the top-level hunt are **rejected up front** at validation time — before anything launches — with a clear, iOS-labelled error. A `runHunt` step validates its referenced hunt when that step executes, before the nested hunt starts.
 
 | Portable (iOS) | Not supported on iOS |
 |---|---|
@@ -154,6 +154,7 @@ Notes:
 - **Screenshots are captured with `simctl`** (not WDA), so `screenshot` / `assertScreenshot` artifacts still work even if the agent wedges.
 - **`hover` and `scrollTo`** have no touch equivalent yet and are rejected with a clear message; scroll-gesture support is a follow-up. (On the macOS target these two are portable — the rejection is specific to touch targets.)
 - URL assertions (`urlIncludes` / `urlEquals`) are web-only; use inline `assert: visible` / `notVisible` steps for checks on this target.
+- Hunt-level `assertions:` blocks are rejected before launch on this target; use inline `assert: visible` / `assert: notVisible` steps for native UI checks.
 
 ## Worked example
 
