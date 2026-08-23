@@ -17,6 +17,15 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Targets',
+      collapsed: false,
+      items: [
+        'android',
+        'ios',
+      ],
+    },
+    {
+      type: 'category',
       label: 'Guides',
       collapsed: false,
       items: [
