@@ -157,7 +157,7 @@ Notes:
 
 ## Worked example
 
-Open the iOS Settings app, assert a known row is visible, type into search, and screenshot:
+Open the iOS Settings app, assert a known row is visible, and screenshot it:
 
 ```yaml
 # .prowl/config.yml
