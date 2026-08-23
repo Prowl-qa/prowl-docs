@@ -9,10 +9,17 @@ title: Configuration
 Prowl configuration lives at `.prowl/config.yml`. All options with their defaults:
 
 ```yaml
-# The base URL for all hunt navigation
+# Execution target. Defaults to the web target; existing web configs work unchanged.
 target:
-  type: "web"                          # "web" (default) or "macos"
+  type: "web"                          # "web" (default) | "macos" | "android" | "ios" (native ones experimental)
   url: "http://localhost:3000"        # Required for the web target
+  # Native targets set `app` instead of `url` (see the notes below the table):
+  # app: "com.example.App"            # macos: bundle id or .app path
+  #                                   # android: package name or .apk path
+  #                                   # ios: bundle id or built .app path
+  # deviceSerial: "emulator-5554"     # android only; required with several devices attached
+  # udid: "ABCD-1234"                 # ios only; required with several simulators booted
+  # coldStart: false                  # android (`pm clear`) / ios (uninstall+reinstall) only
 
 # Browser settings
 browser:
@@ -49,6 +56,8 @@ guardrails:
   forbiddenSelectors:                  # selectors that steps cannot use
     - "[data-danger]"
     - ".delete-btn"
+  allowedApps: []                      # native targets only: which app(s) a hunt may drive;
+                                       #   empty = allow the target app (analog of allowedDomains)
 
 # Auth state from `prowl login`
 auth:
@@ -67,12 +76,19 @@ The `target` block carries a discriminant, `type`, that selects the execution ta
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `type` | `"web" \| "macos"` | `"web"` | Execution target. `"web"` drives a browser; `"macos"` drives a native macOS app (experimental) |
-| `url` | `string` | (required for `web`) | Base URL for all relative navigation. Web target only — not accepted on `macos` |
-| `app` | `string` | (required for `macos`) | Bundle ID or absolute `.app` path of the target app. macOS target only — not accepted on `web` |
+| `type` | `"web" \| "macos" \| "android" \| "ios"` | `"web"` | Execution target. `"web"` drives a browser; the native targets (`macos`, `android`, `ios`) are **experimental** |
+| `url` | `string` | (required for `web`) | Base URL for all relative navigation. **Web target only** — not accepted on native targets |
+| `app` | `string` | (required for native) | The target app. **`macos`**: bundle id or absolute `.app` path. **`android`**: package name or `.apk` path. **`ios`**: bundle id or built `.app` path. Not accepted on `web` |
+| `deviceSerial` | `string` | — | **`android` only.** The `adb` serial (e.g. `emulator-5554`); required only when several devices are attached |
+| `udid` | `string` | — | **`ios` only.** The simulator UDID; required only when several simulators are booted |
+| `coldStart` | `boolean` | `false` | **`android`/`ios` only.** A deterministic fresh start — Android runs `pm clear`; iOS does uninstall+reinstall (needs the `.app` path) |
 
 :::note
-The `macos` target is experimental and unreleased. See the [macOS Target](/macos-target) guide for the native selector dialect, step-compatibility matrix, `guardrails.allowedApps`, and Accessibility-permission setup.
+The native targets are **experimental** (shipped in Prowl 0.1.5). Each has its own selector dialect, step-compatibility matrix, and setup:
+
+- **[Android Target](/android)** — `adb`, the on-device `appium-uiautomator2-server` agent, `deviceSerial` / `coldStart`.
+- **[iOS Simulator Target](/ios)** — Xcode, the WebDriverAgent build, `udid` / `coldStart` (simulators only).
+- **[macOS Target](/macos-target)** — the Accessibility API and permission setup.
 :::
 
 ### browser
@@ -110,7 +126,7 @@ The `macos` target is experimental and unreleased. See the [macOS Target](/macos
 |--------|------|---------|-------------|
 | `maxSteps` | `number` | `50` | Maximum steps per hunt |
 | `allowedDomains` | `string[]` | `["localhost", "127.0.0.1", "0.0.0.0"]` | Domains the browser can navigate to (web target) |
-| `allowedApps` | `string[]` | `[]` | Apps the [macOS target](/macos-target) may drive; empty allows the target app. Native analog of `allowedDomains` |
+| `allowedApps` | `string[]` | `[]` | Which app(s) a **native target** ([macOS](/macos-target), [Android](/android), [iOS](/ios)) may drive; empty allows the target app. Entries are bundle ids, package IDs, or `.app`/`.apk` paths. Native analog of `allowedDomains` |
 | `forbiddenSelectors` | `string[]` | `["[data-danger]", ".delete-btn"]` | Selectors that steps cannot target |
 
 :::warning
