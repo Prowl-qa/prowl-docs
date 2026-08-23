@@ -187,20 +187,20 @@ prowl run settings-smoke
 
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/android">
+<div className="card-grid">
+  <a className="card" href="/android">
     <h3>Android Target</h3>
     <p>Drive native Android apps on an emulator or device</p>
   </a>
-  <a class="card" href="/selectors">
+  <a className="card" href="/selectors">
     <h3>Selectors</h3>
     <p>Selector strategy across web and native targets</p>
   </a>
-  <a class="card" href="/configuration">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>The full <code>target</code> and guardrails reference</p>
   </a>
-  <a class="card" href="/step-types">
+  <a className="card" href="/step-types">
     <h3>Step Types</h3>
     <p>Every step, and which targets each one runs on</p>
   </a>
