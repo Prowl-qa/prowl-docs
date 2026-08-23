@@ -1,64 +1,62 @@
-# CLAUDE.md - Prowl Documentation Site
+# CLAUDE.md — Prowl CLI Documentation Site
+
+> Workspace-wide conventions (mission, branding, repo map, stack baseline, git/backlog policy)
+> live in the **workspace `CLAUDE.md`** (`../../CLAUDE.md`) and load automatically. This file
+> covers only what is specific to `prowl-docs`.
 
 ## Project
-This is the Prowl documentation site built with Docusaurus 3.x (TypeScript).
-Hosted at docs.prowl.tools.
+Documentation site for the **Prowl CLI**, built with Docusaurus 3.x (TypeScript). Hosted at
+**docs.prowl.tools**. Keep in sync with the CLI repo (`prowl-tools/prowl`) — that's the source of
+truth for features. (Prowl Review has its own docs site, `prowl-code-review-docs`.)
 
 ## Tech Stack
 - **Framework**: Docusaurus 3.x (classic preset, v4 future flag enabled)
 - **Language**: TypeScript
-- **Styling**: Custom CSS in `src/css/custom.css` (Space Grotesk headings, Source Sans 3 body, JetBrains Mono code)
+- **Styling**: custom CSS in `src/css/custom.css` (Space Grotesk headings, Source Sans 3 body,
+  JetBrains Mono code)
 - **Deployment**: Vercel or GitHub Pages (not yet configured)
 
 ## Content Structure
-- Documentation lives in `docs/` as `.md` or `.mdx` files
+- Docs live in `docs/` as `.md`/`.mdx` files
 - Sidebar is manually configured in `sidebars.ts` (two categories: Reference, Guides)
 - Each doc has frontmatter: `sidebar_position`, `slug`, `title`
-- Use `:::note`, `:::tip`, `:::warning` for callout boxes (Docusaurus admonitions)
-- Use `<Tabs>` / `<TabItem>` from `@theme/Tabs` for shorthand vs explicit code examples (requires `.mdx`)
+- Use `:::note` / `:::tip` / `:::warning` for callouts (Docusaurus admonitions)
+- Use `<Tabs>` / `<TabItem>` from `@theme/Tabs` for shorthand vs explicit code examples (`.mdx`)
 - Use `<div class="card-grid">` with `<a class="card">` for "What's Next" navigation sections
 
 ## Pages (10 total)
-- `getting-started.md` — hero section, install/init/run quickstart, card grid
-- `step-types.mdx` — all 19 step types with tabbed shorthand/explicit examples, card grid
-- `assertions.md` — inline + hunt-level assertion reference, card grid
-- `configuration.md` — all config options with defaults
-- `variables.md` — interpolation, precedence, redaction
-- `selectors.md` — Playwright selector best practices
-- `auth.md` — authentication setup guide
-- `watch-mode.md` — watch mode guide
-- `agents.mdx` — agent-first integration guide (library API, --json output, CI, hub templates)
-- `troubleshooting.md` — common issues and debugging
+`getting-started.md` (hero, install/init/run quickstart), `step-types.mdx` (all 19 step types,
+tabbed examples), `assertions.md`, `configuration.md`, `variables.md`, `selectors.md`, `auth.md`,
+`watch-mode.md`, `agents.mdx` (agent-first integration: library API, `--json`, CI, hub templates),
+`troubleshooting.md`.
 
 ## Branding
 - **Navbar logo**: `static/img/prowl-logo.png` (raccoon face, transparent bg)
-- **Favicon**: `img/favicon.ico` (multi-size .ico: 16x16, 32x32, 48x48) + `img/apple-touch-icon.png` (180x180)
-- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, used in hero)
-- **Stickers**: `static/img/prowl-stickers-1.png` (pixel art set, used in footer watermark)
-- **Social card**: `img/prowl-stickers-1.png` (set via `themeConfig.image`)
+- **Favicon**: `img/favicon.ico` (16/32/48) + `img/apple-touch-icon.png` (180x180)
+- **Mascot**: `static/img/prowl-mascot.png` (full-body raccoon with magnifying glass, hero)
+- **Stickers**: `static/img/prowl-stickers-1.png` (pixel-art set, footer watermark)
+- **Social card**: `img/prowl-stickers-1.png` (via `themeConfig.image`)
 - **Announcement bar**: Quickstart CTA banner at top of site
 
 ## Custom CSS Components
-- `.docs-hero` — gradient hero section with mascot art and CTA buttons (getting-started only)
-- `.docs-quickstart` — prerequisite callout box with logo
-- `.card-grid` / `.card` — CSS grid navigation cards for "What's Next" sections
-- `.navbar__logo img` — circular logo with drop shadow
-- `.main-wrapper::before` — subtle dot grid background overlay
-- `.footer` — relative positioning for footer content
+`.docs-hero` (gradient hero with mascot + CTAs, getting-started only), `.docs-quickstart`
+(prerequisite callout with logo), `.card-grid` / `.card` (grid nav cards), `.navbar__logo img`
+(circular logo with drop shadow), `.main-wrapper::before` (dot-grid overlay), `.footer`
+(relative positioning).
 
 ## Design References
-When creating or updating pages, follow the visual style of:
-- Claude Code docs (code.claude.com/docs) — clean sidebar, tabs, callout boxes, card groups
-- Maestro docs (docs.maestro.dev) — sidebar nav, tabbed code, hint boxes
-- OpenClaw docs (docs.openclaw.ai) — card-based nav, progressive disclosure, step-by-step guides
+Follow the visual style of: Claude Code docs (code.claude.com/docs), Maestro docs
+(docs.maestro.dev), OpenClaw docs (docs.openclaw.ai) — clean sidebar, tabbed code, callouts,
+card-based nav, progressive disclosure.
 
 ## Key Conventions
-- Keep docs in sync with the CLI repo (prowl-tools/prowl) — that's the source of truth for features
-- Use tabbed code blocks (`<Tabs>`) for shorthand vs explicit syntax examples
-- Include practical examples in every reference page
-- Add "What's Next" card grids at the bottom of key pages for progressive discovery
+- Keep docs in sync with the CLI repo (source of truth for features)
+- Use tabbed code blocks for shorthand vs explicit syntax
+- Include practical examples on every reference page; add "What's Next" card grids on key pages
 - Keep the sidebar flat (no deeply nested categories)
-- Keep commits atomic: commit only the files you touched and list each path explicitly. For tracked files run `git commit -m "<scoped message>" -- path/to/file1 path/to/file2`. For brand-new files, use the one-liner `git restore --staged :/ && git add "path/to/file1" "path/to/file2" && git commit -m "<scoped message>" -- path/to/file1 path/to/file2`
+- Keep commits atomic: commit only the files you touched, listing each path explicitly. Tracked
+  files: `git commit -m "<scoped message>" -- path/to/file1 path/to/file2`. New files:
+  `git restore --staged :/ && git add "path1" "path2" && git commit -m "<msg>" -- path1 path2`
 
 ## Commands
 ```bash
@@ -66,12 +64,3 @@ npm start       # Dev server on localhost:3000
 npm run build   # Production build
 npm run serve   # Serve production build locally
 ```
-
-## Related Repos
-
-| Repo | Purpose |
-|------|---------|
-| `prowl-tools/prowl` | CLI tool (source of truth) |
-| `prowl-tools/prowl-web` | Marketing site (prowl.tools) |
-| `prowl-tools/prowl-hub` | Community hunt templates |
-| `prowltools/prowl-twitter-bot` | Twitter bot (@prowlqa) |
