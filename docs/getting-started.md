@@ -23,10 +23,10 @@ title: Getting Started
 </div>
 
 <div className="docs-quickstart">
-  <p>
+  <div className="docs-quickstart__row">
     <img src="/img/prowl-logo.png" alt="" aria-hidden="true" className="docs-quickstart__logo" />
-    <strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.
-  </p>
+    <span><strong>Before you start:</strong> Node.js 20+, npm, and a runnable web app.</span>
+  </div>
 </div>
 
 ## Outcome

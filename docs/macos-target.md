@@ -247,16 +247,16 @@ The `menu=Settings` selector opens the menu bar extra and clicks the **Settings*
 
 ## What's Next
 
-<div class="card-grid">
-  <a class="card" href="/configuration">
+<div className="card-grid">
+  <a className="card" href="/configuration">
     <h3>Configuration</h3>
     <p>The full <code>target</code>, guardrails, and browser reference</p>
   </a>
-  <a class="card" href="/selectors">
+  <a className="card" href="/selectors">
     <h3>Selectors</h3>
     <p>Selector strategy for the web target</p>
   </a>
-  <a class="card" href="/step-types">
+  <a className="card" href="/step-types">
     <h3>Step Types</h3>
     <p>Every step, with shorthand and explicit forms</p>
   </a>

@@ -221,16 +221,16 @@ The agent reads the JSON output, checks the exit code, and reports the result â€
 Agents that support OpenAPI tool-use can import `/api/openapi.json` directly and call these endpoints as native tools â€” no custom integration code needed.
 :::
 
-<div class="card-grid">
-  <a class="card" href="/agents">
+<div className="card-grid">
+  <a className="card" href="/agents">
     <h3>Prowl for Agents</h3>
     <p>CLI integration, library API, and agent workflow patterns</p>
   </a>
-  <a class="card" href="https://hub.prowl.tools" target="_blank">
+  <a className="card" href="https://hub.prowl.tools" target="_blank">
     <h3>Community Hub</h3>
     <p>Browse and download pre-built hunt templates</p>
   </a>
-  <a class="card" href="/variables">
+  <a className="card" href="/variables">
     <h3>Variables</h3>
     <p>Interpolation, precedence, and redaction</p>
   </a>

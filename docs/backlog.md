@@ -50,6 +50,31 @@ of the PQD-004 pages (docs track the released CLI). When the next CLI release (0
   `Build/Products` directory.
 Source from the CLI README + the (by then) released CHANGELOG entry; verify against source.
 
+### {PQD-007} **Document the `assertWithAI` step type once the next CLI release ships**
+**Priority**: Medium
+**Description**: CLI PROWL-020 added a new `assertWithAI: <string>` step type — an AI-powered
+visual assertion (screenshot + a natural-language condition → a vision LLM returns pass/fail with
+an explanation). It's implemented and resolved in the prowl repo but sits in the *Unreleased*
+CHANGELOG (ships in **0.1.6**); per the docs-track-the-released-CLI convention (same gate as
+{PQD-006}), document it when 0.1.6 is published. Add to the **Step Types** reference (and note it
+on the Assertions page):
+- The step shape `assertWithAI: "<condition>"` with a worked example, and that the model's
+  explanation is surfaced in the run report (on pass and fail).
+- **BYOK config / env vars**: `PROWL_AI_PROVIDER` (`anthropic` | `openai`), `PROWL_AI_KEY`,
+  `PROWL_AI_MODEL` (defaults are vision-capable), and `PROWL_AI_BASE_URL` (override endpoint —
+  the forward-compat seam for a future managed-AI path).
+- **Determinism caveat (document honestly)**: AI assertions are non-deterministic — the explicit
+  exception to Prowl's determinism principle. Note the low-temperature call and that the
+  explanation is always recorded for auditability.
+- **Graceful degradation**: with no AI provider configured the step **skips with a warning** (a
+  non-fatal `warn`/`○` outcome that neither fails the run nor silently passes) — document this so
+  CI users understand the behavior when `PROWL_AI_KEY` is unset.
+- **Target-agnostic**: works on any target with a screenshot capability (web + the native
+  targets), not web-only.
+Optionally cross-link that this is the first consumer of Prowl's BYOK AI layer (the managed-credit
+path is future). Source from the CLI README + the (by then) released CHANGELOG; verify against
+source.
+
 ## Low Priority
 
 *No active items.*
@@ -79,24 +104,6 @@ into the priority tiers above.
 **Likely area**: `docusaurus.config.ts` custom fields plus the deployed feedback API CORS allowlist.
 **Suggested fix direction**: Update the docs config to the current `prowl-feedback.prowl.tools` endpoint, confirm the backend route is live, and decide whether localhost should be allowed for non-production QA or whether the widget should be disabled/mocked in local dev.
 **Also seen (triage 2026-08-23)**: `qa-prowl-docs-e2e-20260802` {PDOC-QA-005} — same root cause (config still on `prowlqa.dev` vs the rebrand note), independently validated against `docusaurus.config.ts:29`.
-
-### {PDOC-QA-010} MDX markup emits React hydration/property errors on docs pages
-
-**Severity**: Medium
-**Area**: MDX content markup / reader runtime quality
-**Environment**: Local Docusaurus dev server, `http://localhost:3000`, Chrome headless via system Google Chrome, 2026-08-23 05:06 UTC
-**Observed**: Browser QA found React console errors on core pages. The Getting Started page renders a nested `<p>` inside another `<p>` in the quickstart callout. The Hub API and macOS Target pages emit `Invalid DOM property 'class'. Did you mean 'className'?` from JSX-style card grids that use `class` attributes.
-**Expected**: Published docs pages should hydrate cleanly and avoid React console errors from invalid MDX/JSX markup.
-**Reproduction steps**:
-1. Run `npm start` in `~/Desktop/prowl-docs`.
-2. Open `http://localhost:3000/`, `http://localhost:3000/hub-api`, and `http://localhost:3000/macos-target`.
-3. Inspect the browser console.
-4. On `/`, inspect `p p` in the DOM; on `/hub-api` and `/macos-target`, inspect the card-grid source markup.
-**Impact**: Hydration warnings erode confidence for developers and AI-agent consumers using browser console output as a signal, and invalid MDX can become brittle as Docusaurus/React versions change.
-**Evidence**: `/` logged `In HTML, <p> cannot be a descendant of <p>. This will cause a hydration error.` with the nested node under `.docs-quickstart`; `/hub-api` and `/macos-target` logged `Invalid DOM property 'class'. Did you mean 'className'?`. Source inspection found `<div class="card-grid">` blocks in `docs/hub-api.md` and `docs/macos-target.md`.
-**Likely area**: `docs/getting-started.md`, `docs/hub-api.md`, and `docs/macos-target.md` MDX/HTML blocks.
-**Suggested fix direction**: Convert JSX blocks to `className` consistently and rewrite the Getting Started quickstart callout so MDX does not wrap paragraph content inside another paragraph.
-
 
 {PDOC-QA-011} **Getting Started first-run path is stale**
    **Severity**: High

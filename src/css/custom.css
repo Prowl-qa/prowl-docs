@@ -265,7 +265,7 @@ body {
   font-family: var(--ifm-heading-font-family);
 }
 
-.docs-quickstart p {
+.docs-quickstart__row {
   display: flex;
   align-items: center;
   gap: 0.65rem;
