@@ -189,7 +189,6 @@ curl "https://hub.prowl.tools/api/hunts/file?path=hunts/auth/login-flow.yaml"
 ```yaml
 name: login-flow
 description: Email/password login with error handling
-baseUrl: "{{BASE_URL}}"
 steps:
   - navigate: "{{BASE_URL}}/login"
   - fill:
