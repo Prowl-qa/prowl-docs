@@ -203,7 +203,7 @@ steps:
 
 ### Step 3: Save to the local hunts directory
 
-The agent writes the YAML to `.prowl/hunts/login-flow.yaml` in the project.
+The agent writes the YAML to `.prowl/hunts/login-flow.yml` in the project (the loader resolves hunts by file name, so `prowl run login-flow` looks for `login-flow.yml`).
 
 ### Step 4: Run the hunt
 
