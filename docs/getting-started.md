@@ -61,7 +61,7 @@ prowl init
 
 This creates a `.prowl/` directory with a config file, a starter hunt, and a `.gitignore`:
 
-```
+```text
 .prowl/
 ├── config.yml        # Target URL, browser settings, guardrails
 ├── hunts/
