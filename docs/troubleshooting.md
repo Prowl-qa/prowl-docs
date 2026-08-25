@@ -90,7 +90,7 @@ prowl login --config <path>             # Use custom config path
 
 # Initialize — create .prowl directory with examples
 prowl init
-prowl init --force                      # Re-create config and starter hunts
+prowl init --force                      # Re-create config and the starter hunt
 
 # List available hunts
 prowl list

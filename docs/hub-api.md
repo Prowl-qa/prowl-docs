@@ -189,7 +189,6 @@ curl "https://hub.prowl.tools/api/hunts/file?path=hunts/auth/login-flow.yaml"
 ```yaml
 name: login-flow
 description: Email/password login with error handling
-baseUrl: "{{BASE_URL}}"
 steps:
   - navigate: "{{BASE_URL}}/login"
   - fill:
@@ -204,7 +203,7 @@ steps:
 
 ### Step 3: Save to the local hunts directory
 
-The agent writes the YAML to `.prowl/hunts/login-flow.yaml` in the project.
+The agent writes the YAML to `.prowl/hunts/login-flow.yml` in the project (the loader resolves hunts by file name, so `prowl run login-flow` looks for `login-flow.yml`).
 
 ### Step 4: Run the hunt
 

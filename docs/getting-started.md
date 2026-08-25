@@ -59,20 +59,21 @@ cd your-project
 prowl init
 ```
 
-This creates a `.prowl/` directory with a config file and 8 starter hunts:
+This creates a `.prowl/` directory with a config file, a starter hunt, and a `.gitignore`:
 
-```
+```text
 .prowl/
-├── config.yml              # Target URL, browser settings, guardrails
-└── hunts/
-    ├── homepage.yml         # Basic page load smoke test
-    ├── login-flow.yml       # Email/password authentication
-    ├── signup-flow.yml      # Registration with validation
-    ├── form-submit.yml      # Form fill and submit
-    ├── form-validation.yml  # Validation errors and resubmit
-    ├── crud-cycle.yml       # Create, read, update, delete lifecycle
-    ├── checkout-flow.yml    # E-commerce checkout
-    └── onboarding-wizard.yml # Multi-step SaaS onboarding
+├── config.yml        # Target URL, browser settings, guardrails
+├── hunts/
+│   └── hello.yml     # Minimal "does the page load?" smoke test
+└── .gitignore        # Keeps runs/, auth-state.json, and .env out of git
+```
+
+`prowl init` finishes by pointing you at the bundled hunt:
+
+```text
+  Initialized .prowl directory.
+  Run prowl run hello to get started.
 ```
 
 ## Configure
@@ -84,11 +85,19 @@ target:
   url: "http://localhost:3000"
 ```
 
+With your app running at that URL, confirm your setup by running the bundled starter hunt:
+
+```bash
+prowl run hello
+```
+
+`prowl run <name>` resolves `.prowl/hunts/<name>.yml` by file name, so `prowl run hello` runs `.prowl/hunts/hello.yml`.
+
 If your app uses authentication, capture storage state early with [`prowl login`](/auth) so hunts run as an authenticated user.
 
 ## Write Your First Hunt
 
-Edit `.prowl/hunts/homepage.yml` or create a new file:
+Create a new file at `.prowl/hunts/smoke-test.yml`:
 
 ```yaml
 name: smoke-test
@@ -108,6 +117,7 @@ retry:
 ```
 
 :::note
+- The **file name is the hunt's identity**: `prowl run smoke-test` loads `.prowl/hunts/smoke-test.yml`. The `name:` field is metadata — the file name, not `name:`, must match the command you run.
 - **`description`** — a human-readable summary stored in hunt metadata and shown by `prowl list`
 - **`tags`** — categorize hunts for filtering with `--include-tags` and `--exclude-tags`
 - **`retry`** — configure automatic retries on failure (`maxRetries: 0` means no retries)

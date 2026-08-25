@@ -105,51 +105,6 @@ into the priority tiers above.
 **Suggested fix direction**: Update the docs config to the current `prowl-feedback.prowl.tools` endpoint, confirm the backend route is live, and decide whether localhost should be allowed for non-production QA or whether the widget should be disabled/mocked in local dev.
 **Also seen (triage 2026-08-23)**: `qa-prowl-docs-e2e-20260802` {PDOC-QA-005} — same root cause (config still on `prowlqa.dev` vs the rebrand note), independently validated against `docusaurus.config.ts:29`.
 
-{PDOC-QA-011} **Getting Started first-run path is stale**
-   **Severity**: High
-   **Area**: Getting Started / first-run onboarding
-   **Environment**: Local docs dry run
-   **Observed**: `docs/getting-started.md` lines 62 and 91-119 say `init` creates 8 starter hunts, tells users to edit `homepage.yml`, then run `prowl run smoke-test`.
-   **Expected**: The quickstart should match the current CLI init output and runnable starter command. Current CLI source at `/Users/luciusfox/Desktop/prowl/src/cli/commands/init.ts` lines 60-67 copies example hunts, and `/Users/luciusfox/Desktop/prowl/examples/hunts/hello.yml` line 6 says to run `prowl run hello`.
-   **Reproduction steps**:
-   1. Read the Getting Started `Initialize`, `Write Your First Hunt`, and `Run` sections.
-   2. Compare the documented hunt names and run command against current `prowl init` source/examples.
-   3. Follow the documented path after init; the generated starter path does not line up with `smoke-test`.
-   **Impact**: New users can follow a quickstart path that no longer matches the current init output.
-   **Evidence**: 2026-08-02 dry run; `docs/getting-started.md`; `/Users/luciusfox/Desktop/prowl/src/cli/commands/init.ts`; `/Users/luciusfox/Desktop/prowl/examples/hunts/hello.yml`.
-   **Likely area**: Stale quickstart content after init behavior changed.
-   **Suggested fix direction**: Update the Getting Started first-run flow to match the current generated example hunt names and command sequence.
-
-{PDOC-QA-012} **Hub/agent workflow saves `.yaml` but loader resolves `.yml`**
-   **Severity**: High
-   **Area**: Hub API / agent template workflow
-   **Environment**: Local docs dry run
-   **Observed**: `docs/hub-api.md` line 207 tells agents to save `.prowl/hunts/login-flow.yaml`, then line 215 runs `prowl run login-flow`.
-   **Expected**: The documented file extension should match what the CLI can resolve. Current CLI loader at `/Users/luciusfox/Desktop/prowl/src/config/loader.ts` lines 215 and 226 resolves `${huntName}.yml`.
-   **Reproduction steps**:
-   1. Follow the Hub API page and save the generated hunt as `.prowl/hunts/login-flow.yaml`.
-   2. Run `prowl run login-flow`.
-   3. The loader looks for `.prowl/hunts/login-flow.yml`, not `.yaml`.
-   **Impact**: Agents following the docs can save a hunt file that the CLI cannot find.
-   **Evidence**: 2026-08-02 source check; `docs/hub-api.md`; `/Users/luciusfox/Desktop/prowl/src/config/loader.ts`.
-   **Likely area**: Documentation/runtime extension mismatch.
-   **Suggested fix direction**: Align the documented generated filename with loader behavior, or document `.yaml` only after the CLI supports it.
-
-{PDOC-QA-013} **Hub/Agents templates include unsupported top-level `baseUrl`**
-   **Severity**: High
-   **Area**: Hub API / Agents copy-paste templates
-   **Environment**: Local docs dry run
-   **Observed**: `docs/hub-api.md` line 192 and `docs/agents.mdx` line 330 include top-level `baseUrl`.
-   **Expected**: Copy-paste templates should validate under the current strict hunt schema. `/Users/luciusfox/Desktop/prowl/src/config/schema.ts` lines 415-430 permits `name`, `description`, `tags`, `vars`, `steps`, `assertions`, and `retry`.
-   **Reproduction steps**:
-   1. Copy the documented `login-flow` YAML from Hub API or Agents.
-   2. Save it as a hunt file.
-   3. Run the hunt; schema validation rejects the unsupported top-level `baseUrl`.
-   **Impact**: Copy-paste templates can fail schema validation for users and agents.
-   **Evidence**: 2026-08-02 source check; `docs/hub-api.md`; `docs/agents.mdx`; `/Users/luciusfox/Desktop/prowl/src/config/schema.ts`.
-   **Likely area**: Template examples drifted from the strict hunt schema.
-   **Suggested fix direction**: Remove or relocate `baseUrl` in the documented templates to a schema-supported config or variable pattern.
-
 {PDOC-QA-014} **MCP `npx` config uses wrong package name**
    **Severity**: Medium
    **Area**: MCP setup guide
