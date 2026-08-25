@@ -1,0 +1,8 @@
+# Prowl Review config. Keyless, subscription-backed Codex provider (#45/#64):
+# reviews run on the self-hosted Mac mini runner via its own `codex login`, so no
+# provider key is stored in GitHub. Model + effort are pinned here (read from the
+# trusted base branch by the workflows) so PR code can never change them.
+provider: codex
+model: gpt-5.5
+codex:
+  effort: low
