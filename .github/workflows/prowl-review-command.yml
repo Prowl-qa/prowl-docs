@@ -95,6 +95,19 @@ jobs:
           path: prowl-base
           persist-credentials: false
 
+      - name: Bootstrap trusted review config
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f prowl-base/.prowl-review.yml ]; then
+            cat > prowl-base/.prowl-review.yml <<'YAML'
+          provider: codex
+          model: gpt-5.5
+          codex:
+            effort: low
+          YAML
+          fi
+
       - uses: actions/checkout@v4
         with:
           ref: ${{ needs.resolve.outputs.head_sha }}
