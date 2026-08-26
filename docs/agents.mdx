@@ -10,7 +10,7 @@ Prowl is CLI-first and agent-native by design. A single CLI command can capture 
 
 **Made for agents, controlled by humans.** You write the hunts, review the results, and set the guardrails. Agents handle the execution loop — discovering what to test, running the hunts, and reporting structured results back to your workflow.
 
-Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration, the [MCP Server](/mcp) to connect an agent without shell access, or [Using Hub Templates](#using-hub-templates) for pre-built community hunt templates.
+Jump to the [Library API](#library-api-nodejs) for programmatic Node.js integration, the [MCP Server](/mcp) to connect an agent without shell access, or [Using Starter Templates](#using-starter-templates) for hunt templates bundled with the CLI.
 
 ## Quickstart in 60 Seconds
 
@@ -44,7 +44,7 @@ prowl run smoke-test --json && echo "✅ Passed" || echo "❌ Failed"
 Exit codes make branching simple: `0` = passed, `1` = failed, `2` = no hunts found. Run all hunts at once with `prowl ci --json`.
 
 :::tip
-That's the full loop — install, run, branch. The sections below cover the details: workflow patterns, the Node.js library API, CI integration, and Hub templates.
+That's the full loop — install, run, branch. The sections below cover the details: workflow patterns, the Node.js library API, CI integration, and starter templates.
 :::
 
 ## Why CLI-First
