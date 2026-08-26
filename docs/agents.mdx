@@ -307,54 +307,41 @@ const failRate = smoke.filter((e) => e.status === "fail").length / smoke.length;
 
 `HistoryEntry` is `{ hunt: string; status: "pass" | "fail"; durationMs: number; startedAt: string; runDir?: string }`. Retention is capped per hunt by `history.maxRuns` — see [Configuration](/configuration#history).
 
-## Using Hub Templates
+## Using Starter Templates
 
-The [Prowl Community Hub](https://hub.prowl.tools) is a collection of pre-built hunt templates — common patterns like login flows, CRUD cycles, checkout funnels, and onboarding wizards.
+Prowl bundles a catalog of starter hunts — login flows, signup, password reset, checkout,
+CRUD cycles, onboarding wizards, smoke tests, macOS apps — inside the npm package. An agent
+should check the catalog before authoring a hunt from scratch:
 
-:::note
-The `prowl hub` CLI is coming in a future release. In the meantime, browse templates on the [Prowl Community Hub](https://hub.prowl.tools) or use the [Hub API](/hub-api) for programmatic access.
-:::
-
-### Manual Workflow
-
-1. Browse templates in the [Prowl Community Hub](https://hub.prowl.tools).
-2. Copy the template hunt file into your local `.prowl/hunts/` directory.
-3. Customize `{{VAR}}` placeholders for your environment.
-4. Execute the hunt with `prowl run <hunt-name> --json`.
-
-Example hunt after copying and customizing:
-
-```yaml
-name: login-flow
-description: Email/password login with error handling
-steps:
-  - navigate: "{{BASE_URL}}/login"
-  - fill:
-      selector: "[name='email']"
-      value: "{{EMAIL}}"
-  - fill:
-      selector: "[name='password']"
-      value: "{{PASSWORD}}"
-  - click: "button[type='submit']"
-  - wait: "Welcome"
+```bash
+prowl templates list --json              # discover: [{ id, category, name, description, tags }]
+prowl templates show auth/login-flow     # inspect the YAML
+prowl init --template auth/login-flow    # install into .prowl/hunts/login-flow.yml
+prowl run login-flow --json              # execute
 ```
 
-Variables are resolved from your config, environment, or CLI flags. See [Variables](/variables) for interpolation precedence.
-
-### API Access
-
-Agents can skip the manual workflow entirely. The [Hub API](/hub-api) exposes REST endpoints for searching, filtering, and downloading templates programmatically — so an agent can discover the right template, fetch it, and run it without human intervention. See the [Hub API reference](/hub-api) for endpoints, schemas, and a full workflow example.
+`prowl init --template` works on an already-initialized project (it only adds hunts) and
+resolves every id before writing anything. See [Starter Templates](/starter-templates) for the
+full category list and contribution rules.
 
 ### Library API for Templates
 
-Use the library API to customize and run downloaded templates programmatically:
+The same catalog is exposed by the library, alongside the functions for customizing and
+running a hunt once it is installed:
 
 ```typescript
-import { loadConfig, loadHunt, interpolateHunt, runHunt } from "prowl-tools";
+import {
+  listTemplates, readTemplate, resolveTemplate,
+  loadConfig, loadHunt, interpolateHunt, runHunt
+} from "prowl-tools";
 
+// Discover
+const authTemplates = listTemplates().filter((t) => t.category === "auth");
+const info = resolveTemplate("auth/login-flow");   // null if the id is unknown
+const yaml = readTemplate("auth/login-flow");      // raw template text
+
+// After `prowl init --template auth/login-flow`:
 const { configPath, configDir } = loadConfig();
-
-// Load the template
 const hunt = loadHunt("login-flow", configDir);
 
 // Preview interpolation with custom variables
@@ -384,14 +371,12 @@ if (result.status === "pass") {
 }
 ```
 
-:::note
-Browse all templates and contribute your own at the [Prowl Community Hub](https://hub.prowl.tools).
-:::
+Variables are resolved from your config, environment, or CLI flags. See [Variables](/variables) for interpolation precedence.
 
 <div className="card-grid">
-  <a className="card" href="https://hub.prowl.tools" target="_blank">
-    <h3>Community Hub</h3>
-    <p>Pre-built hunt templates for common test patterns</p>
+  <a className="card" href="/starter-templates">
+    <h3>Starter Templates</h3>
+    <p>Bundled hunts for common flows — browse, install, run</p>
   </a>
   <a className="card" href="/configuration">
     <h3>Configuration</h3>

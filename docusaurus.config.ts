@@ -40,6 +40,18 @@ const config: Config = {
     locales: ['en'],
   },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          // Prowl Hub (and its API page) retired 2026-08; templates now ship in the CLI.
+          {from: '/hub-api', to: '/starter-templates'},
+        ],
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -85,9 +97,6 @@ const config: Config = {
           position: 'right',
           items: [
             {label: 'Prowl CLI (this site)', href: 'https://docs.prowl.tools'},
-            {label: 'Code Review', href: 'https://review.prowl.tools'},
-            {label: 'Prowl Hub', href: 'https://hub.prowl.tools'},
-            {label: 'Prowl Infra', href: 'https://infra.prowl.tools'},
             {label: 'All docs ↗', href: 'https://prowl.tools/docs'},
           ],
         },
@@ -99,11 +108,6 @@ const config: Config = {
         {
           href: 'https://prowl.tools',
           label: 'Home',
-          position: 'right',
-        },
-        {
-          href: 'https://hub.prowl.tools',
-          label: 'Hub',
           position: 'right',
         },
         {
@@ -127,6 +131,7 @@ const config: Config = {
             {label: 'Getting Started', to: '/'},
             {label: 'Step Types', to: '/step-types'},
             {label: 'Configuration', to: '/configuration'},
+            {label: 'Starter Templates', to: '/starter-templates'},
           ],
         },
         {
@@ -136,7 +141,6 @@ const config: Config = {
             {label: 'prowl.tools', href: 'https://prowl.tools'},
             {label: 'GitHub', href: 'https://github.com/prowl-tools/prowl'},
             {label: 'npm', href: 'https://www.npmjs.com/package/prowl-tools'},
-            {label: 'Community Hub', href: 'https://hub.prowl.tools'},
           ],
         },
         {

@@ -69,12 +69,17 @@ This creates a `.prowl/` directory with a config file, a starter hunt, and a `.g
 └── .gitignore        # Keeps runs/, auth-state.json, and .env out of git
 ```
 
-`prowl init` finishes by pointing you at the bundled hunt:
+`prowl init` finishes by pointing you at the bundled hunt and the starter-template catalog:
 
 ```text
   Initialized .prowl directory.
   Run prowl run hello to get started.
+  Browse starter templates with prowl templates list, add one with prowl init --template <category/name>
 ```
+
+Need a login, signup, checkout, or CRUD hunt? Prowl bundles ready-to-customize
+[starter templates](/starter-templates) — `prowl init --template auth/login-flow` drops one
+into `.prowl/hunts/`.
 
 ## Configure
 

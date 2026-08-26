@@ -87,18 +87,6 @@ product, positioned desktop-first (macOS) with web second. The docs site must st
 retired properties and should promote the macOS target. Companion items: `prowl` PROWL-072..078,
 `prowl-web` PQW-025..027.
 
-### {PQD-008} **Replace the Hub API page with a bundled-templates page; scrub hub links**
-**Priority**: High
-**Description**: `docs/hub-api.md` documents `hub.prowl.tools/api/hunts` (13 references) and
-`docs/agents.mdx` has 6 more; `docusaurus.config.ts` carries 5 nav/footer links to hub /
-review / infra properties. Once `prowl` PROWL-072 ships templates inside the CLI, replace
-`hub-api.md` with a "Starter templates" page (`prowl init --template`, the category list, how
-to contribute a template via PR to `prowl`), rewrite the `agents.mdx` passages that tell AI
-agents to fetch from the hub, and remove the hub/review/infra links from the config. Add a
-redirect from the old `/hub-api` slug.
-**Acceptance**: `grep -ri "hub.prowl\|review.prowl\|infra" docs docusaurus.config.ts` finds
-only historical mentions in backlog/resolved; site builds; redirect works.
-
 ### {PQD-009} **Promote the macOS target: sidebar position, "experimental" wording, CI guide**
 **Priority**: High
 **Description**: `macos-target.md` sits at `sidebar_position: 9` under an "Experimental"

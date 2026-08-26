@@ -34,7 +34,7 @@ const sidebars: SidebarsConfig = {
         'watch-mode',
         'agents',
         'mcp',
-        'hub-api',
+        'starter-templates',
       ],
     },
     'troubleshooting',
