@@ -79,6 +79,39 @@ source.
 
 *No active items.*
 
+## Sunset Work Items
+
+Decision (2026-08-26): Prowl Hub and Prowl Infra Hub are being retired, prowl-review moves to
+maintenance mode (its docs site review.prowl.tools goes away), and the CLI becomes the single
+product, positioned desktop-first (macOS) with web second. The docs site must stop pointing at
+retired properties and should promote the macOS target. Companion items: `prowl` PROWL-072..078,
+`prowl-web` PQW-025..027.
+
+### {PQD-008} **Replace the Hub API page with a bundled-templates page; scrub hub links**
+**Priority**: High
+**Description**: `docs/hub-api.md` documents `hub.prowl.tools/api/hunts` (13 references) and
+`docs/agents.mdx` has 6 more; `docusaurus.config.ts` carries 5 nav/footer links to hub /
+review / infra properties. Once `prowl` PROWL-072 ships templates inside the CLI, replace
+`hub-api.md` with a "Starter templates" page (`prowl init --template`, the category list, how
+to contribute a template via PR to `prowl`), rewrite the `agents.mdx` passages that tell AI
+agents to fetch from the hub, and remove the hub/review/infra links from the config. Add a
+redirect from the old `/hub-api` slug.
+**Acceptance**: `grep -ri "hub.prowl\|review.prowl\|infra" docs docusaurus.config.ts` finds
+only historical mentions in backlog/resolved; site builds; redirect works.
+
+### {PQD-009} **Promote the macOS target: sidebar position, "experimental" wording, CI guide**
+**Priority**: High
+**Description**: `macos-target.md` sits at `sidebar_position: 9` under an "Experimental"
+banner that tells readers to build a Swift helper from source. When `prowl` PROWL-074 (two-minute
+install) ships: move the macOS page directly after Getting Started, rewrite Requirements around
+the bundled helper, downgrade the banner from "Experimental" to "Beta" (or remove), and add a
+new guide **"Testing a macOS app in CI"** from `prowl` PROWL-076 (runner setup, Accessibility /
+Screen Recording permission handling, a ≤20-line hunt, the workflow file). Update the landing
+page / intro of the docs site so the first sentence says macOS + web, not "web testing with
+Playwright". Keep Android/iOS pages labelled experimental.
+**Acceptance**: macOS page is the second item in the sidebar; CI guide published; intro copy
+updated; no instruction anywhere requires a source checkout for normal use.
+
 ---
 
 ## Triage inbox (QA findings)
