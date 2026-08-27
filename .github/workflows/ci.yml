@@ -1,0 +1,31 @@
+# CI build for the Docusaurus docs site. Kept intentionally minimal: it exists
+# both to catch broken doc builds and to be the workflow that prowl-review chains
+# off via `workflow_run` (#64) — so the only prowl-review presence on a PR is the
+# branded "Prowl Review" check run, not an Actions row. The `ready_for_review` and
+# `reopened` triggers are required so a draft PR marked ready (or a reopened PR)
+# produces a fresh green CI run that in turn schedules a review.
+name: CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build docs site
+        run: npm run build
