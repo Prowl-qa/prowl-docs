@@ -6,3 +6,7 @@ provider: codex
 model: gpt-5.5
 codex:
   effort: low
+# Branded "Prowl Review" check run; red only on a Critical finding.
+checkRun:
+  enabled: true
+  failOn: critical
